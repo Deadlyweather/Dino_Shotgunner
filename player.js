@@ -83,4 +83,8 @@ class Player{
             this.ammo = 0;
         }
     }
+
+    walk() {
+        
+    }
 }

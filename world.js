@@ -21,26 +21,46 @@ class World {
     draw(ctx) {
         const t = Math.cos(this.time * Math.PI * 2) * 0.5 + 0.5;
 
-        const dayColorTop = [135, 206, 235];
-        const nightColorTop = [50, 50, 100];
+        const sunHeight = Math.sin(this.time * Math.PI * 2 - Math.PI / 2);
 
-        const nightColorBottom = [30, 30, 60];
-        const dayColorBottom = [255, 140, 0];
+        const threshold = 0.7;
+        const x = Math.abs(sunHeight);
 
-        const sunIntensity = Math.sin(this.time * Math.PI * 2);
-        const orangeFactor = Math.max(0, sunIntensity);
+        let horizonGlow = 0;
+        if (x < threshold) {
+            const normalized = x / threshold;
+            horizonGlow = Math.pow(1 - normalized, 2);
+        }
 
-        const topR = Math.floor(nightColorTop[0] * (1-t) + dayColorTop[0] * t);
-        const topG = Math.floor(nightColorTop[1] * (1-t) + dayColorTop[1] * t);
-        const topB = Math.floor(nightColorTop[2] * (1-t) + dayColorTop[2] * t);
+        const dayTop = [135, 206, 235];
+        const nightTop = [5, 5, 30];
 
-        const bottomR = Math.floor(nightColorBottom[0] * (1-t) + dayColorBottom[0] * orangeFactor);
-        const bottomG = Math.floor(nightColorBottom[1] * (1-t) + dayColorBottom[1] * orangeFactor);
-        const bottomB = Math.floor(nightColorBottom[2] * (1-t) + dayColorBottom[2] * orangeFactor);
+        const dayBottom = [255, 220, 150];
+        const nightBottom = [20, 20, 50];
+
+        const sunsetColor = [255, 80, 0];
+
+        const topR = Math.floor(nightTop[0] * (1-t) + dayTop[0] * t);
+        const topG = Math.floor(nightTop[1] * (1-t) + dayTop[1] * t);
+        const topB = Math.floor(nightTop[2] * (1-t) + dayTop[2] * t);
+
+        let bottomR = nightBottom[0] * (1-t) + dayBottom[0] * t;
+        let bottomG = nightBottom[1] * (1-t) + dayBottom[1] * t;
+        let bottomB = nightBottom[2] * (1-t) + dayBottom[2] * t;
+
+        bottomR += sunsetColor[0] * horizonGlow;
+        bottomG += sunsetColor[1] * horizonGlow;
+        bottomB += sunsetColor[2] * horizonGlow;
+
+        bottomR = Math.min(255, Math.floor(bottomR));
+        bottomG = Math.min(255, Math.floor(bottomG));
+        bottomB = Math.min(255, Math.floor(bottomB));
 
         const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+
         gradient.addColorStop(0, `rgb(${topR},${topG},${topB})`);
-        gradient.addColorStop(0.7, `rgb(${topR},${topG},${topB})`);
+        gradient.addColorStop(0.65, `rgb(${topR},${topG},${topB})`);
+        gradient.addColorStop(0.85, `rgb(${bottomR},${bottomG},${bottomB})`);
         gradient.addColorStop(1, `rgb(${bottomR},${bottomG},${bottomB})`);
 
         ctx.fillStyle = gradient;
