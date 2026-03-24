@@ -11,6 +11,7 @@ class Player{
         // Debug
         this.coordinates = { x: 600, y: 400 }
         this.veloicity = { x: 0, y: 0 }
+        this.gravity = { x: 0, y: 5 }
 
         // Physique
 
@@ -37,6 +38,13 @@ class Player{
 
         this.leg2 = new Image()
         this.leg2.src = "Images/Dinosaur/Leg2.png"
+    }
+
+    update() {
+        this.coordinates.x += this.veloicity.x + this.gravity.x
+        this.coordinates.y += this.veloicity.y + this.gravity.y
+
+
     }
 
     draw(ctx) {

@@ -9,8 +9,11 @@ function gameLoop(){
 
     hud.draw(ctx);
     player.draw(ctx);
+    player.update()
+    
 
     requestAnimationFrame(gameLoop);
 }
+
 
 gameLoop();
