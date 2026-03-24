@@ -2,7 +2,7 @@ class HUD {
     constructor(player){
         this.player = player;
 
-        // Ladataan kuvat
+      
         this.hpImage = new Image();
         this.hpImage.src = 'Images/hp.png';
 
@@ -15,36 +15,43 @@ class HUD {
         this.needlesImage = new Image();
         this.needlesImage.src = 'Images/needles.png';
 
-        this.saturationImg = new Image();
-        this.saturationImg.src = 'Images/saturation.png';
+        this.saturationImage = new Image();
+        this.saturationImage.src = 'Images/saturation.png';
 
-        this.upgradesImg = new Image();
-        this.upgradesImg.src = 'Images/upgrades.png';
+        this.upgradesImage = new Image();
+        this.upgradesImage.src = 'Images/upgrades.png';
     }
 
     draw(ctx){
 
+        const width = ctx.canvas.width;
+        const margin = 20;
+        const rightcorner = width - margin - 100;
+
         
 
         ctx.drawImage(this.hpImage, 20, 20)
-        ctx.fillText(this.player.hp, 60, 50);
+        ctx.fillText(this.player.hp + "/" + this.player.maxhp, 60, 50);
 
-        ctx.drawImage(this.hungerImage, 20, 60)
-        ctx.fillText(this.player.hunger, 60, 90);
+        //ctx.drawImage(this.hungerImage, 20, 60)
+        //ctx.fillText(this.player.hunger, 60, 90);
 
-        ctx.drawImage(this.ammoImage, 20, 100);
-        ctx.fillText(this.player.ammo, 60, 130);
+        ctx.drawImage(this.ammoImage, 20, 60);
+        ctx.fillText(this.player.ammo + "/" + this.player.maxammo, 60, 90);
 
-        ctx.drawImage(this.needlesImage, 20, 140);
-        ctx.fillText(this.player.needles, 60, 170);
+        //ctx.drawImage(this.needlesImage, 20, 140);
+        //ctx.fillText(this.player.needles, 60, 170);
 
-        ctx.drawImage(this.saturationImg, 20, 180);
-        ctx.fillText(this.player.saturation, 60, 210);
+        ctx.drawImage(this.saturationImage, 20, 100);
+        ctx.fillText(this.player.saturation + "/" + this.player.maxsaturation, 60, 130);
 
-        ctx.drawImage(this.upgradesImg, 20, 220);
-        ctx.fillText(this.player.upgrades, 60, 250);
+        ctx.drawImage(this.upgradesImage, rightcorner, 20);
+        ctx.fillText(this.player.upgrades, rightcorner + 40, 50);
 
-        ctx.fillText('Distance traveled: ' + this.player.distance + 'm', 20, 290);
+        ctx.fillText('Distance: ' + this.player.distance + 'm', rightcorner - 5, 80);
 
-    }
+    
 }
+}
+
+    
