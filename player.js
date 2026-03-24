@@ -11,7 +11,7 @@ class Player{
         // Debug
         this.coordinates = { x: 600, y: 400 }
         this.veloicity = { x: 0, y: 0 }
-        this.gravity = { x: 0, y: 5 }
+        this.gravity = { x: 0, y: 10 }
 
         // Physique
 
