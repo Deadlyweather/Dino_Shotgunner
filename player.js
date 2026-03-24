@@ -7,6 +7,46 @@ class Player{
         this.saturation = 50;
         this.upgrades = 0;
         this.distance = 0;
+        
+        // Debug
+        this.coordinates = { x: 600, y: 400 }
+        this.veloicity = { x: 0, y: 0 }
+
+        // Physique
+
+        this.size = 100
+
+        // Grafiikat
+        this.torso = new Image()
+        this.torso.src = "Images/Dinosaur/Torso.png"
+
+        this.head1 = new Image()
+        this.head1.src = "Images/Dinosaur/Head1.png"
+
+        this.head2 = new Image()
+        this.head2.src = "Images/Dinosaur/Head2.png"
+
+        this.hand1 = new Image()
+        this.hand1.src = "Images/Dinosaur/Hand1.png"
+
+        this.hand2 = new Image()
+        this.hand2.src = "Images/Dinosaur/Hand2.png"
+
+        this.leg1 = new Image()
+        this.leg1.src = "Images/Dinosaur/Leg1.png"
+
+        this.leg2 = new Image()
+        this.leg2.src = "Images/Dinosaur/Leg2.png"
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.torso, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        ctx.drawImage(this.head1, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        ctx.drawImage(this.head2, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        ctx.drawImage(this.hand1, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        ctx.drawImage(this.hand2, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        ctx.drawImage(this.leg1, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        ctx.drawImage(this.leg2, this.coordinates.x, this.coordinates.y, this.size, this.size);
     }
 
     takeDamage(amount){
