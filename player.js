@@ -1,10 +1,15 @@
 class Player{
     constructor(){
-        this.hp = 100;
-        this.hunger = 100;
-        this.ammo = 10;
+        this.maxhp = 100;
+        this.hp = this.maxhp;
+        this.maxhunger = 100;
+        this.hunger = this.maxhunger;
+        this.maxammo = 10
+        this.ammo = this.maxammo;
         this.needles = 5;
-        this.saturation = 50;
+        this.maxsaturation = 100;
+        this.saturation = this.maxsaturation;
+    
         this.upgrades = 0;
         this.distance = 0;
         
