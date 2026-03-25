@@ -19,6 +19,7 @@ class World {
     }
 
     draw(ctx) {
+        ctx.save();
         const t = Math.cos(this.time * Math.PI * 2) * 0.5 + 0.5;
 
         const sunHeight = Math.sin(this.time * Math.PI * 2 - Math.PI / 2);
@@ -119,5 +120,7 @@ class World {
             const y = ctx.canvas.height - this.height;
             ctx.drawImage(this.ground, x, y, this.tileWidth, this.height);
         }
+        ctx.restore();
     }
+   
 }
