@@ -15,7 +15,7 @@ function gameLoop(){
 
     player.draw(ctx);
     player.update()
-    
+    player.walk()
 
     requestAnimationFrame(gameLoop);
 }
