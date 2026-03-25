@@ -1,8 +1,10 @@
 const keys = {
-    w: "false",
-    a: "false",
-    s: "false",
-    d: "false"
+    w: false,
+    a: false,
+    s: false,
+    d: false,
+    space: false,
+    spaceHeld: false
 }
 
 window.addEventListener("keydown", (e) => {
@@ -10,6 +12,13 @@ window.addEventListener("keydown", (e) => {
     if (e.key === "a") keys.a = true;
     if (e.key === "s") keys.s = true;
     if (e.key === "d") keys.d = true;
+
+    if (e.key === " ") {
+        if (!keys.spaceHeld) {
+            keys.space = true;
+            keys.spaceHeld = true;
+        }
+    }
 });
 
 window.addEventListener("keyup", (e) => {
@@ -17,6 +26,10 @@ window.addEventListener("keyup", (e) => {
     if (e.key === "a") keys.a = false;
     if (e.key === "s") keys.s = false;
     if (e.key === "d") keys.d = false;
+
+    if (e.key === " ") {
+        keys.spaceHeld = false;
+    }
 });
 
 class Player{
@@ -35,6 +48,8 @@ class Player{
         this.direction = "right"
 
         this.jumpPower = 100
+        this.jumps = Infinity
+        this.maxjumps = Infinity
     
         this.upgrades = 0;
         this.distance = 0;
@@ -42,7 +57,7 @@ class Player{
         // Debug
         this.coordinates = { x: 600, y: 400 }
         this.velocity = { x: 0, y: 0 }
-        this.gravity = { x: 0, y: 0 }
+        this.gravity = { x: 0, y: 10 }
 
         // Physique
 
@@ -72,9 +87,10 @@ class Player{
     }
 
     update() {
-        this.velocity.x /= this.size * 0.01;
+        this.velocity.x /= this.size * 0.0105;
+        this.velocity.y /= this.size * 0.0125
 
-        this.coordinates.x += this.velocity.x - this.gravity.y + this.gravity.x
+        this.coordinates.x += this.velocity.x
         this.coordinates.y += this.velocity.y + this.gravity.y;
     }
 
@@ -112,21 +128,24 @@ class Player{
 
     walk() {
         if (keys.a === true && keys.d === true) {
-            if (keys.a === true) {
+            return
+        }
+        if (keys.a === true) {
                 this.coordinates.x -= this.speed / 100
                 this.velocity.x -= this.speed / 200
-            } else {
-                this.coordinates.x += this.speed / 100
-                this.velocity.x += this.speed / 200
             }
-        } 
+        if (keys.d === true) {
+            this.coordinates.x += this.speed / 100
+            this.velocity.x += this.speed / 200
+        }
     }
 
-    dance() {
-        if (this.direction === "right") {
-            this.direction = "right"
-        } else {
-            this.direction = "left"
+    jump() {
+        if (this.jumps > 0 && keys.space) {
+            this.jumps -= 1;
+            this.velocity.y = -this.jumpPower * 1;
+
+            keys.space = false;
         }
     }
 }
