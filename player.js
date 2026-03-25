@@ -47,7 +47,7 @@ class Player{
         this.speed = 100
         this.direction = "right"
 
-        this.jumpPower = 100
+        this.jumpPower = 800
         this.jumps = Infinity
         this.maxjumps = Infinity
     
@@ -61,13 +61,14 @@ class Player{
 
         // Physique
 
-        this.size = 100
+        this.size = 400
 
         // Grafiikat
         this.torso = new Image()
         this.torso.src = "Images/Dinosaur/Torso.png"
+        this.torso.point = { x: this.size/2, y: this.size/2 }
+        this.torso.rotation = 0
 
-        // Pää
         this.head1 = new Image()
         this.head1.src = "Images/Dinosaur/Head1.png"
         this.head1.point = { x: this.size/2, y: this.size/2 }
@@ -78,7 +79,6 @@ class Player{
         this.head2.point = { x: this.size/2, y: this.size/2 }
         this.head2.rotation = 0
 
-        // Kädet
         this.hand1 = new Image()
         this.hand1.src = "Images/Dinosaur/Hand1.png"
         this.hand1.point = { x: this.size/2, y: this.size/2 }
@@ -89,7 +89,6 @@ class Player{
         this.hand2.point = { x: this.size/2, y: this.size/2 }
         this.hand2.rotation = 0
 
-        // Jal­at
         this.leg1 = new Image()
         this.leg1.src = "Images/Dinosaur/Leg1.png"
         this.leg1.point = { x: this.size/2, y: this.size/3 }
@@ -110,14 +109,16 @@ class Player{
     }
 
     draw(ctx) {
-        ctx.drawImage(this.torso, this.coordinates.x, this.coordinates.y, this.size, this.size);
+        this.rotate(ctx, this.leg1, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.leg2, this.coordinates.x, this.coordinates.y);
+
+        this.rotate(ctx, this.torso, this.coordinates.x, this.coordinates.y);
+
+        this.rotate(ctx, this.hand1, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.hand2, this.coordinates.x, this.coordinates.y);
 
         this.rotate(ctx, this.head1, this.coordinates.x, this.coordinates.y);
         this.rotate(ctx, this.head2, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.hand1, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.hand2, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.leg1, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.leg2, this.coordinates.x, this.coordinates.y);
     }
 
     rotate(ctx, part, x, y) {
