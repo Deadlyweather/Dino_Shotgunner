@@ -5,6 +5,10 @@ const player = new Player();
 const hud = new HUD(player);
 const world = new World()
 
+
+const upgradeMenu = new UpgradeMenu(player);
+
+
 function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -18,8 +22,17 @@ function gameLoop(){
     player.walk()
     player.jump()
 
+    upgradeMenu.draw(ctx);
+
+
     requestAnimationFrame(gameLoop);
 }
+
+window.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() === 'u') { 
+        upgradeMenu.isOpen = !upgradeMenu.isOpen;
+    }
+});
 
 
 gameLoop();
