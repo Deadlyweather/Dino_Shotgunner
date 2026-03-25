@@ -67,23 +67,38 @@ class Player{
         this.torso = new Image()
         this.torso.src = "Images/Dinosaur/Torso.png"
 
+        // Pää
         this.head1 = new Image()
         this.head1.src = "Images/Dinosaur/Head1.png"
+        this.head1.point = { x: this.size/2, y: this.size/2 }
+        this.head1.rotation = 0
 
         this.head2 = new Image()
         this.head2.src = "Images/Dinosaur/Head2.png"
+        this.head2.point = { x: this.size/2, y: this.size/2 }
+        this.head2.rotation = 0
 
+        // Kädet
         this.hand1 = new Image()
         this.hand1.src = "Images/Dinosaur/Hand1.png"
+        this.hand1.point = { x: this.size/2, y: this.size/2 }
+        this.hand1.rotation = 0
 
         this.hand2 = new Image()
         this.hand2.src = "Images/Dinosaur/Hand2.png"
+        this.hand2.point = { x: this.size/2, y: this.size/2 }
+        this.hand2.rotation = 0
 
+        // Jal­at
         this.leg1 = new Image()
         this.leg1.src = "Images/Dinosaur/Leg1.png"
+        this.leg1.point = { x: this.size/2, y: this.size/3 }
+        this.leg1.rotation = 0
 
         this.leg2 = new Image()
         this.leg2.src = "Images/Dinosaur/Leg2.png"
+        this.leg2.point = { x: this.size/2, y: this.size/3 }
+        this.leg2.rotation = 0
     }
 
     update() {
@@ -96,12 +111,21 @@ class Player{
 
     draw(ctx) {
         ctx.drawImage(this.torso, this.coordinates.x, this.coordinates.y, this.size, this.size);
-        ctx.drawImage(this.head1, this.coordinates.x, this.coordinates.y, this.size, this.size);
-        ctx.drawImage(this.head2, this.coordinates.x, this.coordinates.y, this.size, this.size);
-        ctx.drawImage(this.hand1, this.coordinates.x, this.coordinates.y, this.size, this.size);
-        ctx.drawImage(this.hand2, this.coordinates.x, this.coordinates.y, this.size, this.size);
-        ctx.drawImage(this.leg1, this.coordinates.x, this.coordinates.y, this.size, this.size);
-        ctx.drawImage(this.leg2, this.coordinates.x, this.coordinates.y, this.size, this.size);
+
+        this.rotate(ctx, this.head1, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.head2, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.hand1, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.hand2, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.leg1, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.leg2, this.coordinates.x, this.coordinates.y);
+    }
+
+    rotate(ctx, part, x, y) {
+        ctx.save();
+        ctx.translate(x + part.point.x, y + part.point.y);
+        ctx.rotate(part.rotation);
+        ctx.drawImage(part, -part.point.x, -part.point.y, this.size, this.size);
+        ctx.restore();
     }
 
     takeDamage(amount){
@@ -131,19 +155,34 @@ class Player{
             return
         }
         if (keys.a === true) {
-                this.coordinates.x -= this.speed / 100
-                this.velocity.x -= this.speed / 200
-            }
-        if (keys.d === true) {
+            this.coordinates.x -= this.speed / 100
+            this.velocity.x -= this.speed / 200
+            this.leg1.rotation -= Math.random() * 0.5 + 0.2
+            this.leg2.rotation -= Math.random() * 0.5 + 0.2
+        } else if (keys.d === true) {
             this.coordinates.x += this.speed / 100
             this.velocity.x += this.speed / 200
+            this.leg1.rotation += Math.random() * 0.1 + 0.2
+            this.leg2.rotation += Math.random() * 0.1 + 0.2
+        } else {
+            this.leg1.rotation += (0 - this.leg1.rotation) * 0.1
+            this.leg2.rotation += (0 - this.leg2.rotation) * 0.1
         }
     }
 
     jump() {
         if (this.jumps > 0 && keys.space) {
             this.jumps -= 1;
-            this.velocity.y = -this.jumpPower * 1;
+            this.velocity.y = -this.jumpPower;
+
+            const targetRotation = Math.PI;
+            const step = targetRotation * 0.95;
+
+            this.leg1.rotation = this.leg1.rotation + step;
+            if (this.leg1.rotation < -targetRotation) this.leg1.rotation = -targetRotation;
+
+            this.leg2.rotation = this.leg2.rotation - step;
+            if (this.leg2.rotation > targetRotation) this.leg2.rotation = targetRotation;
 
             keys.space = false;
         }
