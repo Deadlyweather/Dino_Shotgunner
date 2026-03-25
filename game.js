@@ -21,6 +21,7 @@ function gameLoop(){
     player.update()
     player.walk()
     player.jump()
+    player.aim()
 
     upgradeMenu.draw(ctx);
 

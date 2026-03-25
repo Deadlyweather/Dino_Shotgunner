@@ -7,6 +7,16 @@ const keys = {
     spaceHeld: false
 }
 
+const mouse = {
+    x: 0,
+    y: 0
+};
+
+window.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
 window.addEventListener("keydown", (e) => {
     if (e.key === "w") keys.w = true;
     if (e.key === "a") keys.a = true;
@@ -61,7 +71,7 @@ class Player{
 
         // Physique
 
-        this.size = 400
+        this.size = 100
 
         // Grafiikat
         this.torso = new Image()
@@ -98,10 +108,15 @@ class Player{
         this.leg2.src = "Images/Dinosaur/Leg2.png"
         this.leg2.point = { x: this.size/2, y: this.size/3 }
         this.leg2.rotation = 0
+
+        this.shotgun = new Image()
+        this.shotgun.src = "Images/Shotgun.png"
+        this.shotgun.point = { x: this.size/2, y: this.size/2 }
+        this.shotgun.rotation = 0
     }
 
     update() {
-        this.velocity.x /= this.size * 0.0105;
+        this.velocity.x /= this.size * 0.0125;
         this.velocity.y /= this.size * 0.0125
 
         this.coordinates.x += this.velocity.x
@@ -119,6 +134,8 @@ class Player{
 
         this.rotate(ctx, this.head1, this.coordinates.x, this.coordinates.y);
         this.rotate(ctx, this.head2, this.coordinates.x, this.coordinates.y);
+
+        this.rotate(ctx, this.shotgun, this.coordinates.x + this.size / 0.5, this.coordinates.y + this.size / 3.5);
     }
 
     rotate(ctx, part, x, y) {
@@ -171,10 +188,22 @@ class Player{
         }
     }
 
+    aim() {
+        const centerX = this.coordinates.x + this.size / 2;
+        const centerY = this.coordinates.y + this.size / 2;
+
+        const dx = mouse.x - centerX;
+        const dy = mouse.y - centerY;
+
+        const angle = Math.atan2(dy, dx);
+
+        this.shotgun.rotation = angle;
+    }
+
     jump() {
         if (this.jumps > 0 && keys.space) {
             this.jumps -= 1;
-            this.velocity.y = -this.jumpPower;
+            this.velocity.y = -this.jumpPower * 0.1;
 
             const targetRotation = Math.PI;
             const step = targetRotation * 0.95;
