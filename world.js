@@ -18,7 +18,7 @@ class World {
         if (this.time > 1) this.time -= 1;
     }
 
-    draw(ctx) {
+    draw(ctx, cameraX) {
         ctx.save();
         const t = Math.cos(this.time * Math.PI * 2) * 0.5 + 0.5;
 
@@ -114,12 +114,11 @@ class World {
         ctx.fill();
         ctx.restore();
 
-        const tilesNeeded = Math.ceil(ctx.canvas.width / this.tileWidth);
-        for (let i = 0; i < tilesNeeded; i++) {
-            const x = i * this.tileWidth;
-            const y = ctx.canvas.height - this.height;
-            ctx.drawImage(this.ground, x, y, this.tileWidth, this.height);
-        }
+        
+        const y = ctx.canvas.height - this.height;
+
+
+        ctx.drawImage(this.ground, 0 - cameraX, y, 500000, this.height);
         ctx.restore();
     }
    

@@ -1,5 +1,3 @@
-
-
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -8,25 +6,33 @@ const hud = new HUD(player);
 const world = new World()
 
 
+
 const upgradeMenu = new UpgradeMenu(player);
 
 
 function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
 
-    world.draw(ctx)
+    if (cameraX < 0) {
+        cameraX = 0;
+    }
+
+    world.draw(ctx, cameraX);
     world.update()
 
     hud.draw(ctx);
 
-    player.draw(ctx);
+    player.draw(ctx, cameraX);
     player.update()
 
     checkGroundCollision(player, world, canvas, ctx);
-    
+
     player.walk()
     player.jump()
     player.aim()
+
+    
 
     upgradeMenu.draw(ctx);
 

@@ -125,19 +125,19 @@ class Player{
     }
 
 
-    draw(ctx) {
-        this.rotate(ctx, this.leg1, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.leg2, this.coordinates.x, this.coordinates.y);
+    draw(ctx, cameraX) {
+        this.rotate(ctx, this.leg1, this.coordinates.x - cameraX, this.coordinates.y);
+        this.rotate(ctx, this.leg2, this.coordinates.x - cameraX, this.coordinates.y);
 
-        this.rotate(ctx, this.torso, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.torso, this.coordinates.x - cameraX, this.coordinates.y);
 
-        this.rotate(ctx, this.hand1, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.hand2, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.hand1, this.coordinates.x - cameraX, this.coordinates.y);
+        this.rotate(ctx, this.hand2, this.coordinates.x - cameraX, this.coordinates.y);
 
-        this.rotate(ctx, this.head1, this.coordinates.x, this.coordinates.y);
-        this.rotate(ctx, this.head2, this.coordinates.x, this.coordinates.y);
+        this.rotate(ctx, this.head1, this.coordinates.x - cameraX, this.coordinates.y);
+        this.rotate(ctx, this.head2, this.coordinates.x - cameraX, this.coordinates.y);
 
-        this.rotate(ctx, this.shotgun, this.coordinates.x + this.size - this.size * 0.85  , this.coordinates.y + this.size * 0.35  );
+        this.rotate(ctx, this.shotgun, this.coordinates.x - cameraX + this.size - this.size * 0.85  , this.coordinates.y + this.size * 0.35  );
     }
 
     rotate(ctx, part, x, y) {
