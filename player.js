@@ -67,11 +67,11 @@ class Player{
         // Debug
         this.coordinates = { x: 600, y: 400 }
         this.velocity = { x: 0, y: 0 }
-        this.gravity = { x: 0, y: 10 }
+        this.gravity = { x: 0, y: 1 }
 
         // Physique
 
-        this.size = 100
+        this.size = 400
 
         // Grafiikat
         this.torso = new Image()
@@ -111,7 +111,7 @@ class Player{
 
         this.shotgun = new Image()
         this.shotgun.src = "Images/Shotgun.png"
-        this.shotgun.point = { x: this.size/2, y: this.size/2 }
+        this.shotgun.point = { x: this.size / 4 , y: this.size/4   }
         this.shotgun.rotation = 0
     }
 
@@ -135,7 +135,7 @@ class Player{
         this.rotate(ctx, this.head1, this.coordinates.x, this.coordinates.y);
         this.rotate(ctx, this.head2, this.coordinates.x, this.coordinates.y);
 
-        this.rotate(ctx, this.shotgun, this.coordinates.x + this.size / 0.5, this.coordinates.y + this.size / 3.5);
+        this.rotate(ctx, this.shotgun, this.coordinates.x + this.size - this.size * 0.85  , this.coordinates.y + this.size * 0.35  );
     }
 
     rotate(ctx, part, x, y) {
@@ -203,7 +203,7 @@ class Player{
     jump() {
         if (this.jumps > 0 && keys.space) {
             this.jumps -= 1;
-            this.velocity.y = -this.jumpPower * 0.1;
+            this.velocity.y = -this.jumpPower * 1;
 
             const targetRotation = Math.PI;
             const step = targetRotation * 0.95;
