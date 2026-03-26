@@ -1,3 +1,5 @@
+
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -19,6 +21,9 @@ function gameLoop(){
 
     player.draw(ctx);
     player.update()
+
+    checkGroundCollision(player, world, canvas, ctx);
+    
     player.walk()
     player.jump()
     player.aim()

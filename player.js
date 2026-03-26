@@ -116,12 +116,14 @@ class Player{
     }
 
     update() {
-        this.velocity.x /= this.size * 0.0125;
-        this.velocity.y /= this.size * 0.0125
+    this.velocity.x /= this.size * 0.0125;
+    this.velocity.y /= this.size * 0.0125
 
-        this.coordinates.x += this.velocity.x
-        this.coordinates.y += this.velocity.y + this.gravity.y;
+    // Päivitetään koordinaatit nopeuden mukaan
+    this.coordinates.x += this.velocity.x
+    this.coordinates.y += this.velocity.y + this.gravity.y;
     }
+
 
     draw(ctx) {
         this.rotate(ctx, this.leg1, this.coordinates.x, this.coordinates.y);
