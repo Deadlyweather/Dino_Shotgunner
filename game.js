@@ -12,14 +12,14 @@ const upgradeMenu = new UpgradeMenu(player);
 
 function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
+    let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
 
     if (cameraX < 0) {
         cameraX = 0;
     }
 
     world.draw(ctx, cameraX);
-    world.update()
+    world.update(ctx, cameraX);
 
     hud.draw(ctx);
 

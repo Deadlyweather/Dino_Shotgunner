@@ -11,12 +11,30 @@ class World {
         this.tileWidth = 200;
 
         this.distance = 800;
+
+        this.obstacles = [];
     }
 
-    update() {
-        this.time += 0.001;
-        if (this.time > 1) this.time -= 1;
+update(ctx, cameraX) {
+    this.time += 0.001;
+    if (this.time > 1) this.time -= 1;
+
+   
+    if (this.obstacles.length === 0){
+        this.obstacles.push(new Cactus(cameraX + 1500, this.height, ctx.canvas.height));
+    } else {
+        
+        let lastCactus = this.obstacles[this.obstacles.length - 1];
+
+        // Lasketaan ruudun oikea reuna
+        let screenRightEdge = cameraX + ctx.canvas.width;
+
+        // Jos viimeinen kaktus on ruudulla tai 500px etäisyydellä siitä, luodaan uusi kaktus 1000px päähän
+        if (lastCactus.x < screenRightEdge + 500) { 
+            this.obstacles.push(new Cactus(lastCactus.x + 1000, this.height, ctx.canvas.height));
+        }
     }
+}
 
     draw(ctx, cameraX) {
         ctx.save();
@@ -115,11 +133,21 @@ class World {
         ctx.restore();
 
         
-        const y = ctx.canvas.height - this.height;
+        const tilesNeeded = Math.ceil(ctx.canvas.width / this.tileWidth) + 1;
 
-
-        ctx.drawImage(this.ground, 0 - cameraX, y, 500000, this.height);
+        for (let i = 0; i < tilesNeeded; i++) {
+            const x = i * this.tileWidth - cameraX % this.tileWidth;
+            const y = ctx.canvas.height - this.height;
+            ctx.drawImage(this.ground, x, y, this.tileWidth, this.height);
+        }
         ctx.restore();
-    }
+
+        ctx.save();
+        
+        this.obstacles.forEach(cactus => {
+            cactus.draw(ctx, cameraX); 
+        });
+
+        }
    
 }
