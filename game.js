@@ -28,6 +28,10 @@ function gameLoop(){
 
     checkGroundCollision(player, world, canvas, ctx);
 
+    world.obstacles.forEach(obstacle =>{
+        checkObjectCollision(player, obstacle, cameraX);
+    });
+
     player.walk()
     player.jump()
     player.aim()

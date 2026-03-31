@@ -148,6 +148,8 @@ update(ctx, cameraX) {
             cactus.draw(ctx, cameraX); 
         });
 
+
+
         }
    
 }

@@ -23,3 +23,31 @@ function checkGroundCollision(player, world, canvas) {
         player.onGround = false;
     }
 }
+
+
+function checkObjectCollision(player, obstacle) {
+   
+    const objectLeft = obstacle.x;
+    const objectRight = objectLeft + obstacle.width;
+    const objectTop = obstacle.y;
+    const objectBottom = objectTop + obstacle.height;
+
+  
+    const playerLeft = player.coordinates.x;
+const playerRight = playerLeft + player.size; // Lisätään leveys!
+const playerTop = player.coordinates.y;
+const playerBottom = playerTop + player.size; // Lisätään korkeus!
+
+   
+    if (
+        playerRight  >= objectLeft   && // Pelaajan oikea reuna osuu esteen vasempaan reunaan
+        playerLeft   <= objectRight  && // Pelaajan vasen reuna osuu esteen oikeaan reunaan
+        playerBottom >= objectTop    && // Pelaajan jalat koskettaa esteen huippua
+        playerTop    <= objectBottom    // Pelaajan pää on korkeammalla kuin esteen pohja
+    ) {
+        console.log("törmäys");
+        
+    }
+}
+
+
