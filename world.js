@@ -23,16 +23,25 @@ update(ctx, cameraX) {
     if (this.obstacles.length === 0){
         this.obstacles.push(new Cactus(cameraX + 1500, this.height, ctx.canvas.height));
     } else {
-        
-        let lastCactus = this.obstacles[this.obstacles.length - 1];
+        let cactuses = this.obstacles.filter(obstacle => obstacle instanceof Cactus);
+        let lastCactus = cactuses[cactuses.length - 1];
 
         // Lasketaan ruudun oikea reuna
         let screenRightEdge = cameraX + ctx.canvas.width;
 
-        // Jos viimeinen kaktus on ruudulla tai 500px etäisyydellä siitä, luodaan uusi kaktus 1000px päähän
-        if (lastCactus.x < screenRightEdge + 500) { 
-            this.obstacles.push(new Cactus(lastCactus.x + 1000, this.height, ctx.canvas.height));
+        let gamba = Math.random();
+        if (gamba < 0.6){
+            // Jos viimeinen kaktus on ruudulla tai 500px etäisyydellä siitä, luodaan uusi kaktus 1000px päähän
+             if (lastCactus.x < screenRightEdge + 500) { 
+                this.obstacles.push(new Cactus(lastCactus.x + 1000, this.height, ctx.canvas.height));
         }
+        } else {
+            
+        if (lastCactus.x < screenRightEdge + 500) { 
+            this.obstacles.push(new Bird(lastCactus.x + 1000, this.height, ctx.canvas.height));
+        }
+        }
+      
     }
 }
 
@@ -144,12 +153,17 @@ update(ctx, cameraX) {
 
         ctx.save();
         
-        this.obstacles.forEach(cactus => {
-            cactus.draw(ctx, cameraX); 
+        this.obstacles.forEach(obstacle => {
+    
+            if (obstacle instanceof Bird){
+                obstacle.update()
+            }
+
+            obstacle.draw(ctx, cameraX); 
         });
 
-
-
+    
+        
         }
    
 }

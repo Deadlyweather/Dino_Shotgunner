@@ -1,15 +1,22 @@
-class bird {
+class Bird {
     constructor(x, groundHeight, canvasHeight) {
         
-        this.width = 50;
-        this.height = 300;
+        this.width = 100;
+        this.height = 200;
         
 
         this.x = x; 
-        this.y = canvasHeight - groundHeight - this.height;
+        this.y = canvasHeight - groundHeight - this.height - 300;
 
         this.img = new Image();
         this.img.src = "Images/Bird.png";
+    }
+
+    update(){
+       
+            this.x -= 10;
+            console.log("Lintu lentää vasemmalle")
+        
     }
 
     draw(ctx, cameraX) {
