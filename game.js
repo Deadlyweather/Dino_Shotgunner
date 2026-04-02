@@ -6,6 +6,7 @@ const ctx = canvas.getContext('2d');
 const player = new Player();
 const hud = new HUD(player);
 const world = new World()
+const debug = new Debug();
 
 
 const upgradeMenu = new UpgradeMenu(player);
@@ -21,15 +22,18 @@ function gameLoop(){
 
     player.draw(ctx);
     player.update()
-
-    checkGroundCollision(player, world, canvas, ctx);
-    
     player.walk()
     player.jump()
     player.aim()
+    player.bite()
+
+    checkGroundCollision(player, world, canvas, ctx);
+    
+    
 
     upgradeMenu.draw(ctx);
 
+    debug.draw(ctx);
 
     requestAnimationFrame(gameLoop);
 }
