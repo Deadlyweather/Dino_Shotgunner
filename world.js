@@ -11,14 +11,41 @@ class World {
         this.tileWidth = 200;
 
         this.distance = 800;
+
+        this.obstacles = [];
     }
 
-    update() {
-        this.time += 0.001;
-        if (this.time > 1) this.time -= 1;
-    }
+update(ctx, cameraX) {
+    this.time += 0.001;
+    if (this.time > 1) this.time -= 1;
 
-    draw(ctx) {
+   
+    if (this.obstacles.length === 0){
+        this.obstacles.push(new Cactus(cameraX + 1500, this.height, ctx.canvas.height));
+    } else {
+        let cactuses = this.obstacles.filter(obstacle => obstacle instanceof Cactus);
+        let lastCactus = cactuses[cactuses.length - 1];
+
+        // Lasketaan ruudun oikea reuna
+        let screenRightEdge = cameraX + ctx.canvas.width;
+
+        let gamba = Math.random();
+        if (gamba < 0.6){
+            // Jos viimeinen kaktus on ruudulla tai 500px etäisyydellä siitä, luodaan uusi kaktus 1000px päähän
+             if (lastCactus.x < screenRightEdge + 500) { 
+                this.obstacles.push(new Cactus(lastCactus.x + 1000, this.height, ctx.canvas.height));
+        }
+        } else {
+            
+        if (lastCactus.x < screenRightEdge + 500) { 
+            this.obstacles.push(new Bird(lastCactus.x + 1000, this.height, ctx.canvas.height));
+        }
+        }
+      
+    }
+}
+
+    draw(ctx, cameraX) {
         ctx.save();
         const t = Math.cos(this.time * Math.PI * 2) * 0.5 + 0.5;
 
@@ -114,13 +141,29 @@ class World {
         ctx.fill();
         ctx.restore();
 
-        const tilesNeeded = Math.ceil(ctx.canvas.width / this.tileWidth);
+        
+        const tilesNeeded = Math.ceil(ctx.canvas.width / this.tileWidth) + 1;
+
         for (let i = 0; i < tilesNeeded; i++) {
-            const x = i * this.tileWidth;
+            const x = i * this.tileWidth - cameraX % this.tileWidth;
             const y = ctx.canvas.height - this.height;
             ctx.drawImage(this.ground, x, y, this.tileWidth, this.height);
         }
         ctx.restore();
-    }
+
+        ctx.save();
+        
+        this.obstacles.forEach(obstacle => {
+    
+            if (obstacle instanceof Bird){
+                obstacle.update()
+            }
+
+            obstacle.draw(ctx, cameraX); 
+        });
+
+    
+        
+        }
    
 }
