@@ -81,7 +81,7 @@ class Player {
         this.biteProgress = 0;
 
         // ammo
-        this.maxammo = 10;
+        this.maxammo = 1;
         this.ammo = this.maxammo;
 
         // Time to reload
@@ -102,7 +102,7 @@ class Player {
         // spread degrees
         this.spread = 10;
         // range
-        this.range = 300;
+        this.range = 200;
         // projectile volume
         this.volume = 2;
         // damage per shot
@@ -202,6 +202,12 @@ class Player {
                 this.ammo += this.loadAmount;
             }
         }
+        if (this.saturation > 0) {
+            this.saturation -= this.maxhp * 0.00001;
+        } else {
+            this.takeDamage(this.maxhp * 0.001);
+        }
+
         this.velocity.x /= this.size * 2;
         this.velocity.y /= this.size * 2;
 
