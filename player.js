@@ -81,7 +81,7 @@ class Player {
 
         this.coordinates = { x: 600, y: 400 };
         this.velocity = { x: 0, y: 0 };
-        this.gravity = { x: 0, y: 5 };
+        this.gravity = { x: 0, y: 0 };
 
         this.size = 1;
 
@@ -152,21 +152,21 @@ class Player {
         this.coordinates.y += this.velocity.y + this.gravity.y;
     }
 
-    draw(ctx, cameraX) {
-        this.rotate(ctx, this.leg1, this.coordinates.x - cameraX, this.coordinates.y);
-        this.rotate(ctx, this.leg2, this.coordinates.x - cameraX, this.coordinates.y);
+    draw(ctx) {
+        const x = this.coordinates.x;
+        const y = this.coordinates.y;
 
         this.modification(ctx, this.leg1, x, y);
-        this.modification(ctx - cameraX, this.leg2, x, y);
+        this.modification(ctx, this.leg2, x, y);
 
-        this.rotate(ctx, this.hand1, this.coordinates.x - cameraX, this.coordinates.y);
-        this.rotate(ctx, this.hand2, this.coordinates.x - cameraX, this.coordinates.y);
+        this.modification(ctx, this.torso, x, y);
 
         this.modification(ctx, this.hand2, x, y);
-        this.modification(ctx - cameraX, this.shotgun, x, y);
-        this.modification(ctx, this.hand1, x - cameraX, y);
+        this.modification(ctx, this.shotgun, x, y);
+        this.modification(ctx, this.hand1, x, y);
 
-        this.rotate(ctx, this.shotgun, this.coordinates.x - cameraX + this.size - this.size * 0.85  , this.coordinates.y + this.size * 0.35  );
+        this.modification(ctx, this.head2, x, y);
+        this.modification(ctx, this.head1, x, y);
     }
 
     modification(ctx, part, x, y) {
