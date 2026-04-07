@@ -124,7 +124,7 @@ class Player {
         this.velocity = { x: 0, y: 0 };
         this.gravity = { x: 0, y: 5 };
 
-        this.size = 1;
+        this.size = 2;
 
         // --- PARTS ---
 
@@ -181,10 +181,10 @@ class Player {
         this.shotgun.src = "Images/Shotgun.png";
         this.shotgun.point = { x: 50, y: 7.5 };
         this.shotgun.rotation = 0;
-        this.shotgun.scale = 1;
+        this.shotgun.scale = 2;
         this.shotgun.offset = { x: -25, y: 100 };
         // End of the barrel
-        this.shotgun.firepoint = 135;
+        this.shotgun.firepoint = 130;
 
         // --- sounds ---
 
