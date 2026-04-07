@@ -6,7 +6,8 @@ const keys = {
     space: false,
     spaceHeld: false,
     m1: false,
-    m2: false
+    m2: false,
+    r: false
 };
 
 const mouse = {
@@ -22,10 +23,13 @@ window.addEventListener("mousemove", (e) => {
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 window.addEventListener("mousedown", (e) => {
+    if (e.button === 0) keys.m1 = true;
     if (e.button === 2) keys.m2 = true;
+    
 });
 
 window.addEventListener("mouseup", (e) => {
+    if (e.button === 0) keys.m1 = false;
     if (e.button === 2) keys.m2 = false;
 });
 
@@ -41,6 +45,10 @@ window.addEventListener("keydown", (e) => {
             keys.spaceHeld = true;
         }
     }
+
+    if (e.key === "r") {
+        keys.r = true;
+    }
 });
 
 window.addEventListener("keyup", (e) => {
@@ -52,6 +60,10 @@ window.addEventListener("keyup", (e) => {
     if (e.key === " ") {
         keys.spaceHeld = false;
     }
+
+    if (e.key === "r") {
+        keys.r = false;
+    }
 });
 
 class Player {
@@ -60,14 +72,43 @@ class Player {
         this.hp = this.maxhp;
         this.maxhunger = 100;
         this.hunger = this.maxhunger;
-        this.maxammo = 10;
-        this.ammo = this.maxammo;
+        
         this.needles = 5;
         this.maxsaturation = 100;
         this.saturation = this.maxsaturation;
 
         this.bitePhase = "idle";
         this.biteProgress = 0;
+
+        // ammo
+        this.maxammo = 10;
+        this.ammo = this.maxammo;
+
+        // Time to reload
+        this.loadMax = 100;
+        this.load = 0;
+        // Ammunition reloaded per reload
+        this.loadAmount = 1;
+        // Needle cost per reload
+        this.ammoCost = 1;
+        
+        // Time between shots
+        this.firerateMax = 100;
+        this.firerate = 0;
+
+        // ammusta per shot
+        this.usage = 1
+        
+        // spread degrees
+        this.spread = 10;
+        // range
+        this.range = 300;
+        // projectile volume
+        this.volume = 2;
+        // damage per shot
+        this.firepower = 1;
+        // player projectiles
+        this.PlayerProjectiles = [];
 
         this.speed = 1;
         this.direction = "right";
@@ -81,7 +122,7 @@ class Player {
 
         this.coordinates = { x: 600, y: 400 };
         this.velocity = { x: 0, y: 0 };
-        this.gravity = { x: 0, y: 0 };
+        this.gravity = { x: 0, y: 5 };
 
         this.size = 1;
 
@@ -142,14 +183,33 @@ class Player {
         this.shotgun.rotation = 0;
         this.shotgun.scale = 1;
         this.shotgun.offset = { x: -25, y: 100 };
+        // End of the barrel
+        this.shotgun.firepoint = 135;
+
+        // --- sounds ---
+
+        this.shootAudio = new Audio("Audio/shotgun_shot.wav")
+        this.reloadAudio = new Audio("Audio/shotgun_reload.wav")
     }
 
     update() {
+        if (this.firerate > 0) {
+            this.firerate -= 1;
+        }
+        if (this.load > 0) {
+            this.load -= 1;
+            if (this.load <= 0) {
+                this.ammo += this.loadAmount;
+            }
+        }
         this.velocity.x /= this.size * 2;
         this.velocity.y /= this.size * 2;
 
         this.coordinates.x += this.velocity.x;
         this.coordinates.y += this.velocity.y + this.gravity.y;
+
+        this.PlayerProjectiles.forEach(projectile => projectile.update());
+        this.PlayerProjectiles = this.PlayerProjectiles.filter(projectile => projectile.isActive);
     }
 
     draw(ctx) {
@@ -167,6 +227,12 @@ class Player {
 
         this.modification(ctx, this.head2, x, y);
         this.modification(ctx, this.head1, x, y);
+
+        this.drawPlayerProjectiles(ctx);
+    }
+
+    drawPlayerProjectiles(ctx) {
+        this.PlayerProjectiles.forEach(projectile => projectile.drawBullet(ctx));
     }
 
     modification(ctx, part, x, y) {
@@ -293,10 +359,39 @@ class Player {
         this.shotgun.rotation = Math.atan2(dy, dx);
     }
 
+    shoot() {
+        if (keys.m1 && this.ammo >= this.usage && this.load <= 0 && this.firerate <= 0) {
+            this.firerate = this.firerateMax;
+            this.useAmmo(this.usage);
+            this.shootAudio.currentTime = 0;
+            this.shootAudio.play();
+            // Create instant light-speed shot lines
+            const centerX = this.coordinates.x + this.shotgun.offset.x * this.size + this.shotgun.point.x * this.size * this.shotgun.scale;
+            const centerY = this.coordinates.y + this.shotgun.offset.y * this.size + this.shotgun.point.y * this.size * this.shotgun.scale;
+            const fireX = centerX + Math.cos(this.shotgun.rotation) * this.shotgun.firepoint * this.size * this.shotgun.scale;
+            const fireY = centerY + Math.sin(this.shotgun.rotation) * this.shotgun.firepoint * this.size * this.shotgun.scale;
+
+            for (let i = 0; i < this.volume; i++) {
+                const direction = this.shotgun.rotation + (Math.random() - 0.5) * (this.spread * Math.PI / 180);
+                const ammo = new Ammo(direction, this, fireX, fireY);
+                this.PlayerProjectiles.push(ammo);
+            }
+        }
+    }
+    
+    reload() {
+        if (keys.r && this.ammo < this.maxammo && this.load <= 0 && this.needles >= this.ammoCost) {
+            this.load = this.loadMax;
+            this.needles -= this.ammoCost;
+            this.reloadAudio.currentTime = 0;
+            this.reloadAudio.play();
+        }
+    }
+
     jump() {
         if (this.jumps > 0 && keys.space) {
             this.jumps--;
-            this.velocity.y = -this.jumpPower * 100;
+            this.velocity.y = -this.jumpPower * 300;
 
             const targetRotation = Math.PI * 1.5;
             const step = targetRotation * 0.25;

@@ -35,6 +35,8 @@ function gameLoop(){
     player.walk()
     player.jump()
     player.aim()
+    player.shoot()
+    player.reload()
     player.bite()
 
     checkGroundCollision(player, world, canvas, ctx);
