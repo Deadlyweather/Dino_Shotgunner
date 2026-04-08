@@ -25,8 +25,7 @@ class HUD {
     draw(ctx){
 
         const width = ctx.canvas.width;
-        const margin = 20;
-        const rightcorner = width - margin - 100;
+        const rightcorner = width - 70;
 
         
 

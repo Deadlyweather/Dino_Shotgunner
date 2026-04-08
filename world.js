@@ -15,9 +15,23 @@ class World {
         this.obstacles = [];
     }
 
+    runMeter(player){
+    player.distance = Math.floor(player.coordinates.x / 100)
+    }
+
 update(ctx, cameraX) {
     this.time += 0.001;
     if (this.time > 1) this.time -= 1;
+
+     
+        this.obstacles.forEach(obstacle => {
+    
+            if (obstacle instanceof Bird){
+                obstacle.update()
+            }
+
+            obstacle.draw(ctx, cameraX); 
+        });
 
    
     if (this.obstacles.length === 0){
@@ -25,6 +39,7 @@ update(ctx, cameraX) {
     } else {
         let cactuses = this.obstacles.filter(obstacle => obstacle instanceof Cactus);
         let lastCactus = cactuses[cactuses.length - 1];
+        let lastObstacle = this.obstacles[cactuses.length - 1];
 
         // Lasketaan ruudun oikea reuna
         let screenRightEdge = cameraX + ctx.canvas.width;
@@ -38,7 +53,7 @@ update(ctx, cameraX) {
         } else {
             
         if (lastCactus.x < screenRightEdge + 500) { 
-            this.obstacles.push(new Bird(lastCactus.x + 1000, this.height, ctx.canvas.height));
+            this.obstacles.push(new Bird(lastObstacle.x + 1000, this.height, ctx.canvas.height));
         }
         }
       
@@ -152,15 +167,7 @@ update(ctx, cameraX) {
         ctx.restore();
 
         ctx.save();
-        
-        this.obstacles.forEach(obstacle => {
-    
-            if (obstacle instanceof Bird){
-                obstacle.update()
-            }
-
-            obstacle.draw(ctx, cameraX); 
-        });
+       
 
     
         
