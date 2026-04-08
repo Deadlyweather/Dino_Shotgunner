@@ -125,6 +125,9 @@ class Player {
         this.velocity = { x: 0, y: 0 };
         this.gravity = { x: 0, y: 5 };
 
+        // special stats
+        this.strenght = 0
+
         this.size = 1;
 
         // --- PARTS ---
@@ -142,6 +145,8 @@ class Player {
         this.head1.rotation = 0;
         this.head1.scale = 1;
         this.head1.offset = { x: 58, y: -8 };
+        // Bite point
+        this.head1.firepoint = 75;
 
         this.head2 = new Image();
         this.head2.src = "Images/Dinosaur/Head2.png";
@@ -289,7 +294,7 @@ class Player {
         }
 
         if (this.bitePhase === "in") {
-            this.biteProgress += speed;
+            this.biteProgress += speed / 15;
 
             if (this.biteProgress >= 1) {
                 this.biteProgress = 1;
@@ -300,9 +305,14 @@ class Player {
             this.head2.rotation = maxRotation * this.biteProgress;
 
         } else if (this.bitePhase === "out") {
-            this.biteProgress -= speed;
+            this.biteProgress -= 1;
 
             if (this.biteProgress <= 0) {
+                // Keskittää puraisu efektin pelaajan keskelle
+                const centerX = 0;
+                const centerY = 0;
+                const ammo = new Ammo(0, this, centerX, centerY, "chomp");
+                this.PlayerProjectiles.push(ammo);
                 this.biteProgress = -0.4;
                 this.bitePhase = "idle";
             }
@@ -315,6 +325,8 @@ class Player {
             this.head2.rotation += (0 - this.head2.rotation) * 0.1;
         }
     }
+
+    
 
     useAmmo(amount) {
         this.ammo -= amount;
