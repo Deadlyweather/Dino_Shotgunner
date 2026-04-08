@@ -6,6 +6,8 @@ const hud = new HUD(player);
 const world = new World()
 const debug = new Debug();
 
+let menuOpen = false;
+
 
 const upgradeMenu = new UpgradeMenu(player);
 
@@ -23,23 +25,24 @@ function gameLoop(){
     lastFrameTime = now;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
+    let cameraX = player.coordinates.x + player.size / 2 
 
     if (cameraX < 0) {
         cameraX = 0;
     }
 
+    
+
     world.draw(ctx, cameraX);
-    world.update(ctx, cameraX);
-
     hud.draw(ctx);
-
     player.draw(ctx, cameraX);
-    player.update()
 
-    checkGroundCollision(player, world, canvas, ctx);
+    if(!upgradeMenu.isOpen){
+        player.update()
+        world.update(ctx, cameraX);
+       
 
-    world.obstacles.forEach(obstacle =>{
+         world.obstacles.forEach(obstacle =>{
         checkObjectCollision(player, obstacle, cameraX);
     });
 
@@ -53,9 +56,12 @@ function gameLoop(){
     world.runMeter(player)
 
     checkGroundCollision(player, world, canvas, ctx);
-    
-    
 
+
+    }
+    
+    
+    console.log(menuOpen);
     upgradeMenu.draw(ctx);
 
     debug.draw(ctx);
@@ -66,6 +72,16 @@ function gameLoop(){
 window.addEventListener('keydown', (e) => {
     if (e.key.toLowerCase() === 'u') { 
         upgradeMenu.isOpen = !upgradeMenu.isOpen;
+
+        if(upgradeMenu.isOpen && menuOpen === false){
+            menuOpen = true
+        }
+
+        if(!upgradeMenu.isOpen && menuOpen === true){
+            menuOpen = false
+        }
+
+     
     }
 });
 

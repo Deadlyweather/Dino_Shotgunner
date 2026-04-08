@@ -12,7 +12,7 @@ function checkGroundCollision(player, world, canvas) {
     if (playerBottom > groundLevel) {
         
         // Asetetaan dinon sijainti niin, että jalat ovat maan pinnalla
-        player.coordinates.y = groundLevel - player.size
+        player.coordinates.y = groundLevel -  player.size
         player.velocity.y = 0;
 
        
