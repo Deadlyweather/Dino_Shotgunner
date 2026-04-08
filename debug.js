@@ -14,10 +14,10 @@ class Debug {
         if (!this.showImages) return;
 
         const parts = [
-            this.player.head2,
-            this.player.head1
+            
             /* piilotus alue 
-                
+                this.player.head2,
+                this.player.head1
                 this.player.torso,
                 this.player.hand2,
                 
@@ -35,7 +35,7 @@ class Debug {
         /* piilotus alue
             this.drawShotgunSpecial(ctx);
         */
-        this.drawHeadSpeacial(ctx)
+        // this.drawHeadSpeacial(ctx)
     }
 
     drawPart(ctx, part, x, y) {
@@ -120,7 +120,7 @@ class Debug {
         ctx.beginPath()
         const fireX = centerX = Math.cos(angle) * part.firepoint * this.player.size * part.scale
         const fireY = centerY + Math.sin(angle) * part.firepoint * this.player.size * part.scale
-        ctx.arc(fireX, fireY, this.player.size * , angle - (this.player.spread / 2) * (Math.PI * 2), )
+        ctx.arc(fireX, fireY, this.player.size * 1, angle - (this.player.spread / 2) * (Math.PI * 2), )
 
     }
 }
