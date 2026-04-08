@@ -25,7 +25,7 @@ function gameLoop(){
     lastFrameTime = now;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let cameraX = player.coordinates.x + player.size / 2 
+     let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
 
     if (cameraX < 0) {
         cameraX = 0;
