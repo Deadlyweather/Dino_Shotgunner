@@ -15,13 +15,13 @@ class UpgradeMenu {
         this.upgrades = {
     liha: [
         { id: "hp", name: "Max HP", amount: 0, cost: 10 },
-        { id: "regen", name: "HP Regeneration", amount: 0, cost: 20 },
+        { id: "regen", name: "HP Regen", amount: 0, cost: 20 },
         { id: "armor", name: "Armor", amount: 0, cost: 50 },
         
     ],
     neula: [
         { id: "dmg", name: "Damage", amount: 0, cost: 15 },
-        { id: "speed", name: "Reload Speed", amount: 0, cost: 25 },
+        { id: "speed", name: "Reload", amount: 0, cost: 25 },
         { id: "ammo", name: "More Ammo", amount: 0, cost: 25 },
     ]
 };
@@ -101,9 +101,12 @@ window.addEventListener("mousedown", (e) => {
         
         ctx.textAlign = "left";
         ctx.fillText(item.name, itemX, itemY);
+
+       
+        ctx.fillText("Cost: " + item.cost, x + 750, itemY)
         
         ctx.textAlign = "right";
-        ctx.fillText(item.amount, itemXRight, itemY); 
+        ctx.fillText(item.amount, itemXRight, itemY, item.cost); 
     })
     }
 
@@ -114,6 +117,8 @@ window.addEventListener("mousedown", (e) => {
         
         ctx.textAlign = "left";
         ctx.fillText(item.name, x + 50, itemY);
+
+        ctx.fillText("Cost: " + item.cost, x + 250, itemY)
         
         ctx.textAlign = "right";
         ctx.fillText(item.amount, x + 450, itemY); 
