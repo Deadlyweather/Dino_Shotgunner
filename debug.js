@@ -23,8 +23,9 @@ class Debug {
                 this.player.hand1,
                 this.player.leg1,
                 this.player.leg2,
+                this.player.shotgun
             */
-            this.player.shotgun,
+            
             
             
         ];
@@ -34,7 +35,7 @@ class Debug {
         });
 
         // Draw firepoint
-        this.drawShotgunSpecial(ctx);
+        // this.drawShotgunSpecial(ctx);
     }
 
     drawPart(ctx, part, x, y) {

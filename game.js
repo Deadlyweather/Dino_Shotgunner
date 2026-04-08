@@ -9,8 +9,19 @@ const debug = new Debug();
 
 const upgradeMenu = new UpgradeMenu(player);
 
+const fps = 60
+const frameDuration = 1000 / fps;
+let lastFrameTime = 0;
+
 
 function gameLoop(){
+    const now = performance.now();
+    if (now - lastFrameTime < frameDuration) {
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+    lastFrameTime = now;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
 
@@ -38,6 +49,7 @@ function gameLoop(){
     player.shoot()
     player.reload()
     player.bite()
+    player.slam()
     world.runMeter(player)
 
     checkGroundCollision(player, world, canvas, ctx);

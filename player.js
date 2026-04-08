@@ -110,6 +110,7 @@ class Player {
         // player projectiles
         this.PlayerProjectiles = [];
 
+        this.slamming = false;
         this.speed = 1;
         this.direction = "right";
 
@@ -207,11 +208,14 @@ class Player {
         } else {
             this.takeDamage(this.maxhp * 0.001);
         }
-
+        if (this.slamming) {
+            this.velocity.x *= 2
+        }
         this.velocity.x /= this.size * 2;
         this.velocity.y /= this.size * 2;
 
         this.coordinates.x += this.velocity.x;
+            
         this.coordinates.y += this.velocity.y + this.gravity.y;
 
         this.PlayerProjectiles.forEach(projectile => projectile.update());
@@ -397,7 +401,7 @@ class Player {
     jump() {
         if (this.jumps > 0 && keys.space) {
             this.jumps--;
-            this.velocity.y = -this.jumpPower * 300;
+            this.velocity.y -= this.jumpPower * 300;
 
             const targetRotation = Math.PI * 1.5;
             const step = targetRotation * 0.25;
@@ -409,6 +413,16 @@ class Player {
             if (this.leg2.rotation > targetRotation) this.leg2.rotation = targetRotation;
 
             keys.space = false;
+        }
+    }
+    slam() {
+        if (keys.s && !player.onGround) {
+            this.velocity.y += this.jumpPower * 20;
+            this.leg1.rotation = 0
+            this.leg2.rotation = 0
+            this.slamming = true
+        } else {
+            this.slamming = false
         }
     }
 }

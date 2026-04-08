@@ -7,7 +7,7 @@ function checkGroundCollision(player, world, canvas) {
     const groundLevel = canvas.height - world.height;
 
   
-    const playerBottom = player.coordinates.y + player.size;
+    const playerBottom = player.coordinates.y * player.size;
 
     if (playerBottom > groundLevel) {
         
