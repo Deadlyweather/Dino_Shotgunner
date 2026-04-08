@@ -60,8 +60,6 @@ function gameLoop(){
 
     }
     
-    
-    console.log(menuOpen);
     upgradeMenu.draw(ctx);
 
     debug.draw(ctx);
