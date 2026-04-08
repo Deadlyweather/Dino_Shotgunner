@@ -48,5 +48,3 @@ function checkObjectCollision(player, obstacle) {
         
     }
 }
-
-

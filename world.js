@@ -17,50 +17,21 @@ class World {
 
     runMeter(player){
     player.distance = Math.floor(player.coordinates.x / 100)
-    }
+}
 
-update(ctx, cameraX) {
+update() {
     this.time += 0.001;
     if (this.time > 1) this.time -= 1;
 
-     
         this.obstacles.forEach(obstacle => {
-    
-            if (obstacle instanceof Bird){
-                obstacle.update()
-            }
-
-            obstacle.draw(ctx, cameraX); 
+            obstacle.update()
         });
 
    
-    if (this.obstacles.length === 0){
-        this.obstacles.push(new Cactus(cameraX + 1500, this.height, ctx.canvas.height));
-    } else {
-        let cactuses = this.obstacles.filter(obstacle => obstacle instanceof Cactus);
-        let lastCactus = cactuses[cactuses.length - 1];
-        let lastObstacle = this.obstacles[cactuses.length - 1];
-
-        // Lasketaan ruudun oikea reuna
-        let screenRightEdge = cameraX + ctx.canvas.width;
-
-        let gamba = Math.random();
-        if (gamba < 0.6){
-            // Jos viimeinen kaktus on ruudulla tai 500px etäisyydellä siitä, luodaan uusi kaktus 1000px päähän
-             if (lastCactus.x < screenRightEdge + 500) { 
-                this.obstacles.push(new Cactus(lastCactus.x + 1000, this.height, ctx.canvas.height));
-        }
-        } else {
-            
-        if (lastCactus.x < screenRightEdge + 500) { 
-            this.obstacles.push(new Bird(lastObstacle.x + 1000, this.height, ctx.canvas.height));
-        }
-        }
-      
-    }
+   
 }
 
-    draw(ctx, cameraX) {
+draw(ctx, cameraX) {
         ctx.save();
         const t = Math.cos(this.time * Math.PI * 2) * 0.5 + 0.5;
 
@@ -167,6 +138,39 @@ update(ctx, cameraX) {
         ctx.restore();
 
         ctx.save();
+
+        let screenRightEdge = cameraX + ctx.canvas.width;
+
+        this.obstacles.forEach(obstacle => {
+    obstacle.draw(ctx, cameraX);
+});
+  
+    if (this.obstacles.length === 0) {
+        this.obstacles.push(new Cactus(cameraX + 1500, this.height, ctx.canvas.height));
+        return;
+    }
+
+   
+    let cactuses = this.obstacles.filter(obs => obs instanceof Cactus);
+    let lastCactus = cactuses[cactuses.length - 1];
+   
+
+   
+    if (lastCactus.x < screenRightEdge + 1000) {
+        
+       
+        let nextCactusX = lastCactus.x + 1200;
+        this.obstacles.push(new Cactus(nextCactusX, this.height, ctx.canvas.height));
+
+       
+        if (Math.random() < 0.4) { 
+          
+            let birdX = lastCactus.x + 600;
+            this.obstacles.push(new Bird(birdX, this.height, ctx.canvas.height));
+        }
+    }
+
+    ctx.restore();
        
 
     

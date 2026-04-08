@@ -78,6 +78,7 @@ window.addEventListener("mousedown", (e) => {
            
             if (this.isInside(mouseX, mouseY, itemX, itemY - 20, itemWidth, itemHeight)) {
                 item.amount++;
+                this.player.upgrades++
 
                 if(item.id === "ammo"){
                     this.player.ammo++;
