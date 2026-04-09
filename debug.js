@@ -2,6 +2,7 @@ class Debug {
     constructor() {
         this.showImages = true;
         this.player = player;
+        this.angle = 0
 
         window.addEventListener("keydown", (e) => {
             if (e.key.toLowerCase() === "§") {
@@ -34,8 +35,9 @@ class Debug {
 
         /* piilotus alue
             this.drawShotgunSpecial(ctx);
+            this.drawHeadSpeacial(ctx)
         */
-        // this.drawHeadSpeacial(ctx)
+        
     }
 
     drawPart(ctx, part, x, y) {
@@ -88,7 +90,7 @@ class Debug {
 
         // Draw firepoint as a circle
         ctx.save();
-        ctx.globalAlpha = 0.5;
+        ctx.globalAlpha = 0.3;
         ctx.fillStyle = "yellow";
         ctx.beginPath();
         ctx.arc(centerX + Math.cos(angle) * part.firepoint * this.player.size * part.scale, centerY + Math.sin(angle) * part.firepoint * this.player.size * part.scale, 8, 0, Math.PI * 2);
@@ -113,14 +115,24 @@ class Debug {
         const centerX = this.player.coordinates.x + (part.offset?.x || 0) * this.player.size + part.point.x * this.player.size * part.scale;
         const centerY = this.player.coordinates.y + (part.offset?.y || 0) * this.player.size + part.point.y * this.player.size * part.scale;
 
+        const angle = 0
+
         // draw firepoint as circle
+        ctx.save();
+        ctx.globalAlpha = 0.3;
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(centerX + Math.cos(angle) * part.firepoint * this.player.size * part.scale, centerY + Math.sin(angle) * part.firepoint * this.player.size * part.scale, 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // draw AOE area
         ctx.save()
         ctx.globalAlpha = 0.3
-        ctx.fillstyle = "red"
+        ctx.fillStyle = "blue"
         ctx.beginPath()
-        const fireX = centerX = Math.cos(angle) * part.firepoint * this.player.size * part.scale
-        const fireY = centerY + Math.sin(angle) * part.firepoint * this.player.size * part.scale
-        ctx.arc(fireX, fireY, this.player.size * 1, angle - (this.player.spread / 2) * (Math.PI * 2), )
-
+        ctx.arc(centerX + Math.cos(angle) * part.firepoint * this.player.size * part.scale, centerY + Math.sin(angle) * part.firepoint * this.player.size * part.scale, this.player.size * this.player.head1.scale * (50 + this.player.strenght), 0, Math.PI * 2)
+        ctx.fill()
+        ctx.restore()
     }
 }

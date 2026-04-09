@@ -111,7 +111,9 @@ class Player {
         this.PlayerProjectiles = [];
 
         this.slamming = false;
-        this.speed = 1;
+        this.slamPower = 0
+
+
         this.direction = "right";
 
         this.jumpPower = 1;
@@ -123,10 +125,15 @@ class Player {
 
         this.coordinates = { x: 600, y: 400 };
         this.velocity = { x: 0, y: 0 };
-        this.gravity = { x: 0, y: 5 };
+        this.gravity = { x: 0, y: 0 };
 
         // special stats
-        this.strenght = 0
+        this.strenght = 10
+        this.agility = 1
+        this.vitality = 0
+        this.metabolism = 100
+        this.luck = 0
+        
 
         this.size = 1;
 
@@ -146,7 +153,7 @@ class Player {
         this.head1.scale = 1;
         this.head1.offset = { x: 58, y: -8 };
         // Bite point
-        this.head1.firepoint = 75;
+        this.head1.firepoint = 50;
 
         this.head2 = new Image();
         this.head2.src = "Images/Dinosaur/Head2.png";
@@ -199,6 +206,9 @@ class Player {
     }
 
     update() {
+        if (this.hp < this.maxhp) {
+            this.hp += this.vitality
+        }
         if (this.firerate > 0) {
             this.firerate -= 1;
         }
@@ -209,7 +219,7 @@ class Player {
             }
         }
         if (this.saturation > 0) {
-            this.saturation -= this.maxhp * 0.00001;
+            this.saturation -= this.metabolism * 0.0001;
         } else {
             this.takeDamage(this.maxhp * 0.001);
         }
@@ -219,7 +229,7 @@ class Player {
         this.velocity.x /= this.size * 2;
         this.velocity.y /= this.size * 2;
 
-        this.coordinates.x += this.velocity.x;
+        this.coordinates.x += this.velocity.x + this.gravity.x;
             
         this.coordinates.y += this.velocity.y + this.gravity.y;
 
@@ -236,12 +246,14 @@ class Player {
 
         this.modification(ctx, this.torso, x, y);
 
+        this.modification(ctx, this.head2, x, y);
+        this.modification(ctx, this.head1, x, y); 
+
         this.modification(ctx, this.hand2, x, y);
         this.modification(ctx, this.shotgun, x, y);
         this.modification(ctx, this.hand1, x, y);
 
-        this.modification(ctx, this.head2, x, y);
-        this.modification(ctx, this.head1, x, y);
+        
 
         this.drawPlayerProjectiles(ctx);
     }
@@ -308,9 +320,8 @@ class Player {
             this.biteProgress -= 1;
 
             if (this.biteProgress <= 0) {
-                // Keskittää puraisu efektin pelaajan keskelle
-                const centerX = 0;
-                const centerY = 0;
+                const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint;
+                const centerY = this.coordinates.y + (this.head1.offset?.y || 0) * this.size + this.head1.point.y * this.size * this.head1.scale
                 const ammo = new Ammo(0, this, centerX, centerY, "chomp");
                 this.PlayerProjectiles.push(ammo);
                 this.biteProgress = -0.4;
@@ -336,7 +347,7 @@ class Player {
     walk() {
         if (keys.a && keys.d) return;
 
-        const speed = 0.1 * this.speed;
+        const speed = 0.1 * this.agility;
 
         if (this.leg1.rotation > Math.PI) {
             this.leg1.rotation -= 2 * Math.PI;
@@ -353,15 +364,15 @@ class Player {
         }
 
         if (keys.a) {
-            this.coordinates.x -= this.speed;
-            this.velocity.x -= this.speed;
+            this.coordinates.x -= this.agility;
+            this.velocity.x -= this.agility;
 
             this.leg1.rotation -= speed;
             this.leg2.rotation = this.leg1.rotation + Math.PI;
             
         } else if (keys.d) {
-            this.coordinates.x += this.speed;
-            this.velocity.x += this.speed;
+            this.coordinates.x += this.agility;
+            this.velocity.x += this.agility;
 
             this.leg1.rotation += speed;
             this.leg2.rotation = this.leg1.rotation + Math.PI;
@@ -411,9 +422,9 @@ class Player {
     }
 
     jump() {
-        if (this.jumps > 0 && keys.space) {
+        if (this.jumps > 0 && keys.space && !this.slamming) {
             this.jumps--;
-            this.velocity.y -= this.jumpPower * 300;
+            this.velocity.y -= this.jumpPower * 600;
 
             const targetRotation = Math.PI * 1.5;
             const step = targetRotation * 0.25;
@@ -429,12 +440,14 @@ class Player {
     }
     slam() {
         if (keys.s && !player.onGround) {
-            this.velocity.y += this.jumpPower * 20;
+            this.velocity.y += this.jumpPower * (0 + this.slamPower);
             this.leg1.rotation = 0
             this.leg2.rotation = 0
             this.slamming = true
+            this.slamPower += 1
         } else {
             this.slamming = false
+            this.slamPower = 1
         }
     }
 }

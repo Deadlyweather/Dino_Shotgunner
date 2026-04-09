@@ -8,9 +8,9 @@ class Ammo {
         this.range = owner.range;
         this.isActive = true;
         this.life = 1;
-        this.size = 1;
-        this.color = "yellow";
-        this.radius = 0
+        this.size = type === "chomp" ? 4 : 1;
+        this.color = type === "chomp" ? "rgba(255, 0, 0, 1)" : "yellow";
+        this.radius = type === "chomp" ? (owner.head1?.firepoint || owner.range * 0.25) : 0;
     }
 
     update() {
@@ -19,10 +19,10 @@ class Ammo {
             return;
         }
         if (this.type === "bullet") {
-            this.life -= 1
+            this.life -= 1;
         }
         if (this.type === "chomp") {
-            this.life += 0.5
+            this.life -= 1
         }
     }
 
@@ -46,18 +46,20 @@ class Ammo {
         ctx.restore();
     }
     drawChomp(ctx) {
+        // pika AOE
         if (!this.isActive) return;
-        this.radius = 125 * this.owner.size
-        this.size = 10 * this.owner.size
-        this.color = `rgba(255, 0, 0, ${this.life})`;
-
+        this.color = "rgb(255, 255, 255)";
+        this.radius = this.owner.size * this.owner.head1.scale * (50 + this.owner.strenght)
         
         ctx.save();
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.size;
+        ctx.globalAlpha = 0.3
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.startX, this.startY, this.radius, 0, Math.PI * 2);
-        ctx.stroke();
+        ctx.fill();
         ctx.restore();
+    }
+    drawProjectile(ctx) {
+        // hidas ammus
     }
 }

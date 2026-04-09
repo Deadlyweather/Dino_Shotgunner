@@ -37,7 +37,7 @@ class Bird {
 class Cactus {
     constructor(x, groundHeight, canvasHeight) {
         this.x = x; 
-        this.scale = 2.0; 
+        this.scale = 0.50; 
         this.img = new Image();
         this.img.src = "Images/Cactus.png";
      
