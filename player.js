@@ -125,12 +125,18 @@ class Player {
 
         this.coordinates = { x: 600, y: 400 };
         this.velocity = { x: 0, y: 0 };
-        this.gravity = { x: 0, y: 0 };
+        this.gravity = { x: 0, y: 10 };
 
         // special stats
         this.strenght = 10
         this.agility = 1
+        // %kestävyys
+        this.endurance = 0
+        // +kestävyys
+        this.defence = 0
+        // regeneraatio
         this.vitality = 0
+        // nälkäisyys
         this.metabolism = 100
         this.luck = 0
         

@@ -24,6 +24,9 @@ class Ammo {
         if (this.type === "chomp") {
             this.life -= 1
         }
+        if (this.type === "projectile") {
+            
+        }
     }
 
     drawBullet(ctx) {
