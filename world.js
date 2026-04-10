@@ -24,12 +24,12 @@ class World {
     player.distance = Math.floor(player.coordinates.x / 100)
 }
 
-update() {
+update(ctx, cameraX, player) {
     this.time += 0.001;
     if (this.time > 1) this.time -= 1;
 
         this.obstacles.forEach(obstacle => {
-            obstacle.update()
+            obstacle.update(player)
         });
     
    
