@@ -39,7 +39,7 @@ function gameLoop(){
 
     if(!upgradeMenu.isOpen){
         player.update()
-        world.update(ctx, cameraX);
+        world.update(ctx, cameraX, player);
        
 
          world.obstacles.forEach(obstacle =>{
