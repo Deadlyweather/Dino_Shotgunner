@@ -34,3 +34,7 @@ Haulikon grafiikka on melkein kokonaan oma, koska olin ottanut mallin netistä j
 Maailma
 
 - Olen ollut osa maailman luonnissa. Kaikki sen grafiikat ovat minun luomia. Olen tehnyt päivän kierron, koska haluan että on aikoja jolloin pelaaja joutuu hidastumaan vaikeuden nousun takia ja aion tehdä muita tapahtumia, jotka vaikuttavat pelaajan edistymiseen.
+
+Debug
+- Olen lisännyt debugin asetteluja varten, mutta vain minä olen sitä tarvinnut. Uskon, että se voisi olla hyödyllinen toverillekkin
+
