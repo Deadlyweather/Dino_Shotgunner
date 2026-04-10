@@ -22,7 +22,7 @@ Maasto
 
 Tony.ruotsalainen
 
-- Olen ollut pelin idea miehenä tässä projektissa. Peli projektin tarkoituksena on näyttää että meidän taitoa ja muuten kehittää yhteistyö ja omaksi viihteeksi
+- Olen ollut pelin idea miehenä tässä projektissa. Peli projektin tarkoituksena on näyttää että meidän taitoa ja muuten kehittää yhteistyötä ja myös omaksi viihteeksi
 
 Pelaaja
 
