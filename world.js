@@ -1,6 +1,7 @@
 class World {
     constructor() {
-        this.height = 200;
+        this.height = 256;
+        this.height2 = 64 // Koriste korkeus
         this.time = 0; // 0-1, päivä sykli
         this.sun = { size: 50, color: "yellow" };
         this.moon = { size: 50, color: "cyan" };
@@ -8,7 +9,11 @@ class World {
         // Grafiikka
         this.ground = new Image();
         this.ground.src = "Images/Sand.png";
-        this.tileWidth = 200;
+        
+        this.ground2 = new Image() // koriste maahan
+        this.ground2.src = "Images/Sand2.png"
+
+        this.tileWidth = 256;
 
         this.distance = 800;
 
@@ -26,7 +31,7 @@ update() {
         this.obstacles.forEach(obstacle => {
             obstacle.update()
         });
-
+    
    
    
 }
@@ -127,13 +132,20 @@ draw(ctx, cameraX) {
         ctx.fill();
         ctx.restore();
 
-        
+        // Hiekka rakennus
+
         const tilesNeeded = Math.ceil(ctx.canvas.width / this.tileWidth) + 1;
 
         for (let i = 0; i < tilesNeeded; i++) {
             const x = i * this.tileWidth - cameraX % this.tileWidth;
-            const y = ctx.canvas.height - this.height;
-            ctx.drawImage(this.ground, x, y, this.tileWidth, this.height);
+
+            // Päämaa
+            const groundY = ctx.canvas.height - this.height;
+            ctx.drawImage(this.ground, x, groundY, this.tileWidth, this.height);
+
+            // Koriste maan päällä
+            const ground2Y = groundY - this.height2;
+            ctx.drawImage(this.ground2, x, ground2Y, this.tileWidth, this.height2);
         }
         ctx.restore();
 

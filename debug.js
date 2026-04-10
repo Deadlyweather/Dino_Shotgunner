@@ -1,6 +1,7 @@
 class Debug {
     constructor() {
-        this.showImages = true;
+        this.showImages = false;
+        this.showHitboxes = true
         this.player = player;
         this.angle = 0
 
@@ -8,14 +9,15 @@ class Debug {
             if (e.key.toLowerCase() === "§") {
                 this.showImages = !this.showImages;
             }
+            if (e.key.toLowerCase() === "§") {
+                this.showHitboxes = !this.showHitboxes
+            }
         });
     }
 
     draw(ctx) {
-        if (!this.showImages) return;
-
-        const parts = [
-            
+        if (this.showImages === true) {
+            const parts = [
             /* piilotus alue 
                 this.player.head2,
                 this.player.head1
@@ -37,7 +39,26 @@ class Debug {
             this.drawShotgunSpecial(ctx);
             this.drawHeadSpeacial(ctx)
         */
+        }
+
+        if (this.showHitboxes === true) {
+            const hitboxes = [
+                /* piilotus alue
+
+                */
+                this.player.hitbox.collision,
+                this.player.hitbox.hurt,
+                this.player.hitbox.platform
+        ]
+
+        hitboxes.forEach(hitbox => {
+            this.drawHitbox(ctx, hitbox, this.player.coordinates.x, this.player.coordinates.y)
+        })
         
+        /* piilotus alue
+
+        */
+        }
     }
 
     drawPart(ctx, part, x, y) {
@@ -134,5 +155,21 @@ class Debug {
         ctx.arc(centerX + Math.cos(angle) * part.firepoint * this.player.size * part.scale, centerY + Math.sin(angle) * part.firepoint * this.player.size * part.scale, this.player.size * this.player.head1.scale * (50 + this.player.strenght), 0, Math.PI * 2)
         ctx.fill()
         ctx.restore()
+    }
+    drawHitbox(ctx, hitbox, offsetX = 0, offsetY = 0) {
+
+        ctx.save();
+
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+
+        ctx.strokeRect(
+            offsetX + hitbox.x,
+            offsetY + hitbox.y,
+            hitbox.w * this.player.size,
+            hitbox.h * this.player.size
+        );
+
+        ctx.restore();
     }
 }

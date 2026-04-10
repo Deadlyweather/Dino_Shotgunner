@@ -6,15 +6,15 @@ function checkGroundCollision(player, world, canvas) {
     
     const groundLevel = canvas.height - world.height;
 
+    const hitbox = player.hitbox.collision
   
-    const playerBottom = player.coordinates.y * player.size;
+    const playerBottom = player.coordinates.y + (hitbox.y + hitbox.h) * player.size
 
     if (playerBottom > groundLevel) {
         
         // Asetetaan dinon sijainti niin, että jalat ovat maan pinnalla
-        player.coordinates.y = groundLevel -  player.size
-        player.velocity.y = 0;
-
+        player.coordinates.y = groundLevel - (hitbox.y + hitbox.h) * player.size
+        player.velocity.y *= -1;
        
         player.onGround = true;
 
@@ -31,11 +31,12 @@ function checkObjectCollision(player, obstacle) {
     const objectTop = obstacle.y;
     const objectBottom = objectTop + obstacle.height;
 
+    const hitbox = player.hitbox.collision
   
-    const playerLeft = player.coordinates.x;
-    const playerRight = playerLeft + player.size; 
-    const playerTop = player.coordinates.y;
-    const playerBottom = playerTop + player.size;
+    const playerLeft = player.coordinates.x + hitbox.x * player.size;
+    const playerRight = playerLeft + hitbox.w * player.size
+    const playerTop = player.coordinates.y + hitbox.y * player.size;
+    const playerBottom = playerTop + hitbox.h * player.size;
 
    
     if (

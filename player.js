@@ -140,8 +140,15 @@ class Player {
         this.metabolism = 100
         this.luck = 0
         
-
         this.size = 1;
+
+        this.hitbox = {
+            collision: { x: -20, y: 10, w: 100, h: 150 },
+            hurt: { x: 5, y: 20, w: 60, h: 60 },
+            // aktiivinen vain platform tyyppisille rakenteille (Jos tarvitsee)
+            platform: { x: -20, y: 165, w: 100, h: 0 }
+        }
+
 
         // --- PARTS ---
 
@@ -232,12 +239,16 @@ class Player {
         if (this.slamming) {
             this.velocity.x *= 2
         }
+
         this.velocity.x /= this.size * 2;
         this.velocity.y /= this.size * 2;
 
-        this.coordinates.x += this.velocity.x + this.gravity.x;
+        this.velocity.x += this.gravity.x
+        this.velocity.y += this.gravity.y
+
+        this.coordinates.x += this.velocity.x
             
-        this.coordinates.y += this.velocity.y + this.gravity.y;
+        this.coordinates.y += this.velocity.y
 
         this.PlayerProjectiles.forEach(projectile => projectile.update());
         this.PlayerProjectiles = this.PlayerProjectiles.filter(projectile => projectile.isActive);
