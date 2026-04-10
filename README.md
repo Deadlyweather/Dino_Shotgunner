@@ -38,3 +38,8 @@ Maailma
 Debug
 - Olen lisännyt debugin asetteluja varten, mutta vain minä olen sitä tarvinnut. Uskon, että se voisi olla hyödyllinen toverillekkin
 
+Viholliset
+
+- Itse en ole vielä koskenut vihollisten koodiin, mutta minä olin luonut niiden grafiikat. Ne näyttävät hieman hassuilta, koska ajattelin tehdä kaikista vihollisista hirveitä mutantteja, mutten ole vielä varma haluanko vielä mitään tarinaa sen takia
+
+
