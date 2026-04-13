@@ -35,8 +35,6 @@ class Bird {
         this.vx += Math.cos(angle) * 2
         this.vy += Math.sin(angle) * 2
         
-
-        // Otetaan vauhdista pois 5% molemmista suunnista, jotta nopeus ei kasva loputtomasti
         this.vx *= 0.99;
         this.vy *= 0.99;
 
@@ -56,6 +54,15 @@ class Bird {
 
 class Cactus {
     constructor(x, groundHeight, canvasHeight) {
+        this.cooldown = 0;
+
+        this.needleScale = 2;
+        this.needles = []
+        this.needlesImg = new Image();
+        this.needlesImg.src = "Images/Needle projectile.png"
+
+       
+
         this.x = x; 
         this.scale = 0.50; 
         this.img = new Image();
@@ -68,14 +75,68 @@ class Cactus {
            
             this.y = canvasHeight - groundHeight - this.height 
         };
+
+        this.needlesImg.onload = () => {
+    this.needleWidth = this.needlesImg.width * this.needleScale;
+    this.needleHeight = this.needlesImg.height * this.needleScale;
+};
     }
 
-    draw(ctx, cameraX) {
-        ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height)
-         
-    }
+draw(ctx, cameraX) {
+  
+    ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
 
-    update(){
-
-    }
+    
+    this.needles.forEach(needle => {
+        
+        needle.drawProjectile(ctx, cameraX, this.needlesImg, this.needleWidth,  this.needleHeight);
+    });
 }
+
+    update(player){
+
+        
+  
+
+        this.cooldown++
+
+        if(this.cooldown >= 180){
+            let newNeedle = new Ammo(Math.PI, this, this.x, this.y, "projectile");
+            newNeedle.width = this.needleWidth;
+            newNeedle.height = this.needleHeight;
+            this.needles.push(newNeedle);
+            this.cooldown = 0;
+        }
+        this.needles.forEach(needle =>  {
+            
+         
+            needle.update()
+
+            const hitbox = {
+            x: needle.startX,
+            y: needle.startY,
+            width: needle.width,
+            height: needle.height
+        };
+        
+           if (needle.startY > 800 ){
+                needle.isActive = false
+            }
+        
+
+       
+            if (player && checkObjectCollision(player, hitbox)){
+                console.log("neula osui pelaajaan");
+                needle.isActive = false;
+           
+                
+
+                
+                
+            }
+            });
+            this.needles = this.needles.filter(needle => needle.isActive)
+        }
+    }
+
+    
