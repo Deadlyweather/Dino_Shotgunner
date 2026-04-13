@@ -129,7 +129,7 @@ class Player {
 
         // special stats
         this.strenght = 10
-        this.agility = 1
+        this.agility = 4
         // %kestävyys
         this.endurance = 0
         // +kestävyys
@@ -444,7 +444,7 @@ class Player {
     jump() {
         if (this.jumps > 0 && keys.space && !this.slamming) {
             this.jumps--;
-            this.velocity.y -= this.jumpPower * 600;
+            this.velocity.y -= this.jumpPower * 1000;
 
             const targetRotation = Math.PI * 1.5;
             const step = targetRotation * 0.25;

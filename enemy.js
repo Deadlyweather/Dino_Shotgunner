@@ -37,8 +37,8 @@ class Bird {
         
 
         // Otetaan vauhdista pois 5% molemmista suunnista, jotta nopeus ei kasva loputtomasti
-        this.vx *= 0.95;
-        this.vy *= 0.95;
+        this.vx *= 0.99;
+        this.vy *= 0.99;
 
         this.x += this.vx;
         this.y += this.vy;
