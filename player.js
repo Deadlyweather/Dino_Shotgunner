@@ -216,6 +216,7 @@ class Player {
 
         this.shootAudio = new Audio("Audio/shotgun_shot.wav")
         this.reloadAudio = new Audio("Audio/shotgun_reload.wav")
+        this.biteof87 = new Audio("Audio/Bite.wav")
     }
 
     update() {
@@ -342,6 +343,8 @@ class Player {
                 const ammo = new Ammo(0, this, centerX, centerY, "chomp");
                 this.PlayerProjectiles.push(ammo);
                 this.biteProgress = -0.4;
+                this.biteof87.currentTime = 0
+                this.biteof87.play()
                 this.bitePhase = "idle";
             }
 

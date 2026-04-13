@@ -53,6 +53,7 @@ function gameLoop(){
     player.reload()
     player.bite()
     player.slam()
+    
     world.runMeter(player)
 
     checkGroundCollision(player, world, canvas, ctx);

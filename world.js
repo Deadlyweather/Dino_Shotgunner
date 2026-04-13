@@ -1,7 +1,7 @@
 class World {
     constructor() {
         this.height = 256;
-        this.height2 = 64 // Koriste korkeus
+        this.height2 = 32 // Koriste korkeus
         this.time = 0; // 0-1, päivä sykli
         this.sun = { size: 50, color: "yellow" };
         this.moon = { size: 50, color: "cyan" };
@@ -25,7 +25,7 @@ class World {
 }
 
 update() {
-    this.time += 0.001;
+    this.time += 0.00001;
     if (this.time > 1) this.time -= 1;
 
         this.obstacles.forEach(obstacle => {
