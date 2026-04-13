@@ -1,5 +1,5 @@
 class Debug {
-    constructor() {
+    constructor(player) {
         this.showImages = false;
         this.showHitboxes = true
         this.player = player;

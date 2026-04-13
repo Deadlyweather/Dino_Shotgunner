@@ -11,7 +11,7 @@ class Wave {
         this.enemies = []
     }
 
-    update(player) {
+    update(ctx, player, cameraX) {
         this.duration -= 1;
 
         if (this.duration <= 0) {
@@ -21,7 +21,7 @@ class Wave {
         }
 
         for (let enemy of this.enemies) {
-            enemy.update(this.player);
+            enemy.update(player);
         }
     }
 
@@ -42,7 +42,7 @@ class Wave {
             let x = Math.random() * 1300 + Math.random() * 1000
             let y = Math.random() * 1300
 
-            let bird = new Bird(x, y, this.ctx);
+            let bird = new Bird(x, 0, this.ctx.canvas.height);
             this.enemies.push(bird);
         }
 

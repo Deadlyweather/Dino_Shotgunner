@@ -402,8 +402,8 @@ class Player {
         }
     }
 
-    aim() {
-        const x = this.coordinates.x + this.shotgun.offset.x + this.shotgun.point.x;
+    aim(camera) {
+        const x = this.coordinates.x + this.shotgun.offset.x + this.shotgun.point.x - camera;
         const y = this.coordinates.y + this.shotgun.offset.y + this.shotgun.point.y;
 
         const dx = mouse.x - x;

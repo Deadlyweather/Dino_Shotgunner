@@ -5,8 +5,8 @@ const ctx = canvas.getContext('2d');
 const player = new Player();
 const hud = new HUD(player);
 const world = new World()
-const debug = new Debug();
-const wave = new Wave()
+const debug = new Debug(player);
+const wave = new Wave(ctx, player)
 
 let menuOpen = false;
 
@@ -27,7 +27,7 @@ function gameLoop(){
     lastFrameTime = now;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-     let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
+    let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
 
     if (cameraX < 0) {
         cameraX = 0;
@@ -50,13 +50,13 @@ function gameLoop(){
 
     player.walk()
     player.jump()
-    player.aim()
+    player.aim(cameraX)
     player.shoot()
     player.reload()
     player.bite()
     player.slam()
 
-    wave.update(ctx, player)
+    wave.update(ctx, player, cameraX)
     
     world.runMeter(player)
 

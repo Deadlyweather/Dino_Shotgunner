@@ -147,6 +147,7 @@ draw(ctx, cameraX) {
             const ground2Y = groundY - this.height2;
             ctx.drawImage(this.ground2, x, ground2Y, this.tileWidth, this.height2);
         }
+
         ctx.restore();
 
         ctx.save();

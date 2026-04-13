@@ -20,7 +20,7 @@ class Bird {
     }
 
     update(player) {
-        if (!player) return;
+        if (!player || !player.coordinates) return;
 
         // Lasketaan koordinaatti erotukset
         let dx = player.coordinates.x - this.x;
