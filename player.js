@@ -255,8 +255,8 @@ class Player {
         this.PlayerProjectiles = this.PlayerProjectiles.filter(projectile => projectile.isActive);
     }
 
-    draw(ctx) {
-        const x = this.coordinates.x;
+    draw(ctx, cameraX) {
+        const x = this.coordinates.x - cameraX;
         const y = this.coordinates.y;
 
         this.modification(ctx, this.leg1, x, y);

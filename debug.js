@@ -52,11 +52,11 @@ class Debug {
         ]
 
         hitboxes.forEach(hitbox => {
-            this.drawHitbox(ctx, hitbox, this.player.coordinates.x, this.player.coordinates.y)
+            
         })
         
         /* piilotus alue
-
+            this.drawHitbox(ctx, hitbox, this.player.coordinates.x, this.player.coordinates.y)
         */
         }
     }

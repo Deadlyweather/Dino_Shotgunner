@@ -1,10 +1,12 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+
 const player = new Player();
 const hud = new HUD(player);
 const world = new World()
 const debug = new Debug();
+const wave = new Wave()
 
 let menuOpen = false;
 
@@ -53,6 +55,8 @@ function gameLoop(){
     player.reload()
     player.bite()
     player.slam()
+
+    wave.update(ctx, player)
     
     world.runMeter(player)
 
