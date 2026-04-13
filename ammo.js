@@ -11,6 +11,12 @@ class Ammo {
         this.size = type === "chomp" ? 4 : 1;
         this.color = type === "chomp" ? "rgba(255, 0, 0, 1)" : "yellow";
         this.radius = type === "chomp" ? (owner.head1?.firepoint || owner.range * 0.25) : 0;
+
+        if (this.type === "projectile") {
+
+        this.vx = -10; 
+        this.vy = -20; 
+    }
     }
 
     update() {
@@ -25,6 +31,11 @@ class Ammo {
             this.life -= 1
         }
         if (this.type === "projectile") {
+            this.startX += this.vx;
+            this.startY += this.vy;
+            
+            // Lisätään painovoima
+            this.vy += 0.5;
             
         }
     }
@@ -62,7 +73,11 @@ class Ammo {
         ctx.fill();
         ctx.restore();
     }
-    drawProjectile(ctx) {
-        // hidas ammus
+   drawProjectile(ctx, cameraX, image, width, height) {
+    if (!this.isActive) return;
+    
+    if (image) {
+        ctx.drawImage(image, this.startX - cameraX, this.startY, width, height);
     }
+}
 }
