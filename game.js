@@ -6,7 +6,7 @@ const player = new Player();
 const hud = new HUD(player);
 const world = new World()
 const debug = new Debug(player);
-const wave = new Wave(ctx, player)
+const wave = new Wave(ctx, player, world)
 
 let menuOpen = false;
 
@@ -36,6 +36,7 @@ function gameLoop(){
     
 
     world.draw(ctx, cameraX);
+    wave.draw(ctx, cameraX);
     hud.draw(ctx);
     player.draw(ctx, cameraX);
 
@@ -56,7 +57,7 @@ function gameLoop(){
     player.bite()
     player.slam()
 
-    wave.update(ctx, player, cameraX)
+    wave.update(ctx, player, cameraX, world)
     
     world.runMeter(player)
 

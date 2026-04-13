@@ -1,9 +1,12 @@
 class Wave {
-    constructor(ctx, player) {
+    constructor(ctx, player, world) {
         this.wave = 0
         this.player = player
         this.ctx = ctx
-        this.maxduration = 15
+        this.world = world
+        this.maxduration = 400
+        this.maxspawnrate = 100
+        this.spawnrate = 0
         this.duration = this.maxduration
         this.difficulty = 0
         this.scaling = 1
@@ -11,13 +14,20 @@ class Wave {
         this.enemies = []
     }
 
-    update(ctx, player, cameraX) {
+    update(ctx, player, cameraX, world) {
         this.duration -= 1;
+        this.spawnrate -= 1
+
+        if (this.spawnrate <= 0 ) {
+            this.spawn(cameraX);
+            this.spawnrate = this.maxspawnrate
+        }
 
         if (this.duration <= 0) {
-            this.start();
+            this.spawn(cameraX);
             this.scale();
             this.Accelerate()
+            this.duration = this.maxduration
         }
 
         for (let enemy of this.enemies) {
@@ -25,9 +35,14 @@ class Wave {
         }
     }
 
+    draw(ctx, cameraX) {
+        this.enemies.forEach(enemy => enemy.draw(ctx, cameraX));
+    }
+
     scale() {
         this.difficulty += this.scaling
-        this.maxduration *= this.difficulty
+        this.maxduration += this.difficulty
+        this.maxspawnrate -= this.difficulty
     }
     Accelerate() {
         if (World.time === 0.5) {
@@ -35,18 +50,23 @@ class Wave {
         }
     }
 
-    start() {
+    spawn(cameraX) {
         this.duration = this.maxduration
         // spawn enemies
-            for (let i = 0; i < this.wave + 1; i++) {
-            let x = Math.random() * 1300 + Math.random() * 1000
-            let y = Math.random() * 1300
+            let x = cameraX + this.ctx.canvas.width + Math.random() * 1000
+            let y = this.world.height
 
-            let bird = new Bird(x, 0, this.ctx.canvas.height);
-            this.enemies.push(bird);
-        }
+            if (Math.random() < 0.4) {
+                let bird = new Bird(x, y, this.ctx.canvas.height);
+                this.enemies.push(bird);
+            } else {
+                let cactus = new Cactus(x, y, this.ctx.canvas.height)
+                this.enemies.push(cactus)
+            }
+            
 
-        this.wave++;
+            
+        this.wave++
     }
 }
 

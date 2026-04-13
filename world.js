@@ -157,31 +157,6 @@ draw(ctx, cameraX) {
         this.obstacles.forEach(obstacle => {
     obstacle.draw(ctx, cameraX);
 });
-  
-    if (this.obstacles.length === 0) {
-        this.obstacles.push(new Cactus(cameraX + 1500, this.height, ctx.canvas.height));
-        return;
-    }
-
-   
-    let cactuses = this.obstacles.filter(obs => obs instanceof Cactus);
-    let lastCactus = cactuses[cactuses.length - 1];
-   
-
-   
-    if (lastCactus.x < screenRightEdge + 1000) {
-        
-       
-        let nextCactusX = lastCactus.x + 1200;
-        this.obstacles.push(new Cactus(nextCactusX, this.height, ctx.canvas.height));
-
-       
-        if (Math.random() < 0.4) { 
-          
-            let birdX = lastCactus.x + 600;
-            this.obstacles.push(new Bird(birdX, this.height, ctx.canvas.height));
-        }
-    }
 
     ctx.restore();
        

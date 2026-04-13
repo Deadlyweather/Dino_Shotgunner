@@ -117,8 +117,9 @@ class Player {
         this.direction = "right";
 
         this.jumpPower = 1;
-        this.jumps = Infinity;
-        this.maxjumps = Infinity;
+        this.maxjumps = 1;
+        this.jumps = 0;
+        
 
         this.upgrades = 0;
         this.distance = 0;
