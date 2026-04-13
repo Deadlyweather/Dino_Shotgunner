@@ -45,7 +45,8 @@ function checkObjectCollision(player, obstacle) {
         playerBottom >= objectTop    && // Pelaajan jalat osuu esteen huippuun
         playerTop <= objectBottom    // Pelaajan pää osuu esteen pohjaan
     ) {
-        console.log("törmäys");
+        console.log("törmäys")
+        return true;
         
-    }
+    } return false;
 }
