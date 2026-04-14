@@ -14,8 +14,9 @@ class Ammo {
 
         if (this.type === "projectile") {
 
-        this.vx = -10; 
-        this.vy = -20; 
+       let speed = 20; 
+            this.vx = Math.cos(this.direction) * speed;
+            this.vy = Math.sin(this.direction) * speed;
     }
     }
 
