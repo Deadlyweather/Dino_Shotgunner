@@ -71,11 +71,6 @@ class Player {
         // basic stats
         this.maxhp = 100;
         this.hp = this.maxhp;
-        this.maxhunger = 100;
-        this.hunger = this.maxhunger;
-        
-        
-
         this.maxsaturation = 100;
         this.saturation = this.maxsaturation;
 
@@ -93,10 +88,15 @@ class Player {
         this.metabolism = 100
         // aarre voluumi
         this.luck = 0
+        // ravinnon voimakkuus
+        this.gluttony = 1
+        // ravinnon elinvoimaisuus
+        this.vampirism = 1
 
         // gun stats
 
         // ammo
+
         this.maxammo = 1;
         this.ammo = this.maxammo;
 
@@ -169,7 +169,6 @@ class Player {
         this.coordinates = { x: 600, y: 400 };
         this.velocity = { x: 0, y: 0 };
         this.gravity = { x: 0, y: 10 };
-
 
         // --- PARTS ---
 
@@ -265,8 +264,8 @@ class Player {
             this.velocity.x *= 2
         }
 
-        this.velocity.x /= this.size * 2;
-        this.velocity.y /= this.size * 2;
+        this.velocity.x /= 2;
+        this.velocity.y /= 2;
 
         this.velocity.x += this.gravity.x
         this.velocity.y += this.gravity.y
