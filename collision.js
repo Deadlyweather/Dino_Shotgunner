@@ -16,11 +16,10 @@ function checkGroundCollision(player, world, canvas) {
         player.coordinates.y = groundLevel - (hitbox.y + hitbox.h) * player.size
         player.velocity.y *= -1;
 
-        if (player.jumps < player.maxjumps) {
-            player.jumps += player.maxjumps / 16
+        if (player.jumpcooldown < 0) {
+            player.jumps = player.maxjumps
         }
-        
-       
+
         player.onGround = true;
 
     } else {

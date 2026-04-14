@@ -68,25 +68,40 @@ window.addEventListener("keyup", (e) => {
 
 class Player {
     constructor() {
+        // basic stats
         this.maxhp = 100;
         this.hp = this.maxhp;
         this.maxhunger = 100;
         this.hunger = this.maxhunger;
         
-        this.needles = 5;
+        
+
         this.maxsaturation = 100;
         this.saturation = this.maxsaturation;
 
-        this.bitePhase = "idle";
-        this.biteProgress = 0;
+        // special stats
+        this.strenght = 10
+        this.agility = 4
+        // %kestävyys
+        this.endurance = 0
+        // +kestävyys
+        this.defence = 0
+        // regeneraatio
+        this.vitality = 0
+        // nälkäisyys
+        this.metabolism = 100
+        this.luck = 0
+
+        // gun stats
 
         // ammo
         this.maxammo = 1;
         this.ammo = this.maxammo;
 
-        // Time to reload
+        // reload
         this.loadMax = 100;
         this.load = 0;
+        this.autoload = 0
         // Ammunition reloaded per reload
         this.loadAmount = 1;
         // Needle cost per reload
@@ -110,36 +125,17 @@ class Player {
         // player projectiles
         this.PlayerProjectiles = [];
 
-        this.slamming = false;
-        this.slamPower = 0
+        // resources
 
+        this.needles = 5;
+        this.meat = 5;
 
-        this.direction = "right";
-
-        this.jumpPower = 1;
-        this.maxjumps = 1;
-        this.jumps = 0;
-        
+        // points
 
         this.upgrades = 0;
         this.distance = 0;
 
-        this.coordinates = { x: 600, y: 400 };
-        this.velocity = { x: 0, y: 0 };
-        this.gravity = { x: 0, y: 10 };
-
-        // special stats
-        this.strenght = 10
-        this.agility = 4
-        // %kestävyys
-        this.endurance = 0
-        // +kestävyys
-        this.defence = 0
-        // regeneraatio
-        this.vitality = 0
-        // nälkäisyys
-        this.metabolism = 100
-        this.luck = 0
+        // misc
         
         this.size = 1;
 
@@ -149,6 +145,23 @@ class Player {
             // aktiivinen vain platform tyyppisille rakenteille (Jos tarvitsee)
             platform: { x: -20, y: 165, w: 100, h: 0 }
         }
+
+        this.bitePhase = "idle";
+        this.biteProgress = 0;
+
+        this.slamming = false;
+        this.slamPower = 0
+
+        this.direction = "right";
+
+        this.jumpcooldown = 0
+        this.jumpPower = 1;
+        this.maxjumps = 1;
+        this.jumps = 0;
+
+        this.coordinates = { x: 600, y: 400 };
+        this.velocity = { x: 0, y: 0 };
+        this.gravity = { x: 0, y: 10 };
 
 
         // --- PARTS ---
@@ -221,6 +234,9 @@ class Player {
     }
 
     update() {
+
+        this.jumpcooldown--
+
         if (this.hp < this.maxhp) {
             this.hp += this.vitality
         }
@@ -443,13 +459,15 @@ class Player {
     }
 
     jump() {
-        if (this.jumps > 0 && keys.space && !this.slamming) {
+        if (this.jumps > 0 && keys.space && !this.slamming && this.jumpcooldown < 0) {
             this.jumps--;
             if (this.onGround) {
                 this.velocity.y -= this.jumpPower * 1000;
             } else {
                 this.velocity.y -= this.jumpPower * 500
             }
+
+            this.jumpcooldown = 10
             
 
             const targetRotation = Math.PI * 1.5;
@@ -462,6 +480,8 @@ class Player {
             if (this.leg2.rotation > targetRotation) this.leg2.rotation = targetRotation;
 
             keys.space = false;
+        } else {
+            keys.space = false
         }
     }
     slam() {
@@ -478,7 +498,7 @@ class Player {
     }
     glide() {
         if (keys.w && !player.onGround) {
-            this.velocity.y -= this.gravity.y * 1.5
+            this.velocity.y -= this.gravity.y * 1.75
             this.leg1.rotation = 90
             this.leg2.rotation = -90
         }
