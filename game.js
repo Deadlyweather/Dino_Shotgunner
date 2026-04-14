@@ -10,6 +10,49 @@ const wave = new Wave(ctx, player, world)
 
 let menuOpen = false;
 
+// music
+
+const themes = [
+    new Audio("Audio/Banger.wav"),
+    new Audio("Audio/Pablo.wav"),
+    new Audio("Audio/Mii.wav"),
+    new Audio("Audio/Npc music.wav"),
+    new Audio("Audio/France.wav"),
+    new Audio("Audio/Arse.wav"),
+    new Audio("Audio/Feddy.wav"),
+    new Audio("Audio/Sunshine.wav"),
+    new Audio("Audio/Moonshine.wav"),
+    new Audio("Audio/Piracy.wav"),
+    new Audio("Audio/Slander.wav"),
+]
+
+const audioCtx = new AudioContext()
+
+let currentIndex = 0
+let currentTrack = null
+
+function playTrack(index) {
+    if (currentTrack) {
+        currentTrack.pause()
+        currentTrack.currentTime = 0
+    }
+
+    currentTrack = themes[index]
+
+
+    currentTrack.play()
+
+    // Vaihto
+    currentTrack.onended = () => {
+        currentIndex = (currentIndex + 1) % themes.length
+        playTrack(currentIndex)
+    }
+}
+
+document.addEventListener("click", () => {
+    audioCtx.resume()
+    playTrack(currentIndex)
+}, { once: true })
 
 const upgradeMenu = new UpgradeMenu(player);
 
