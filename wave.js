@@ -32,11 +32,11 @@ class Wave {
 
              for (let enemy of this.enemies) {
             if (enemy instanceof Cactus){
-                //ampuu naatteja
-                //enemy.update(player, "grenade")
-
                 //ampuu neuloja
-                enemy.update(player, "needle")
+                //enemy.update(player, "needle")
+
+                //ampuu naatteja
+                enemy.update(player, "grenade")
              
                 
             } else {

@@ -61,6 +61,9 @@ class Cactus {
         this.needlesImg = new Image();
         this.needlesImg.src = "Images/Needle projectile.png"
 
+        this.grenadeboom = new Audio();
+        this.grenadeboom.src = "Audio/Grenade.Boom.wav"
+
         this.grenadeImg = new Image()
         this.grenadeImg.src = "Images/Cactus grenade.png"
 
@@ -98,6 +101,25 @@ draw(ctx, cameraX) {
     });
 }
 
+explode(startX, startY) {
+    
+    let spawnY = startY - 100
+
+    for (let i = 0; i < 8; i++) {
+        let angle = (Math.PI * 2 / 8) * i
+
+        let newNeedle = new Ammo(angle, this, startX, spawnY, "projectile");
+
+        
+        
+        newNeedle.img = this.needlesImg;
+        newNeedle.width = this.needleWidth;
+        newNeedle.height = this.needleHeight;
+        newNeedle.isGrenade = false;
+
+        this.needles.push(newNeedle);
+    }
+}
     update(player, projectiletype){
 
         
@@ -111,6 +133,7 @@ draw(ctx, cameraX) {
 
             if (projectiletype === "grenade"){
                 newNeedle.img = this.grenadeImg
+                newNeedle.isGrenade = true
                 
             } else {
                 newNeedle.img = this.needlesImg;
@@ -134,6 +157,12 @@ draw(ctx, cameraX) {
         };
         
            if (needle.startY > 800 ){
+
+                if (needle.isGrenade) {
+                    this.grenadeboom.play();
+        this.explode(needle.startX, needle.startY);
+        
+    }
                 needle.isActive = false
             }
         
