@@ -30,8 +30,19 @@ class Wave {
             this.duration = this.maxduration
         }
 
-        for (let enemy of this.enemies) {
-            enemy.update(player);
+             for (let enemy of this.enemies) {
+            if (enemy instanceof Cactus){
+                //ampuu naatteja
+                //enemy.update(player, "grenade")
+
+                //ampuu neuloja
+                enemy.update(player, "needle")
+             
+                
+            } else {
+                enemy.update(player);
+            }
+          
         }
     }
 
