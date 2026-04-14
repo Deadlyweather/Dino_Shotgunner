@@ -53,11 +53,11 @@ class Wave {
     spawn(cameraX) {
         this.duration = this.maxduration
         // spawn enemies
-            let x = cameraX + this.ctx.canvas.width + Math.random() * 1000
+            let x = cameraX + this.ctx.canvas.width + Math.random() * 10000
             let y = this.world.height
 
             if (Math.random() < 0.4) {
-                let bird = new Bird(x, y, this.ctx.canvas.height);
+                let bird = new Bird(x, y , this.ctx.canvas.height);
                 this.enemies.push(bird);
             } else {
                 let cactus = new Cactus(x, y, this.ctx.canvas.height)

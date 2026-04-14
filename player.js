@@ -316,7 +316,7 @@ class Player {
         if (this.hunger > 100) this.hunger = 100;
     }
 
-    bite() {
+    bite(CameraX) {
         const maxRotation = Math.PI / 4;
         const speed = 0.3;
 
@@ -339,7 +339,7 @@ class Player {
             this.biteProgress -= 1;
 
             if (this.biteProgress <= 0) {
-                const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint;
+                const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint
                 const centerY = this.coordinates.y + (this.head1.offset?.y || 0) * this.size + this.head1.point.y * this.size * this.head1.scale
                 const ammo = new Ammo(0, this, centerX, centerY, "chomp");
                 this.PlayerProjectiles.push(ammo);

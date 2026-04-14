@@ -1,8 +1,9 @@
 class Debug {
     constructor(player) {
-        this.showImages = false;
+        this.showImages = true;
         this.showHitboxes = true
         this.player = player;
+
         this.angle = 0
 
         window.addEventListener("keydown", (e) => {
@@ -15,30 +16,32 @@ class Debug {
         });
     }
 
-    draw(ctx) {
+    draw(ctx, cameraX) {
         if (this.showImages === true) {
             const parts = [
             /* piilotus alue 
-                this.player.head2,
-                this.player.head1
-                this.player.torso,
-                this.player.hand2,
                 
-                this.player.hand1,
-                this.player.leg1,
-                this.player.leg2,
-                this.player.shotgun
             */
+            this.player.head2,
+            this.player.head1,
+            this.player.torso,
+            this.player.hand2,
+                
+            this.player.hand1,
+            this.player.leg1,
+            this.player.leg2,
+            this.player.shotgun
         ];
 
         parts.forEach(part => {
-            this.drawPart(ctx, part, this.player.coordinates.x, this.player.coordinates.y);
+            this.drawPart(ctx, part, this.player.coordinates.x - cameraX, this.player.coordinates.y);
         });
 
         /* piilotus alue
-            this.drawShotgunSpecial(ctx);
-            this.drawHeadSpeacial(ctx)
+            
         */
+        this.drawShotgunSpecial(ctx);
+        this.drawHeadSpeacial(ctx)
         }
 
         if (this.showHitboxes === true) {
@@ -52,12 +55,13 @@ class Debug {
         ]
 
         hitboxes.forEach(hitbox => {
+            /* piilotus alue
             
+            */
+            this.drawHitbox(ctx, hitbox, this.player.coordinates.x - cameraX, this.player.coordinates.y)
         })
         
-        /* piilotus alue
-            this.drawHitbox(ctx, hitbox, this.player.coordinates.x, this.player.coordinates.y)
-        */
+        
         }
     }
 

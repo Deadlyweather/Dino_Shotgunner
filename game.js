@@ -68,7 +68,7 @@ function gameLoop(){
     
     upgradeMenu.draw(ctx);
 
-    debug.draw(ctx);
+    debug.draw(ctx, cameraX);
 
     requestAnimationFrame(gameLoop);
 }
