@@ -81,6 +81,7 @@ class Player {
 
         // special stats
         this.strenght = 10
+        // nopeus
         this.agility = 4
         // %kestävyys
         this.endurance = 0
@@ -90,6 +91,7 @@ class Player {
         this.vitality = 0
         // nälkäisyys
         this.metabolism = 100
+        // aarre voluumi
         this.luck = 0
 
         // gun stats
@@ -100,8 +102,9 @@ class Player {
 
         // reload
         this.loadMax = 100;
-        this.load = 0;
-        this.autoload = 0
+        this.load = 1;
+        // loads per frame
+        this.autoload = 1
         // Ammunition reloaded per reload
         this.loadAmount = 1;
         // Needle cost per reload
@@ -126,6 +129,10 @@ class Player {
         this.PlayerProjectiles = [];
 
         // resources
+
+        this.level = 0
+        this.maxexp = 100
+        this.exp = 0
 
         this.needles = 5;
         this.meat = 5;
@@ -450,6 +457,12 @@ class Player {
     }
     
     reload() {
+        if (this.ammo < this.maxammo && this.autoload > 0 && this.needles >= this.ammoCost) {
+            this.ammo += this.autoload
+            this.needles -= this.ammoCost
+            this.reloadAudio.currentTime = 0
+            this.reloadAudio.play();
+        }
         if (keys.r && this.ammo < this.maxammo && this.load <= 0 && this.needles >= this.ammoCost) {
             this.load = this.loadMax;
             this.needles -= this.ammoCost;
