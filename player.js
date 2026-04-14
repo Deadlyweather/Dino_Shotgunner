@@ -274,11 +274,11 @@ class Player {
 
         
 
-        this.drawPlayerProjectiles(ctx);
+        this.drawPlayerProjectiles(ctx, cameraX);
     }
 
-    drawPlayerProjectiles(ctx) {
-        this.PlayerProjectiles.forEach(projectile => projectile.drawBullet(ctx));
+    drawPlayerProjectiles(ctx, cameraX) {
+        this.PlayerProjectiles.forEach(projectile => projectile.drawBullet(ctx, cameraX));
     }
 
     modification(ctx, part, x, y) {

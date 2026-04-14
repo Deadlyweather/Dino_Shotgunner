@@ -40,8 +40,8 @@ class Debug {
         /* piilotus alue
             
         */
-        this.drawShotgunSpecial(ctx);
-        this.drawHeadSpeacial(ctx)
+        this.drawShotgunSpecial(ctx, cameraX);
+        this.drawHeadSpeacial(ctx, cameraX)
         }
 
         if (this.showHitboxes === true) {
@@ -106,9 +106,9 @@ class Debug {
         ctx.restore();
     }
     // Haulikko special debug
-    drawShotgunSpecial(ctx) {
+    drawShotgunSpecial(ctx, cameraX) {
         const part = this.player.shotgun;
-        const centerX = this.player.coordinates.x + (part.offset?.x || 0) * this.player.size + part.point.x * this.player.size * part.scale;
+        const centerX = this.player.coordinates.x + (part.offset?.x || 0) * this.player.size + part.point.x * this.player.size * part.scale -cameraX;
         const centerY = this.player.coordinates.y + (part.offset?.y || 0) * this.player.size + part.point.y * this.player.size * part.scale;
 
         const angle = part.rotation;
@@ -135,9 +135,9 @@ class Debug {
         ctx.restore();
     }
     // puraisu special debug
-    drawHeadSpeacial(ctx) {
+    drawHeadSpeacial(ctx, cameraX) {
         const part = this.player.head1
-        const centerX = this.player.coordinates.x + (part.offset?.x || 0) * this.player.size + part.point.x * this.player.size * part.scale;
+        const centerX = this.player.coordinates.x + (part.offset?.x || 0) * this.player.size + part.point.x * this.player.size * part.scale - cameraX;
         const centerY = this.player.coordinates.y + (part.offset?.y || 0) * this.player.size + part.point.y * this.player.size * part.scale;
 
         const angle = 0

@@ -40,26 +40,28 @@ class Ammo {
         }
     }
 
-    drawBullet(ctx) {
+    drawBullet(ctx, cameraX = 0) {
         if (this.type === "chomp") {
-            this.drawChomp(ctx);
+            this.drawChomp(ctx, cameraX);
             return;
         }
         if (!this.isActive) return;
 
-        const endX = this.startX + Math.cos(this.direction) * this.range;
-        const endY = this.startY + Math.sin(this.direction) * this.range;
+        const startX = this.startX - cameraX;
+        const startY = this.startY;
+        const endX = startX + Math.cos(this.direction) * this.range;
+        const endY = startY + Math.sin(this.direction) * this.range;
 
         ctx.save();
         ctx.strokeStyle = this.color;
         ctx.lineWidth = this.size;
         ctx.beginPath();
-        ctx.moveTo(this.startX, this.startY);
+        ctx.moveTo(startX, startY);
         ctx.lineTo(endX, endY);
         ctx.stroke();
         ctx.restore();
     }
-    drawChomp(ctx) {
+    drawChomp(ctx, cameraX = 0) {
         // pika AOE
         if (!this.isActive) return;
         this.color = "rgb(255, 255, 255)";
@@ -69,7 +71,7 @@ class Ammo {
         ctx.globalAlpha = 0.3
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(this.startX, this.startY, this.radius, 0, Math.PI * 2);
+        ctx.arc(this.startX - cameraX, this.startY, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
     }
