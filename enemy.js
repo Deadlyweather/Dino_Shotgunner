@@ -156,16 +156,27 @@ explode(startX, startY) {
             height: needle.height
         };
         
-           if (needle.startY > 800 ){
+         
+            let groundBoom = needle.startY > 800
+            let playerBoom = player && checkObjectCollision(player, hitbox)
 
-                if (needle.isGrenade) {
-                    this.grenadeboom.play();
+            if(groundBoom || playerBoom ){
+            if (needle.isGrenade) {
+        let distance = Math.abs(player.coordinates.x - needle.startX);
+
+        if (distance <= 1000) {
+            this.grenadeboom.currentTime = 0;
+            this.grenadeboom.play();
+        }
+        
+        
         this.explode(needle.startX, needle.startY);
-        
     }
-                needle.isActive = false
+     needle.isActive = false;
             }
-        
+
+    
+
 
        
             if (player && checkObjectCollision(player, hitbox)){
