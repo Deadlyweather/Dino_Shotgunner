@@ -56,6 +56,7 @@ function gameLoop(){
     player.reload()
     player.bite()
     player.slam()
+    player.glide()
 
     wave.update(ctx, player, cameraX, world)
     

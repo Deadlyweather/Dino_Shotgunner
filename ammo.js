@@ -75,7 +75,7 @@ class Ammo {
         ctx.fill();
         ctx.restore();
     }
-   drawProjectile(ctx, cameraX, image, width, height) {
+    drawProjectile(ctx, cameraX, image, width, height) {
     if (!this.isActive) return;
     
     if (image) {

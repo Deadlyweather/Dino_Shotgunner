@@ -445,7 +445,12 @@ class Player {
     jump() {
         if (this.jumps > 0 && keys.space && !this.slamming) {
             this.jumps--;
-            this.velocity.y -= this.jumpPower * 1000;
+            if (this.onGround) {
+                this.velocity.y -= this.jumpPower * 1000;
+            } else {
+                this.velocity.y -= this.jumpPower * 500
+            }
+            
 
             const targetRotation = Math.PI * 1.5;
             const step = targetRotation * 0.25;
@@ -469,6 +474,13 @@ class Player {
         } else {
             this.slamming = false
             this.slamPower = 1
+        }
+    }
+    glide() {
+        if (keys.w && !player.onGround) {
+            this.velocity.y -= this.gravity.y * 1.5
+            this.leg1.rotation = 90
+            this.leg2.rotation = -90
         }
     }
 }

@@ -15,7 +15,11 @@ function checkGroundCollision(player, world, canvas) {
         // Asetetaan dinon sijainti niin, että jalat ovat maan pinnalla
         player.coordinates.y = groundLevel - (hitbox.y + hitbox.h) * player.size
         player.velocity.y *= -1;
-        player.jumps = player.maxjumps
+
+        if (player.jumps < player.maxjumps) {
+            player.jumps += player.maxjumps / 16
+        }
+        
        
         player.onGround = true;
 
