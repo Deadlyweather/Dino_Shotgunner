@@ -35,8 +35,8 @@ class Bird {
         this.vx += Math.cos(angle) * 2
         this.vy += Math.sin(angle) * 2
         
-        this.vx *= 0.99;
-        this.vy *= 0.99;
+        this.vx *= 0.999;
+        this.vy *= 0.999;
 
         this.x += this.vx;
         this.y += this.vy;
@@ -61,7 +61,10 @@ class Cactus {
         this.needlesImg = new Image();
         this.needlesImg.src = "Images/Needle projectile.png"
 
-       
+        this.grenadeImg = new Image()
+        this.grenadeImg.src = "Images/Cactus grenade.png"
+
+       this.launchgrenade = false;
 
         this.x = x; 
         this.scale = 0.50; 
@@ -88,20 +91,31 @@ draw(ctx, cameraX) {
 
     
     this.needles.forEach(needle => {
+
+        let pic = needle.img || this.needlesImg;
         
-        needle.drawProjectile(ctx, cameraX, this.needlesImg, this.needleWidth,  this.needleHeight);
+        needle.drawProjectile(ctx, cameraX, pic, this.needleWidth, this.needleHeight);
     });
 }
 
-    update(player){
+    update(player, projectiletype){
 
         
-  
+        
 
         this.cooldown++
 
         if(this.cooldown >= 180){
             let newNeedle = new Ammo(Math.PI, this, this.x, this.y, "projectile");
+            let currentImg
+
+            if (projectiletype === "grenade"){
+                newNeedle.img = this.grenadeImg
+                
+            } else {
+                newNeedle.img = this.needlesImg;
+            }
+            
             newNeedle.width = this.needleWidth;
             newNeedle.height = this.needleHeight;
             this.needles.push(newNeedle);
