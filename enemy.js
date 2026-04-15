@@ -32,14 +32,20 @@ class Bird {
 
         // Lisätään linnun nopeutta, jotta se syöksyy pelaajaa päin
         // Cos laskee mihin suuntaan pitää mennä x-akselilla, sin taas laskee y-akselin
-        this.vx += Math.cos(angle) * 2
+
+        let distance = Math.abs(dx);
+
+        if (distance <= 1000) {
+            this.vx += Math.cos(angle) * 2
         this.vy += Math.sin(angle) * 2
         
-        this.vx *= 0.999;
-        this.vy *= 0.999;
+        this.vx *= 0.95;
+        this.vy *= 0.95;
 
         this.x += this.vx;
         this.y += this.vy;
+        }
+     
 
        
     }
