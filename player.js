@@ -71,12 +71,16 @@ class Player {
         // basic stats
         this.maxhp = 100;
         this.hp = this.maxhp;
+        this.maxhunger = 100;
+        this.hunger = this.maxhunger;
+        
+        
+
         this.maxsaturation = 100;
         this.saturation = this.maxsaturation;
 
         // special stats
         this.strenght = 10
-        // nopeus
         this.agility = 4
         // %kestävyys
         this.endurance = 0
@@ -86,25 +90,18 @@ class Player {
         this.vitality = 0
         // nälkäisyys
         this.metabolism = 100
-        // aarre voluumi
         this.luck = 0
-        // ravinnon voimakkuus
-        this.gluttony = 1
-        // ravinnon elinvoimaisuus
-        this.vampirism = 1
 
         // gun stats
 
         // ammo
-
         this.maxammo = 1;
         this.ammo = this.maxammo;
 
         // reload
         this.loadMax = 100;
-        this.load = 1;
-        // loads per frame
-        this.autoload = 1
+        this.load = 0;
+        this.autoload = 0
         // Ammunition reloaded per reload
         this.loadAmount = 1;
         // Needle cost per reload
@@ -125,10 +122,12 @@ class Player {
         this.volume = 2;
         // damage per shot
         this.firepower = 1;
-        // enemy peneration
-        this.pierce = 0
         // player projectiles
         this.PlayerProjectiles = [];
+
+        this.pierce = 0;
+        
+        // resources
 
         this.needles = 5;
         this.meat = 5;
@@ -165,6 +164,7 @@ class Player {
         this.coordinates = { x: 600, y: 400 };
         this.velocity = { x: 0, y: 0 };
         this.gravity = { x: 0, y: 10 };
+
 
         // --- PARTS ---
 
@@ -233,11 +233,26 @@ class Player {
         this.shootAudio = new Audio("Audio/shotgun_shot.wav")
         this.reloadAudio = new Audio("Audio/shotgun_reload.wav")
         this.biteof87 = new Audio("Audio/Bite.wav")
+
+        this.deathAudio = new Audio("Audio/Player.death.wav")
+
+
+
+
+        
+         this.alive = true;
+         this.invincibletimer = 0;
     }
 
     update() {
 
         this.jumpcooldown--
+
+   
+
+        if (this.invincibletimer > 0){
+            this.invincibletimer --;
+        }
 
         if (this.hp < this.maxhp) {
             this.hp += this.vitality
@@ -260,8 +275,8 @@ class Player {
             this.velocity.x *= 2
         }
 
-        this.velocity.x /= 2;
-        this.velocity.y /= 2;
+        this.velocity.x /= this.size * 2;
+        this.velocity.y /= this.size * 2;
 
         this.velocity.x += this.gravity.x
         this.velocity.y += this.gravity.y
@@ -323,10 +338,25 @@ class Player {
 
         ctx.restore();
     }
-
+   
     takeDamage(amount) {
+
+            if (this.hp <= 0 && this.alive){
+            this.alive = false;
+            console.log("rip")
+        }
+
+        if (this.invincibletimer > 0 ||!this.alive ){
+            return;
+        }
+
+    
+
         this.hp -= amount;
-        if (this.hp < 0) this.hp = 0;
+        this.invincibletimer = 30;
+        // Suojataan pelaaja 30 frameksi, jotta hän ei instakuole kun vihollinen pääsee iholle
+
+    
     }
 
     eat(amount) {
