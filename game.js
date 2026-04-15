@@ -10,6 +10,8 @@ const wave = new Wave(ctx, player, world)
 
 let menuOpen = false;
 
+const deathaudio = new Audio("Audio/Player.death.wav")
+
 // music
 
 const themes = [
@@ -76,6 +78,8 @@ function gameLoop(){
         cameraX = 0;
     }
 
+ 
+
     
 
     world.draw(ctx, cameraX);
@@ -83,7 +87,7 @@ function gameLoop(){
     hud.draw(ctx);
     player.draw(ctx, cameraX);
 
-    if(!upgradeMenu.isOpen){
+    if(!upgradeMenu.isOpen && player.alive){
         player.update()
         world.update(ctx, cameraX, player);
        
@@ -108,6 +112,13 @@ function gameLoop(){
     checkGroundCollision(player, world, canvas, ctx);
 
 
+    } else if (!player.alive) {
+        if (!player.deathstart){
+            player.deathstart = true;
+            deathaudio.play();
+            setTimeout(() => location.reload(), 3000);
+
+        }
     }
     
     upgradeMenu.draw(ctx);
