@@ -8,6 +8,10 @@ class Bird {
         this.scale = 1.0; 
         this.time = 0;
 
+        this.hp = 3;
+        this.alive = true;
+        this.damage = 20;
+
         this.img = new Image();
         this.img.src = "Images/Bird.png";
 
@@ -45,9 +49,20 @@ class Bird {
         this.x += this.vx;
         this.y += this.vy;
         }
+
+     
      
 
        
+    }
+
+    takeDamage(amount){
+        this.hp -= amount;
+
+           if(this.hp <= 0 && this.alive === true){
+            this.alive = false;
+        }
+
     }
 
     draw(ctx, cameraX) {
@@ -61,6 +76,7 @@ class Bird {
 class Cactus {
     constructor(x, groundHeight, canvasHeight) {
         this.cooldown = 0;
+        this.hp = 10;
 
         this.needleScale = 2;
         this.needles = []
@@ -74,6 +90,9 @@ class Cactus {
         this.grenadeImg.src = "Images/Cactus grenade.png"
 
        this.launchgrenade = false;
+
+       this.damage = 1;
+       this.alive = true;
 
         this.x = x; 
         this.scale = 0.50; 
@@ -92,6 +111,15 @@ class Cactus {
     this.needleWidth = this.needlesImg.width * this.needleScale;
     this.needleHeight = this.needlesImg.height * this.needleScale;
 };
+    }
+
+        takeDamage(amount){
+        this.hp -= amount;
+        
+           if(this.hp <= 0 && this.alive === true){
+            this.alive = false;
+        }
+
     }
 
 draw(ctx, cameraX) {
