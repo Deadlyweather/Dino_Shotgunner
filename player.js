@@ -125,14 +125,10 @@ class Player {
         this.volume = 2;
         // damage per shot
         this.firepower = 1;
+        // enemy peneration
+        this.pierce = 0
         // player projectiles
         this.PlayerProjectiles = [];
-
-        // resources
-
-        this.level = 0
-        this.maxexp = 100
-        this.exp = 0
 
         this.needles = 5;
         this.meat = 5;
