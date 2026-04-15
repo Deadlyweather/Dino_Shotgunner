@@ -454,7 +454,7 @@ class Player {
     reload() {
         if (this.ammo < this.maxammo && this.autoload > 0 && this.needles >= this.ammoCost) {
             this.ammo += this.autoload
-            this.needles -= this.ammoCost
+            this.needles -= this.ammoCost * this.autoload
             this.reloadAudio.currentTime = 0
             this.reloadAudio.play();
         }
