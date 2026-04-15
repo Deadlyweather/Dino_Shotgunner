@@ -32,14 +32,20 @@ class Bird {
 
         // Lisätään linnun nopeutta, jotta se syöksyy pelaajaa päin
         // Cos laskee mihin suuntaan pitää mennä x-akselilla, sin taas laskee y-akselin
-        this.vx += Math.cos(angle) * 2
+
+        let distance = Math.abs(dx);
+
+        if (distance <= 1000) {
+            this.vx += Math.cos(angle) * 2
         this.vy += Math.sin(angle) * 2
         
-        this.vx *= 0.999;
-        this.vy *= 0.999;
+        this.vx *= 0.95;
+        this.vy *= 0.95;
 
         this.x += this.vx;
         this.y += this.vy;
+        }
+     
 
        
     }
@@ -156,16 +162,27 @@ explode(startX, startY) {
             height: needle.height
         };
         
-           if (needle.startY > 800 ){
+         
+            let groundBoom = needle.startY > 800
+            let playerBoom = player && checkObjectCollision(player, hitbox)
 
-                if (needle.isGrenade) {
-                    this.grenadeboom.play();
+            if(groundBoom || playerBoom ){
+            if (needle.isGrenade) {
+        let distance = Math.abs(player.coordinates.x - needle.startX);
+
+        if (distance <= 1000) {
+            this.grenadeboom.currentTime = 0;
+            this.grenadeboom.play();
+        }
+        
+        
         this.explode(needle.startX, needle.startY);
-        
     }
-                needle.isActive = false
+     needle.isActive = false;
             }
-        
+
+    
+
 
        
             if (player && checkObjectCollision(player, hitbox)){
