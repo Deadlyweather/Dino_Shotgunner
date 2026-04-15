@@ -12,11 +12,18 @@ class Wave {
         this.scaling = 1
 
         this.enemies = []
+    
     }
 
     update(ctx, player, cameraX, world) {
         this.duration -= 1;
         this.spawnrate -= 1
+
+        
+           this.enemies = this.enemies.filter(enemy => enemy.alive)
+           
+
+           
 
         if (this.spawnrate <= 0 ) {
             this.spawn(cameraX);
@@ -31,6 +38,10 @@ class Wave {
         }
 
              for (let enemy of this.enemies) {
+                if (checkObjectCollision(player, enemy)){
+                    player.takeDamage(enemy.damage)
+                }
+
             if (enemy instanceof Cactus){
                 //ampuu neuloja
                 //enemy.update(player, "needle")
@@ -74,6 +85,7 @@ class Wave {
                 let cactus = new Cactus(x, y, this.ctx.canvas.height)
                 this.enemies.push(cactus)
             }
+           
             
 
             
