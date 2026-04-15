@@ -81,7 +81,7 @@ class Player {
 
         // special stats
         this.strenght = 10
-        this.agility = 4
+        this.agility = 10
         // %kestävyys
         this.endurance = 0
         // +kestävyys
@@ -122,10 +122,12 @@ class Player {
         this.volume = 2;
         // damage per shot
         this.firepower = 1;
+        // enemy piercing
+        this.pierce = 0;
         // player projectiles
         this.PlayerProjectiles = [];
 
-        this.pierce = 0;
+        
         
         // resources
 
@@ -235,10 +237,6 @@ class Player {
         this.biteof87 = new Audio("Audio/Bite.wav")
 
         this.deathAudio = new Audio("Audio/Player.death.wav")
-
-
-
-
         
          this.alive = true;
          this.invincibletimer = 0;
@@ -247,8 +245,6 @@ class Player {
     update() {
 
         this.jumpcooldown--
-
-   
 
         if (this.invincibletimer > 0){
             this.invincibletimer --;
@@ -267,16 +263,17 @@ class Player {
             }
         }
         if (this.saturation > 0) {
-            this.saturation -= this.metabolism * 0.0001;
+            this.saturation -= this.metabolism * 0.001;
         } else {
-            this.takeDamage(this.maxhp * 0.001);
+            this.takeDamage(this.maxhp * 0.1);
+            this.saturation = 0
         }
         if (this.slamming) {
             this.velocity.x *= 2
         }
 
-        this.velocity.x /= this.size * 2;
-        this.velocity.y /= this.size * 2;
+        this.velocity.x /= 2;
+        this.velocity.y /= 2;
 
         this.velocity.x += this.gravity.x
         this.velocity.y += this.gravity.y
@@ -287,6 +284,14 @@ class Player {
 
         this.PlayerProjectiles.forEach(projectile => projectile.update());
         this.PlayerProjectiles = this.PlayerProjectiles.filter(projectile => projectile.isActive);
+
+        // pyöritys korjaus
+        const parts = [this.torso, this.head1, this.head2, this.hand1, this.hand2, this.leg1, this.leg2, this.shotgun];
+        for (const part of parts) {
+            while (part.rotation >= 360) {
+                part.rotation -= 360;
+            }
+        }
     }
 
     draw(ctx, cameraX) {
@@ -416,7 +421,7 @@ class Player {
     walk() {
         if (keys.a && keys.d) return;
 
-        const speed = 0.1 * this.agility;
+        const speed = 0.025 * this.agility;
 
         if (this.leg1.rotation > Math.PI) {
             this.leg1.rotation -= 2 * Math.PI;
