@@ -11,12 +11,26 @@ class Ammo {
         this.size = type === "chomp" ? 4 : 1;
         this.color = type === "chomp" ? "rgba(255, 0, 0, 1)" : "yellow";
         this.radius = type === "chomp" ? (owner.head1?.firepoint || owner.range * 0.25) : 0;
+        this.damage = 0; // Asetetaan myöhemmin
+
+        // Asetetaan width ja height collision varten
+        if (this.type === "bullet") {
+            this.width = 2;
+            this.height = 2;
+        } else if (this.type === "chomp") {
+            this.width = this.radius * 2;
+            this.height = this.radius * 2;
+        } else if (this.type === "projectile") {
+            this.width = 10; // Oletus projectile koko
+            this.height = 10;
+        }
 
         if (this.type === "projectile") {
 
        let speed = 20; 
             this.vx = Math.cos(this.direction) * speed;
             this.vy = Math.sin(this.direction) * speed;
+            // Projectile koko asetetaan myöhemmin ownerissa
     }
     }
 
@@ -66,7 +80,10 @@ class Ammo {
         // pika AOE
         if (!this.isActive) return;
         this.color = "rgb(255, 255, 255)";
-        this.radius = this.owner.size * this.owner.head1.scale * (50 + this.owner.strenght)
+        this.radius = this.owner.size * this.owner.head1.scale * (50 + this.owner.strenght);
+        
+        this.width = this.radius * 2;
+        this.height = this.radius * 2;
         
         ctx.save();
         ctx.globalAlpha = 0.3

@@ -5,8 +5,8 @@ const ctx = canvas.getContext('2d');
 const player = new Player();
 const hud = new HUD(player);
 const world = new World()
-const debug = new Debug(player);
 const wave = new Wave(ctx, player, world)
+const debug = new Debug(player, wave);
 
 let menuOpen = false;
 

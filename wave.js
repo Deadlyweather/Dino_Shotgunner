@@ -38,9 +38,24 @@ class Wave {
         }
 
              for (let enemy of this.enemies) {
-                if (checkObjectCollision(player, enemy)){
+                // Tarkista maan collision vihollisille
+                checkGroundCollisionForEnemy(enemy, this.world, this.ctx.canvas);
+
+                // Tarkista vihollisten hyökkäys pelaajaan
+                if (checkEnemyAttackCollision(player, enemy)){
                     player.takeDamage(enemy.damage)
                 }
+
+                // Tarkista pelaajan hyökkäys vihollisiin
+                player.PlayerProjectiles.forEach(projectile => {
+                    if (projectile.isActive && checkProjectileCollisionWithEnemy(projectile, enemy)) {
+                        enemy.takeDamage(projectile.damage);
+                        // AOE-iskut (chomp) eivät deaktivoidu ensimmäisestä osumasta
+                        if (projectile.type !== "chomp") {
+                            projectile.isActive = false;
+                        }
+                    }
+                });
 
             if (enemy instanceof Cactus){
                 //ampuu neuloja

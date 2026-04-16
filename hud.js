@@ -30,7 +30,7 @@ class HUD {
         
 
         ctx.drawImage(this.hpImage, 20, 20)
-        ctx.fillText(this.player.hp.toFixed(1) + "/" + this.player.maxhp.toFixed(1), 60, 50);
+        ctx.fillText(this.player.hp.toFixed(0) + "/" + this.player.maxhp, 60, 50);
 
         //ctx.drawImage(this.hungerImage, 20, 60)
         //ctx.fillText(this.player.hunger, 60, 90);
@@ -42,7 +42,7 @@ class HUD {
         //ctx.fillText(this.player.needles, 60, 170);
 
         ctx.drawImage(this.saturationImage, 20, 100);
-        ctx.fillText(this.player.saturation.toFixed(1) + "/" + this.player.maxsaturation.toFixed(1), 60, 130);
+        ctx.fillText(this.player.saturation.toFixed(0) + "/" + this.player.maxsaturation, 60, 130);
 
         ctx.drawImage(this.upgradesImage, rightcorner, 20);
         ctx.fillText(this.player.upgrades, rightcorner + 40, 50);

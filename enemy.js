@@ -8,6 +8,9 @@ class Bird {
         this.scale = 1.0; 
         this.time = 0;
 
+        this.hitbox = { x: 5, y: 90, w: 30, h: 30 } // vahingoittaa pelaajaa
+        this.hurtbox = { x: 0, y: 70, w: 170, h: 80 } // ottaa vahinkoa osumista
+
         this.hp = 3;
         this.alive = true;
         this.damage = 20;
@@ -41,7 +44,7 @@ class Bird {
 
         if (distance <= 1000) {
             this.vx += Math.cos(angle) * 2
-        this.vy += Math.sin(angle) * 2
+            this.vy += Math.sin(angle) * 2
         
         this.vx *= 0.95;
         this.vy *= 0.95;
@@ -49,11 +52,6 @@ class Bird {
         this.x += this.vx;
         this.y += this.vy;
         }
-
-     
-     
-
-       
     }
 
     takeDamage(amount){
@@ -67,8 +65,9 @@ class Bird {
 
     draw(ctx, cameraX) {
       
-       
-        ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
+        if (this.alive) {
+            ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
+        }
         
     }
 }
@@ -77,6 +76,9 @@ class Cactus {
     constructor(x, groundHeight, canvasHeight) {
         this.cooldown = 0;
         this.hp = 10;
+
+        this.hitbox = { x: 30, y: 0, w: 80, h: 240 } // vahingoittaa pelaajaa
+        this.hurtbox = { x: 30, y: 0, w: 80, h: 240 } // ottaa vahinkoa osumasta
 
         this.needleScale = 2;
         this.needles = []
@@ -123,9 +125,9 @@ class Cactus {
     }
 
 draw(ctx, cameraX) {
-  
-    ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
-
+    if (this.alive) {
+        ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
+    }
     
     this.needles.forEach(needle => {
 
@@ -192,7 +194,7 @@ explode(startX, startY) {
         
          
             let groundBoom = needle.startY > 800
-            let playerBoom = player && checkObjectCollision(player, hitbox)
+            let playerBoom = player && checkProjectileCollisionWithPlayer(player, hitbox)
 
             if(groundBoom || playerBoom ){
             if (needle.isGrenade) {
@@ -213,7 +215,7 @@ explode(startX, startY) {
 
 
        
-            if (player && checkObjectCollision(player, hitbox)){
+            if (player && checkProjectileCollisionWithPlayer(player, hitbox)){
                 console.log("neula osui pelaajaan");
                 needle.isActive = false;
            

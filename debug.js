@@ -1,17 +1,25 @@
 class Debug {
-    constructor(player) {
+    constructor(player, wave) {
         this.showImages = true;
         this.showHitboxes = true
+        this.showEnemyHitboxes = true
         this.player = player;
+        this.wave = wave
 
         this.angle = 0
 
         window.addEventListener("keydown", (e) => {
-            if (e.key.toLowerCase() === "§") {
+            if (e.key === "1") {
                 this.showImages = !this.showImages;
+                console.log("Näytä kuvia: " + this.showImages);
             }
-            if (e.key.toLowerCase() === "§") {
-                this.showHitboxes = !this.showHitboxes
+            if (e.key === "2") {
+                this.showHitboxes = !this.showHitboxes;
+                console.log("Näytä pelaajan hitbox: " + this.showHitboxes);
+            }
+            if (e.key === "3") {
+                this.showEnemyHitboxes = !this.showEnemyHitboxes;
+                console.log("Näytä vihollisten hitbox: " + this.showEnemyHitboxes);
             }
         });
     }
@@ -61,7 +69,13 @@ class Debug {
             this.drawHitbox(ctx, hitbox, this.player.coordinates.x - cameraX, this.player.coordinates.y)
         })
         
-        
+        }
+
+        // Piirrä vihollisten hitboxet
+        if (this.showEnemyHitboxes === true && this.wave && this.wave.enemies) {
+            this.wave.enemies.forEach(enemy => {
+                this.drawEnemyHitboxes(ctx, enemy, cameraX);
+            });
         }
     }
 
@@ -173,6 +187,58 @@ class Debug {
             hitbox.w * this.player.size,
             hitbox.h * this.player.size
         );
+
+        ctx.restore();
+    }
+
+    drawEnemyHitboxes(ctx, enemy, cameraX) {
+        if (!enemy) return;
+
+        const enemyScreenX = enemy.x - cameraX;
+        const enemyScreenY = enemy.y;
+
+        ctx.save();
+
+        // Piirrä hitbox (sininen)
+        if (enemy.hitbox) {
+            ctx.strokeStyle = "cyan";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(
+                enemyScreenX + enemy.hitbox.x,
+                enemyScreenY + enemy.hitbox.y,
+                enemy.hitbox.w,
+                enemy.hitbox.h
+            );
+
+            // Teksti hitboxin viereen
+            ctx.fillStyle = "cyan";
+            ctx.font = "12px Arial";
+            ctx.fillText("hitbox", enemyScreenX + enemy.hitbox.x, enemyScreenY + enemy.hitbox.y - 5);
+        }
+
+        // Piirrä hurtbox (magenta/pinkki)
+        if (enemy.hurtbox) {
+            ctx.strokeStyle = "magenta";
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.strokeRect(
+                enemyScreenX + enemy.hurtbox.x,
+                enemyScreenY + enemy.hurtbox.y,
+                enemy.hurtbox.w,
+                enemy.hurtbox.h
+            );
+
+            // Teksti hurtboxin viereen
+            ctx.fillStyle = "magenta";
+            ctx.font = "12px Arial";
+            ctx.fillText("hurtbox", enemyScreenX + enemy.hurtbox.x, enemyScreenY + enemy.hurtbox.y - 15);
+        }
+
+        // Piirrä vihollisen keskipiste
+        ctx.fillStyle = "yellow";
+        ctx.beginPath();
+        ctx.arc(enemyScreenX, enemyScreenY, 3, 0, Math.PI * 2);
+        ctx.fill();
 
         ctx.restore();
     }

@@ -395,6 +395,7 @@ class Player {
                 const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint
                 const centerY = this.coordinates.y + (this.head1.offset?.y || 0) * this.size + this.head1.point.y * this.size * this.head1.scale
                 const ammo = new Ammo(0, this, centerX, centerY, "chomp");
+                ammo.damage = this.strenght; // 10 damage for bite
                 this.PlayerProjectiles.push(ammo);
                 this.biteProgress = -0.4;
                 this.biteof87.currentTime = 0
@@ -481,6 +482,7 @@ class Player {
             for (let i = 0; i < this.volume; i++) {
                 const direction = this.shotgun.rotation + (Math.random() - 0.5) * (this.spread * Math.PI / 180);
                 const ammo = new Ammo(direction, this, fireX, fireY);
+                ammo.damage = this.firepower; // 1 damage per bullet
                 this.PlayerProjectiles.push(ammo);
             }
         }
