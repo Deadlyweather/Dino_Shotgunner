@@ -1,3 +1,4 @@
+// let drops = []
 
 class Bird {
     constructor(x, groundHeight, canvasHeight) {
@@ -24,6 +25,7 @@ class Bird {
        
             this.y = canvasHeight - groundHeight - this.height - 300;
         };
+        this.loot = "flesh"
     }
 
     update(player) {
@@ -67,6 +69,10 @@ class Bird {
       
         if (this.alive) {
             ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
+        } else {
+            const death = new Audio("Audio/bird.death.wav")
+            death.play()
+            // drops.push(new Drops(this.x, this.y, this.loot))
         }
         
     }
@@ -108,6 +114,7 @@ class Cactus {
            
             this.y = canvasHeight - groundHeight - this.height 
         };
+        this.loot = "Cactusflesh"
 
         this.needlesImg.onload = () => {
     this.needleWidth = this.needlesImg.width * this.needleScale;
@@ -127,6 +134,11 @@ class Cactus {
 draw(ctx, cameraX) {
     if (this.alive) {
         ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
+    } else {
+
+        const death = new Audio("Audio/cactus.death.wav")
+        death.currentTime = 0.5
+        death.play()
     }
     
     this.needles.forEach(needle => {

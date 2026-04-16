@@ -7,6 +7,7 @@ const hud = new HUD(player);
 const world = new World()
 const wave = new Wave(ctx, player, world)
 const debug = new Debug(player, wave);
+const drops = new Drops(player)
 
 let menuOpen = false;
 

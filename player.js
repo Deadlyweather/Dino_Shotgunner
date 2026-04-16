@@ -91,6 +91,8 @@ class Player {
         // nälkäisyys
         this.metabolism = 100
         this.luck = 0
+        this.gluttony = 1
+        this.vampirism = 1
 
         // gun stats
 
