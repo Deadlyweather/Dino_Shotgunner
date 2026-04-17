@@ -187,6 +187,11 @@ class Player {
         this.head1.offset = { x: 58, y: -8 };
         // Bite point
         this.head1.firepoint = 50;
+        this.blackhole = false
+        this.blackholeCenter = { 
+            x: this.coordinates.x + (this.head1.offset?.x || 0) * this.size * this.head1.scale + this.head1.firepoint * this.size * this.head1.scale, 
+            y: this.coordinates.y + (this.head1.offset?.y || 0) * this.size * this.head1.scale
+        }
 
         this.head2 = new Image();
         this.head2.src = "Images/Dinosaur/Head2.png";
@@ -264,6 +269,12 @@ class Player {
                 this.ammo += this.loadAmount;
             }
         }
+
+        this.blackholeCenter = {
+            x: this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint * this.size, 
+            y: this.coordinates.y + (this.head1.offset?.y || 0) * this.size + this.head1.point.y * this.size * this.head1.scale
+        }
+
         if (this.saturation > 0) {
             this.saturation -= this.metabolism * 0.001;
         } else {
@@ -381,6 +392,7 @@ class Player {
 
         if (this.bitePhase === "in") {
             this.biteProgress += speed / 15;
+            this.blackhole = true
 
             if (this.biteProgress >= 1) {
                 this.biteProgress = 1;
@@ -403,6 +415,7 @@ class Player {
                 this.biteof87.currentTime = 0
                 this.biteof87.play()
                 this.bitePhase = "idle";
+                this.blackhole = false
             }
 
             this.head1.rotation = -maxRotation * this.biteProgress;

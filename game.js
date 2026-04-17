@@ -85,7 +85,7 @@ function gameLoop(){
     player.draw(ctx, cameraX);
 
     drops.forEach(drop => {
-        drop.update(player);
+        drop.update(player, world, canvas)
         drop.draw(ctx, cameraX);
     });
 
