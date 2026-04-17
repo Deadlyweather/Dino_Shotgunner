@@ -223,8 +223,8 @@ drawTooltip(ctx) {
         ctx.font = "14px arial";
         ctx.textAlign = "left";
 
-        const positiveGoodStats = ["maxammo", "vampirism","firepower", "volume", "range", "pierce", "maxhp", "hp", "vitality", "defence", "agility", "strenght", "luck", "endurance", "jumps", "gluttony", "vampirism", "loadAmount", "autoload", "maxsaturation", "saturation"];
-        const NegativeGoodStats = ["metabolism", "firerateMax", "loadMax", "spread", "usage", "ammoCost", "size"]
+        const positiveGoodStats = ["size", "maxammo", "vampirism","firepower", "volume", "range", "pierce", "maxhp", "hp", "vitality", "defence", "agility", "strenght", "luck", "endurance", "jumps", "gluttony", "vampirism", "loadAmount", "autoload", "maxsaturation", "saturation"];
+        const NegativeGoodStats = ["metabolism", "firerateMax", "loadMax", "spread", "usage", "ammoCost"]
         let row = 0;
         for (let stat in item.stats) {
             const change = item.stats[stat]
