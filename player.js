@@ -125,7 +125,7 @@ class Player {
         // damage per shot
         this.firepower = 1;
         // enemy piercing
-        this.pierce = 0;
+        this.pierce = 5;
         // player projectiles
         this.PlayerProjectiles = [];
 
