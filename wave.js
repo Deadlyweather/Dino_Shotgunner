@@ -21,6 +21,12 @@ class Wave {
 
         
            this.enemies = this.enemies.filter(enemy => enemy.alive)
+
+          this.enemies.forEach(enemy => {
+            enemy.distancetoPlayer = Math.abs(enemy.x - player.coordinates.x)
+           })
+
+           this.enemies.sort((a, b) => a.distancetoPlayer - b.distancetoPlayer);
            
 
            
@@ -51,6 +57,8 @@ class Wave {
                 if (!projectile.shotTargets.includes(enemy) && projectile.isActive && checkProjectileCollisionWithEnemy(projectile, enemy)) {
                     projectile.shotTargets.push(enemy)
                     enemy.takeDamage(projectile.damage);
+
+                    console.log("Ammus osui vihuun etäisyydellä: " + enemy.distancetoPlayer);
                
               
                     
