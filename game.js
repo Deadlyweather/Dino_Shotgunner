@@ -7,7 +7,8 @@ const hud = new HUD(player);
 const world = new World()
 const wave = new Wave(ctx, player, world)
 const debug = new Debug(player, wave);
-const drops = new Drops(player)
+
+
 
 let menuOpen = false;
 
@@ -52,10 +53,7 @@ function playTrack(index) {
     }
 }
 
-document.addEventListener("click", () => {
-    audioCtx.resume()
-    playTrack(currentIndex)
-}, { once: true })
+playTrack(0)
 
 const upgradeMenu = new UpgradeMenu(player);
 
@@ -79,14 +77,19 @@ function gameLoop(){
         cameraX = 0;
     }
 
- 
-
     
 
     world.draw(ctx, cameraX);
     wave.draw(ctx, cameraX);
     hud.draw(ctx);
     player.draw(ctx, cameraX);
+
+    drops.forEach(drop => {
+        drop.update(player);
+        drop.draw(ctx, cameraX);
+    });
+
+    drops = drops.filter(drop => !drop.eaten);
 
     if(!upgradeMenu.isOpen && player.alive){
         player.update()
