@@ -2,6 +2,9 @@ let drops = []
 
 class Bird {
     constructor(x, groundHeight, canvasHeight) {
+        this.id = Math.random()
+        this.name = "Bird"
+        
         this.x = x; 
         this.y = 100; 
         this.vx = 0; 
@@ -60,6 +63,8 @@ class Bird {
     takeDamage(amount){
         this.hp -= amount;
 
+         console.log("Vihollisella ",this.name, "hp jäljellä", this.hp)
+
            if(this.hp <= 0 && this.alive === true){
             this.alive = false;
         }
@@ -85,6 +90,9 @@ class Bird {
 
 class Cactus {
     constructor(x, groundHeight, canvasHeight) {
+        this.id = Math.random() 
+        this.name = "Cactus"
+
         this.cooldown = 0;
         this.hp = 10;
 
@@ -129,6 +137,7 @@ class Cactus {
 
         takeDamage(amount){
         this.hp -= amount;
+       console.log("Vihollisella ",this.name, "hp jäljellä", this.hp)
         
            if(this.hp <= 0 && this.alive === true){
             this.alive = false;
