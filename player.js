@@ -394,7 +394,7 @@ class Player {
             this.biteProgress -= 1;
 
             if (this.biteProgress <= 0) {
-                const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint
+                const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint * this.size
                 const centerY = this.coordinates.y + (this.head1.offset?.y || 0) * this.size + this.head1.point.y * this.size * this.head1.scale
                 const ammo = new Ammo(0, this, centerX, centerY, "chomp");
                 ammo.damage = this.strenght; // 10 damage for bite
@@ -460,8 +460,8 @@ class Player {
     }
 
     aim(camera) {
-        const x = this.coordinates.x + this.shotgun.offset.x + this.shotgun.point.x - camera;
-        const y = this.coordinates.y + this.shotgun.offset.y + this.shotgun.point.y;
+        const x = this.coordinates.x + this.shotgun.offset.x * this.size + this.shotgun.point.x * this.size- camera;
+        const y = this.coordinates.y + this.shotgun.offset.y * this.size + this.shotgun.point.y * this.size ;
 
         const dx = mouse.x - x;
         const dy = mouse.y - y;
@@ -537,7 +537,7 @@ class Player {
             this.leg1.rotation = 0
             this.leg2.rotation = 0
             this.slamming = true
-            this.slamPower += 1
+            this.slamPower += this.size * 10
         } else {
             this.slamming = false
             this.slamPower = 1
