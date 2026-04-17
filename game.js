@@ -105,9 +105,11 @@ function gameLoop(){
     player.aim(cameraX)
     player.shoot()
     player.reload()
+    player.eat(drops)
     player.bite()
     player.slam()
     player.glide()
+    
 
     wave.update(ctx, player, cameraX, world)
     

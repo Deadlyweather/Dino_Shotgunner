@@ -2,6 +2,7 @@ class Drops {
     constructor(x, y, item) {
         this.coordinates = { x: x, y: y }
         this.velocity = { x: Math.random(0) * 30, y: - Math.random(50) * 70 }
+        this.hitbox = { x: 0, y: 0}
 
         this.gravity = 3
 
@@ -32,13 +33,13 @@ class Drops {
 
         // Magneetti
         if (player.blackhole) {
-            const dx = player.blackholeCenter.x - this.coordinates.x;
-            const dy = player.blackholeCenter.y - this.coordinates.y;
+            const dx = player.blackholeCenter.x - this.coordinates.x - this.point.x * this.scale;
+            const dy = player.blackholeCenter.y - this.coordinates.y - this.point.y * this.scale;
 
             const dist = Math.sqrt(dx * dx + dy * dy);
 
             if (dist > 1) {
-                const speed = 6; // <- TÄSSÄ HALLITSET IMUNOPEUDEN
+                const speed = 10; // <- TÄSSÄ HALLITSET IMUNOPEUDEN
 
                 this.velocity.x = (dx / dist) * speed;
                 this.velocity.y = (dy / dist) * speed;
@@ -50,7 +51,9 @@ class Drops {
         this.angle += this.angularVelocity;
 
         // gravity
-        this.velocity.y += this.gravity;
+        if (!player.blackhole) {
+            this.velocity.y += this.gravity;
+        }
 
         // liike
         this.coordinates.x += this.velocity.x;

@@ -125,7 +125,7 @@ class Player {
         // damage per shot
         this.firepower = 1;
         // enemy piercing
-        this.pierce = 5;
+        this.pierce = 1;
         // player projectiles
         this.PlayerProjectiles = [];
 
@@ -377,10 +377,28 @@ class Player {
     
     }
 
-    eat(amount) {
-        this.hunger += amount;
-        if (this.hunger > 100) this.hunger = 100;
+    eat(drops) {
+    for (const drop of drops) {
+        if (drop.eaten) continue;
+        
+        for (const projectile of this.PlayerProjectiles) {
+            if (projectile.type !== "chomp") continue;
+
+            const radiusSq = projectile.radius * projectile.radius;
+
+            const dropX = drop.coordinates.x + (drop.width * drop.scale) / 2;
+            const dropY = drop.coordinates.y + (drop.height * drop.scale) / 2;
+
+            const dx = dropX - projectile.startX;
+            const dy = dropY - projectile.startY;
+
+            if (!drop.eaten && dx * dx + dy * dy < radiusSq) {
+                drop.eat(this);
+                break;
+            }
+        }
     }
+}
 
     bite(CameraX) {
         const maxRotation = Math.PI / 4;
