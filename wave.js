@@ -47,15 +47,26 @@ class Wave {
                 }
 
                 // Tarkista pelaajan hyökkäys vihollisiin
-                player.PlayerProjectiles.forEach(projectile => {
-                    if (projectile.isActive && checkProjectileCollisionWithEnemy(projectile, enemy)) {
-                        enemy.takeDamage(projectile.damage);
-                        // AOE-iskut (chomp) eivät deaktivoidu ensimmäisestä osumasta
-                        if (projectile.type !== "chomp") {
+                 player.PlayerProjectiles.forEach(projectile => {
+                if (!projectile.shotTargets.includes(enemy) && projectile.isActive && checkProjectileCollisionWithEnemy(projectile, enemy)) {
+                    projectile.shotTargets.push(enemy)
+                    enemy.takeDamage(projectile.damage);
+               
+              
+                    
+                    // AOE-iskut (chomp) eivät deaktivoidu ensimmäisestä osumasta
+                    if (projectile.type !== "chomp") {
+                        if (projectile.pierce > 0) {
+                           
+                            projectile.pierce--; 
+                            console.log("Pierceä jäljellä " , projectile.pierce , "Ammus ID ", projectile.id, "Vihun id:", enemy.id);
+                        } else {
+                            // Jos pierce loppuu, tuhotaan ammus
                             projectile.isActive = false;
                         }
                     }
-                });
+                }
+            });
 
             if (enemy instanceof Cactus){
                 //ampuu neuloja

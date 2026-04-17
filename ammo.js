@@ -1,5 +1,9 @@
 class Ammo {
     constructor(direction, owner, startX, startY, type = "bullet") {
+        
+        
+        //id jokaiselle ammukselle debuggausta varten
+        this.id = Math.random()
         this.direction = direction;
         this.owner = owner;
         this.startX = startX;
@@ -12,6 +16,8 @@ class Ammo {
         this.color = type === "chomp" ? "rgba(255, 0, 0, 1)" : "yellow";
         this.radius = type === "chomp" ? (owner.head1?.firepoint || owner.range * 0.25) : 0;
         this.damage = 0; // Asetetaan myöhemmin
+        this.pierce = owner.pierce
+        this.shotTargets = []
 
         // Asetetaan width ja height collision varten
         if (this.type === "bullet") {
