@@ -97,11 +97,11 @@ class Player {
         // gun stats
 
         // ammo
-        this.maxammo = 1;
+        this.maxammo = 2;
         this.ammo = this.maxammo;
 
         // reload
-        this.loadMax = 100;
+        this.loadMax = 50;
         this.load = 0;
         this.autoload = 0
         // Ammunition reloaded per reload
@@ -110,7 +110,7 @@ class Player {
         this.ammoCost = 1;
         
         // Time between shots
-        this.firerateMax = 100;
+        this.firerateMax = 25;
         this.firerate = 0;
 
         // ammusta per shot
@@ -121,7 +121,7 @@ class Player {
         // range
         this.range = 200;
         // projectile volume
-        this.volume = 2;
+        this.volume = 4;
         // damage per shot
         this.firepower = 1;
         // enemy piercing
@@ -258,7 +258,7 @@ class Player {
         }
 
         if (this.hp < this.maxhp) {
-            this.hp += this.vitality
+            this.hp += this.vitality * 2 / this.metabolism
         }
         if (this.firerate > 0) {
             this.firerate -= 1;
@@ -276,7 +276,7 @@ class Player {
         }
 
         if (this.saturation > 0) {
-            this.saturation -= this.metabolism * 0.001;
+            this.saturation -= this.metabolism * 0.0005;
         } else {
             this.takeDamage(this.maxhp * 0.1);
             this.saturation = 0

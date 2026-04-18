@@ -1,8 +1,8 @@
 class Debug {
     constructor(player, wave) {
-        this.showImages = true;
-        this.showHitboxes = true
-        this.showEnemyHitboxes = true
+        this.showImages = false;
+        this.showHitboxes = false
+        this.showEnemyHitboxes = false
         this.player = player;
         this.wave = wave
 
