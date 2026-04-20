@@ -1,5 +1,30 @@
 let drops = []
 
+function rollDrops(baseAmount, luck) {
+    const drops = [];
+
+    const luckMultiplier = 1 + luck;
+
+    for (let i = 0; i < baseAmount; i++) {
+        if (i === 0) {
+            drops.push(true);
+            continue;
+        }
+
+        let chance = (1 / Math.pow(1.25, i)) * luckMultiplier;
+
+        if (chance > 1) chance = 1;
+
+        if (Math.random() < chance) {
+            drops.push(true);
+        } else {
+            break;
+        }
+    }
+
+    return drops.length;
+}
+
 class Bird {
     constructor(x, groundHeight, canvasHeight) {
         this.id = Math.random()
@@ -80,7 +105,12 @@ class Bird {
             death.play()
 
             if (!this.LootDropped) {
-                drops.push(new Drops(this.x, this.y, this.loot))
+                const amount = rollDrops(10, player.luck); // baseAmount = max yritykset
+
+                for (let i = 0; i < amount; i++) {
+                    drops.push(new Drops(this.x, this.y, this.loot));
+                }
+
                 this.LootDropped = true;
             }
         }
@@ -155,9 +185,12 @@ draw(ctx, cameraX) {
         death.play()
 
         if (!this.LootDropped) {
-            console.log("loot spawned", this.x, this.y, this.loot);
+            const amount = rollDrops(10, player.luck); // baseAmount = max yritykset
 
-            drops.push(new Drops(this.x, this.y, this.loot))
+            for (let i = 0; i < amount; i++) {
+                drops.push(new Drops(this.x, this.y, this.loot));
+            }
+
             this.LootDropped = true;
         }
     }
