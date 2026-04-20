@@ -27,10 +27,7 @@ class Wave {
            })
 
            this.enemies.sort((a, b) => a.distancetoPlayer - b.distancetoPlayer);
-           
-
-           
-
+        
         if (this.spawnrate <= 0 ) {
             this.spawn(cameraX);
             this.spawnrate = this.maxspawnrate

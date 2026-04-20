@@ -276,7 +276,7 @@ class Player {
         }
 
         if (this.saturation > 0) {
-            this.saturation -= this.metabolism * 0.0005;
+            this.saturation -= this.metabolism * 0.0001;
         } else {
             this.takeDamage(this.maxhp * 0.1);
             this.saturation = 0
@@ -578,7 +578,8 @@ class Player {
             this.slamPower += this.size * 10
         } else {
             this.slamming = false
-            this.slamPower = 1
+            this.slamPower = 0
+            
         }
     }
     glide() {

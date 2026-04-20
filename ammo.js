@@ -30,6 +30,8 @@ class Ammo {
         } else if (this.type === "projectile") {
             this.width = 10; // Oletus projectile koko
             this.height = 10;
+        } else if (this.type === "Blast") {
+           
         }
 
         if (this.type === "projectile") {
@@ -59,6 +61,10 @@ class Ammo {
             // Lisätään painovoima
             this.vy += 0.5;
             
+        }
+        if (this.type === "Blast") {
+            this.life -= 0.01
+
         }
     }
 
@@ -106,5 +112,13 @@ class Ammo {
     if (image) {
         ctx.drawImage(image, this.startX - cameraX, this.startY, width, height);
     }
-}
+    
+    }
+    drawBlast(ctx, cameraX, image, width, height) {
+        if (!this.isActive) return
+        
+        if (image) {
+            ctx.drawImage(image, this.startX - cameraX, this.startY, width, height)
+        }
+    }
 }

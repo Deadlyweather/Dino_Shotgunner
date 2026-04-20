@@ -22,6 +22,10 @@ class Debug {
                 this.showEnemyHitboxes = !this.showEnemyHitboxes;
                 console.log("Näytä vihollisten hitbox: " + this.showEnemyHitboxes);
             }
+            if (e.key === "4") {
+                this.showDropHitboxes = !this.showDropHitboxes;
+                console.log("Näytä droppien hitbox: " + this.showDropHitboxes);
+            }
         });
     }
 

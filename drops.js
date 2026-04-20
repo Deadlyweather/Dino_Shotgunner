@@ -78,13 +78,22 @@ class Drops {
         this.eaten = true
 
         if (this.item === "flesh") {
-            player.hp += player.vampirism
-            player.saturation += player.gluttony 
+            if (player.hp < player.maxhp) {
+                player.hp += player.vampirism
+            }
+            if (player.saturation < player.maxsaturation) {
+                player.saturation += player.gluttony 
+            }
         }
 
         if (this.item === "Cactusflesh") {
-            player.hp += player.vampirism
-            player.needles += player.gluttony 
+            if (player.hp < player.maxhp) {
+                player.hp += player.vampirism
+            }
+            if (player.saturation < player.maxsaturation) {
+                player.needles += player.gluttony 
+            }
+            
         }
     }
 
