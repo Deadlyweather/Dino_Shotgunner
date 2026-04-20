@@ -205,5 +205,5 @@ function circleIntersectsRect(cx, cy, radius, rx1, ry1, rx2, ry2) {
     const distanceY = cy - closestY;
     const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
     
-    return distanceSquared < (radius * radius);
+    return distanceSquared <= (radius * radius);
 }

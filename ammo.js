@@ -24,6 +24,7 @@ class Ammo {
             this.width = 2;
             this.height = 2;
         } else if (this.type === "chomp") {
+            this.radius = this.owner.size * this.owner.head1.scale * (50 + this.owner.strenght);
             this.width = this.radius * 2;
             this.height = this.radius * 2;
         } else if (this.type === "projectile") {

@@ -378,27 +378,34 @@ class Player {
     }
 
     eat(drops) {
-    for (const drop of drops) {
-        if (drop.eaten) continue;
-        
-        for (const projectile of this.PlayerProjectiles) {
-            if (projectile.type !== "chomp") continue;
+        for (const drop of drops) {
+            if (drop.eaten) continue;
+            
+            for (const projectile of this.PlayerProjectiles) {
+                if (projectile.type !== "chomp") continue;
 
-            const radiusSq = projectile.radius * projectile.radius;
+                const radiusSq = projectile.radius * projectile.radius;
 
-            const dropX = drop.coordinates.x + (drop.width * drop.scale) / 2;
-            const dropY = drop.coordinates.y + (drop.height * drop.scale) / 2;
+                const dropLeft   = drop.coordinates.x + drop.hitbox.x;
+                const dropTop    = drop.coordinates.y + drop.hitbox.y;
+                const dropRight  = dropLeft + drop.hitbox.w * drop.scale;
+                const dropBottom = dropTop + drop.hitbox.h * drop.scale;
 
-            const dx = dropX - projectile.startX;
-            const dy = dropY - projectile.startY;
-
-            if (!drop.eaten && dx * dx + dy * dy < radiusSq) {
-                drop.eat(this);
-                break;
+                if (circleIntersectsRect(
+                    projectile.startX,
+                    projectile.startY,
+                    projectile.radius,
+                    dropLeft,
+                    dropTop,
+                    dropRight,
+                    dropBottom
+                )) {
+                    drop.eat(this);
+                    break;
+                }
             }
         }
     }
-}
 
     bite(CameraX) {
         const maxRotation = Math.PI / 4;

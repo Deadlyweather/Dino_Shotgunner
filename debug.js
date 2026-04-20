@@ -79,9 +79,10 @@ class Debug {
             });
         }
 
-        if (this.showDropHitboxes === true) {
-            
-            drawDropHitboxes()
+        if (this.showDropHitboxes === true && drops.length > 0) {
+            drops.forEach(drop => {
+                this.drawDropHitboxes(ctx, drop, cameraX)
+            })
         }
     }
 
@@ -215,11 +216,6 @@ class Debug {
                 enemy.hitbox.w,
                 enemy.hitbox.h
             );
-
-            // Teksti hitboxin viereen
-            ctx.fillStyle = "cyan";
-            ctx.font = "12px Arial";
-            ctx.fillText("hitbox", enemyScreenX + enemy.hitbox.x, enemyScreenY + enemy.hitbox.y - 5);
         }
 
         // Piirrä hurtbox (magenta/pinkki)
@@ -233,11 +229,6 @@ class Debug {
                 enemy.hurtbox.w,
                 enemy.hurtbox.h
             );
-
-            // Teksti hurtboxin viereen
-            ctx.fillStyle = "magenta";
-            ctx.font = "12px Arial";
-            ctx.fillText("hurtbox", enemyScreenX + enemy.hurtbox.x, enemyScreenY + enemy.hurtbox.y - 15);
         }
 
         // Piirrä vihollisen keskipiste
@@ -248,7 +239,21 @@ class Debug {
 
         ctx.restore();
     }
-    drawDropHitboxes() {
+    drawDropHitboxes(ctx, drop, cameraX) {
+        const dropScreenX = drop.coordinates.x - cameraX;
+        const dropScreenY = drop.coordinates.y;
 
+        ctx.save();
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 2;
+
+        ctx.strokeRect(
+            dropScreenX + drop.hitbox.x,
+            dropScreenY + drop.hitbox.y,
+            drop.hitbox.w * drop.scale,
+            drop.hitbox.h * drop.scale
+        );
+
+        ctx.restore();
     }
 }

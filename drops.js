@@ -2,7 +2,7 @@ class Drops {
     constructor(x, y, item) {
         this.coordinates = { x: x, y: y }
         this.velocity = { x: Math.random(0) * 30, y: - Math.random(50) * 70 }
-        this.hitbox = { x: 0, y: 0, w: 10, h: 10 }
+        this.hitbox = { x: 0, y: 0, w: 100, h: 100 }
 
         this.gravity = 3
 
@@ -16,6 +16,7 @@ class Drops {
             this.img.src = "Images/Flesh.png"
         } else if (item === "Cactusflesh") {
             this.img.src = "Images/Cactus.flesh.png"
+            this.hitbox = { x: 0, y: 0, w: 150, h: 150 }
         }
 
         this.img.onload = () => {
