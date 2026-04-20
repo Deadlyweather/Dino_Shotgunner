@@ -79,11 +79,12 @@ class Drops {
 
         if (this.item === "flesh") {
             player.hp += player.vampirism
-            player.saturation += player.gluttony * 10
+            player.saturation += player.gluttony 
         }
 
         if (this.item === "Cactusflesh") {
-            player.needles += player.gluttony * 10
+            player.hp += player.vampirism
+            player.needles += player.gluttony 
         }
     }
 
