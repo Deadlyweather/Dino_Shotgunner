@@ -62,10 +62,7 @@ class Bird {
         this.y += this.vy;
 
 
-        if (this.alive && checkEnemyAttackCollision(player, this)){
-          
-            player.takeDamage(this.damage)
-        }
+      
         }
     }
 
