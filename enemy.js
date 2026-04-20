@@ -28,7 +28,7 @@ function rollDrops(baseAmount, luck) {
 class Bird {
     constructor(x, groundHeight, canvasHeight) {
         this.id = Math.random()
-        this.name = "Bird"
+    
         
         this.x = x; 
         this.y = 100; 
@@ -42,7 +42,7 @@ class Bird {
 
         this.hp = 3;
         this.alive = true;
-        this.damage = 20;
+        this.damage = 3;
 
         this.img = new Image();
         this.img.src = "Images/Bird.png";
@@ -57,28 +57,33 @@ class Bird {
         this.LootDropped = false
     }
 
-      update(player) {
-        if (!player || !player.coordinates) return;
-
-        // Lasketaan koordinaatti erotukset
-        let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
-        let targetY = (player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2) - 90;
-
-        let dx = targetX - this.x
-        let dy = targetY - this.y
-
-        // Lasketaan kulma linnun ja pelaajan välillä
-        let angle = Math.atan2(dy, dx);
+update(player) {
+    if (!player || !player.coordinates || !this.alive) return;
 
 
-        // Lisätään linnun nopeutta, jotta se syöksyy pelaajaa päin
-        // Cos laskee mihin suuntaan pitää mennä x-akselilla, sin taas laskee y-akselin
+    let playerCenterX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2;
+    let playerCenterY = player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2;
 
-        let distance = Math.abs(dx);
 
-        if (distance <= 1000) {
-            this.vx += Math.cos(angle) * 2
-            this.vy += Math.sin(angle) * 2
+    let birdCenterX = this.x + (this.width / 2);
+    let birdCenterY = this.y + (this.height / 2);
+
+  
+    let dx = playerCenterX - birdCenterX;
+    let dy = playerCenterY - birdCenterY;
+  
+    // Lasketaan kulma linnun ja pelaajan välillä
+    let angle = Math.atan2(dy, dx);
+
+    // Lasketaan etäisyys pythagoraan lauseella
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Lisätään linnun nopeutta, jotta se syöksyy pelaajaa päin
+    // Cos laskee mihin suuntaan pitää mennä x-akselilla, sin taas laskee y-akselin
+  
+    if (distance <= 1000) {
+        this.vx += Math.cos(angle) * 2;
+        this.vy += Math.sin(angle) * 2;
         
         this.vx *= 0.95;
         this.vy *= 0.95;
@@ -86,15 +91,21 @@ class Bird {
         this.x += this.vx;
         this.y += this.vy;
 
+        
+        let damageRange = 120; 
 
-      
+        if (distance < damageRange) {
+            player.takeDamage(this.damage);
+            
+           
+          
         }
     }
-
+}
     takeDamage(amount){
         this.hp -= amount;
 
-         console.log("Vihollisella ",this.name, "hp jäljellä", this.hp)
+         console.log("Vihollisella ",this.constructor.name, "hp jäljellä", this.hp)
 
            if(this.hp <= 0 && this.alive === true){
             this.alive = false;
@@ -111,12 +122,7 @@ class Bird {
             death.play()
 
             if (!this.LootDropped) {
-                const amount = rollDrops(10, player.luck); // baseAmount = max yritykset
-
-                for (let i = 0; i < amount; i++) {
-                    drops.push(new Drops(this.x, this.y, this.loot));
-                }
-
+                drops.push(new Drops(this.x, this.y, this.loot))
                 this.LootDropped = true;
             }
         }
