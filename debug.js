@@ -3,6 +3,7 @@ class Debug {
         this.showImages = true;
         this.showHitboxes = true
         this.showEnemyHitboxes = true
+        this.showDropHitboxes = true
         this.player = player;
         this.wave = wave
 
@@ -76,6 +77,11 @@ class Debug {
             this.wave.enemies.forEach(enemy => {
                 this.drawEnemyHitboxes(ctx, enemy, cameraX);
             });
+        }
+
+        if (this.showDropHitboxes === true) {
+            
+            drawDropHitboxes()
         }
     }
 
@@ -241,5 +247,8 @@ class Debug {
         ctx.fill();
 
         ctx.restore();
+    }
+    drawDropHitboxes() {
+
     }
 }

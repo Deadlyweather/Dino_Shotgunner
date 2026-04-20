@@ -2,7 +2,7 @@ class Drops {
     constructor(x, y, item) {
         this.coordinates = { x: x, y: y }
         this.velocity = { x: Math.random(0) * 30, y: - Math.random(50) * 70 }
-        this.hitbox = { x: 0, y: 0}
+        this.hitbox = { x: 0, y: 0, w: 10, h: 10 }
 
         this.gravity = 3
 
