@@ -28,7 +28,7 @@ function rollDrops(baseAmount, luck) {
 class Bird {
     constructor(x, groundHeight, canvasHeight) {
         this.id = Math.random()
-    
+        this.name = "Bird"
         
         this.x = x; 
         this.y = 100; 
@@ -42,7 +42,7 @@ class Bird {
 
         this.hp = 3;
         this.alive = true;
-        this.damage = 3;
+        this.damage = 20;
 
         this.img = new Image();
         this.img.src = "Images/Bird.png";
@@ -57,33 +57,28 @@ class Bird {
         this.LootDropped = false
     }
 
-update(player) {
-    if (!player || !player.coordinates || !this.alive) return;
+      update(player) {
+        if (!player || !player.coordinates) return;
+
+        // Lasketaan koordinaatti erotukset
+        let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
+        let targetY = (player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2) - 90;
+
+        let dx = targetX - this.x
+        let dy = targetY - this.y
+
+        // Lasketaan kulma linnun ja pelaajan välillä
+        let angle = Math.atan2(dy, dx);
 
 
-    let playerCenterX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2;
-    let playerCenterY = player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2;
+        // Lisätään linnun nopeutta, jotta se syöksyy pelaajaa päin
+        // Cos laskee mihin suuntaan pitää mennä x-akselilla, sin taas laskee y-akselin
 
+        let distance = Math.abs(dx);
 
-    let birdCenterX = this.x + (this.width / 2);
-    let birdCenterY = this.y + (this.height / 2);
-
-  
-    let dx = playerCenterX - birdCenterX;
-    let dy = playerCenterY - birdCenterY;
-  
-    // Lasketaan kulma linnun ja pelaajan välillä
-    let angle = Math.atan2(dy, dx);
-
-    // Lasketaan etäisyys pythagoraan lauseella
-    let distance = Math.sqrt(dx * dx + dy * dy);
-
-    // Lisätään linnun nopeutta, jotta se syöksyy pelaajaa päin
-    // Cos laskee mihin suuntaan pitää mennä x-akselilla, sin taas laskee y-akselin
-  
-    if (distance <= 1000) {
-        this.vx += Math.cos(angle) * 2;
-        this.vy += Math.sin(angle) * 2;
+        if (distance <= 1000) {
+            this.vx += Math.cos(angle) * 2
+            this.vy += Math.sin(angle) * 2
         
         this.vx *= 0.95;
         this.vy *= 0.95;
@@ -91,21 +86,15 @@ update(player) {
         this.x += this.vx;
         this.y += this.vy;
 
-        
-        let damageRange = 120; 
 
-        if (distance < damageRange) {
-            player.takeDamage(this.damage);
-            
-           
-          
+      
         }
     }
-}
+
     takeDamage(amount){
         this.hp -= amount;
 
-         console.log("Vihollisella ",this.constructor.name, "hp jäljellä", this.hp)
+         console.log("Vihollisella ",this.name, "hp jäljellä", this.hp)
 
            if(this.hp <= 0 && this.alive === true){
             this.alive = false;
@@ -122,7 +111,12 @@ update(player) {
             death.play()
 
             if (!this.LootDropped) {
-                drops.push(new Drops(this.x, this.y, this.loot))
+                const amount = rollDrops(10, player.luck); // baseAmount = max yritykset
+
+                for (let i = 0; i < amount; i++) {
+                    drops.push(new Drops(this.x, this.y, this.loot));
+                }
+
                 this.LootDropped = true;
             }
         }
@@ -235,15 +229,39 @@ explode(startX, startY) {
     }
 }
     update(player, projectiletype){
+        let distanceX = Math.abs(player.coordinates.x - this.x)
 
         
         
 
         this.cooldown++
 
-        if(this.cooldown >= 180){
-            let newNeedle = new Ammo(Math.PI, this, this.x, this.y, "projectile");
-            let currentImg
+        if(this.cooldown >= 180 && distanceX <= 1500){
+
+       
+
+            let dx = player.coordinates.x - this.x
+            let dy = player.coordinates.y - this.y
+
+          
+            let time = Math.max(distanceX / 15)
+
+            let gravity = 0.5
+
+         
+            let velocityX = dx / time
+
+          
+            let velocityY = dy / time
+
+            // Lasketaan kuinka paljon painovoima tiputtaa ammusta lennon aikana ja kumotaan se
+            let reversegravity = 0.5 * gravity * time
+
+
+
+            let newNeedle = new Ammo(0, this, this.x, this.y, "projectile");
+            newNeedle.vx = velocityX
+            newNeedle.vy = velocityY - reversegravity
 
             if (projectiletype === "grenade"){
                 newNeedle.img = this.grenadeImg
@@ -284,27 +302,16 @@ explode(startX, startY) {
         }
         
         
-        this.explode(needle.startX, needle.startY);
+        this.explode(needle.startX, needle.startY - 5);
     }
      needle.isActive = false;
             }
-
-    
-
-
-       
             if (player && checkProjectileCollisionWithPlayer(player, hitbox)){
                 console.log("neula osui pelaajaan");
                 needle.isActive = false;
-           
-                
-
-                
-                
+  
             }
             });
             this.needles = this.needles.filter(needle => needle.isActive)
         }
     }
-
-    
