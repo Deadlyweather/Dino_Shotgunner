@@ -57,12 +57,15 @@ class Bird {
         this.LootDropped = false
     }
 
-    update(player) {
+      update(player) {
         if (!player || !player.coordinates) return;
 
         // Lasketaan koordinaatti erotukset
-        let dx = player.coordinates.x - this.x;
-        let dy = player.coordinates.y - this.y;
+        let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
+        let targetY = (player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2) - 90;
+
+        let dx = targetX - this.x
+        let dy = targetY - this.y
 
         // Lasketaan kulma linnun ja pelaajan välillä
         let angle = Math.atan2(dy, dx);
@@ -82,6 +85,9 @@ class Bird {
 
         this.x += this.vx;
         this.y += this.vy;
+
+
+      
         }
     }
 
