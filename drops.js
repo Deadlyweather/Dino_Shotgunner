@@ -1,3 +1,14 @@
+const images = {
+    flesh: new Image(),
+    cactusFlesh: new Image()
+
+    
+}
+
+images.flesh.src = "Images/Flesh.png"
+images.cactusFlesh.src = "Images/Cactus.flesh.png"
+
+
 class Drops {
     constructor(x, y, item) {
         this.coordinates = { x: x, y: y }
@@ -9,21 +20,23 @@ class Drops {
         this.angle = Math.random() * Math.PI * 2;
         this.angularVelocity = Math.random() * 10
 
+    
         this.item = item
+
         this.img = new Image() 
 
         if (item === "flesh") {
-            this.img.src = "Images/Flesh.png"
+            this.img = images.flesh
         } else if (item === "Cactusflesh") {
-            this.img.src = "Images/Cactus.flesh.png"
+            this.img = images.cactusFlesh
             this.hitbox = { x: 0, y: 0, w: 150, h: 150 }
         }
 
-        this.img.onload = () => {
+  
             this.width = this.img.width;
             this.height = this.img.height;
             this.point = { x: this.width / 2, y: this.height / 2}
-        }
+        
 
         this.scale = 0.5
         this.eaten = false
