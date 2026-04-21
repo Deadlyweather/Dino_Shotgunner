@@ -242,8 +242,10 @@ class Player {
         this.shootAudio = new Audio("Audio/shotgun_shot.wav")
         this.reloadAudio = new Audio("Audio/shotgun_reload.wav")
         this.biteof87 = new Audio("Audio/Bite.wav")
+        this.slamboom = new Audio("Audio/Explosion.wav")
 
         this.deathAudio = new Audio("Audio/Player.death.wav")
+
         
         this.alive = true;
         this.invincibletimer = 0;
@@ -589,6 +591,8 @@ class Player {
             
             
             if (this.slamPower >= 9 * this.size) {
+                
+
                 const hitbox = this.hitbox.collision;
 
                 const blastX = this.coordinates.x + hitbox.x + hitbox.w / 2;
@@ -597,10 +601,14 @@ class Player {
                 const blast = new Ammo(0, this, blastX, blastY, "Blast");
                 blast.damage = this.strenght / 10 * this.slamPower;
                 this.PlayerProjectiles.push(blast);
+
+                this.slamboom.currentTime = 0
+                this.slamboom.play()
             }
             if (player.onGround) {
                 this.slamming = false
                 this.slamPower = 0
+                
             }
         }
     }

@@ -24,6 +24,7 @@ const themes = [
     new Audio("Audio/Arse.wav"),
     new Audio("Audio/Feddy.wav"),
     new Audio("Audio/Sunshine.wav"),
+    new Audio("Audio/Shrek.wav"),
     new Audio("Audio/Moonshine.wav"),
     new Audio("Audio/Piracy.wav"),
     new Audio("Audio/Slander.wav"),
