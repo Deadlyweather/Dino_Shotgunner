@@ -58,16 +58,34 @@ applyEffect(player){
             player.saturation = player.maxsaturation
             break;
         case "shroom":
-            player.agility *= 1.1
+          
+            
             player.vampirism *= 1.1
             player.gluttony *= 1.1
+            player.hp *= 1.1
+            player.maxhp *= 1.1
+            player.defence *= 1.1
+            player.strenght *= 1.1
+            player.maxsaturation *= 1.1
+            player.luck *= 1.1
             break;
         case "creditcard":
             player.meat *= 2
+            player.needles *= 2
             break;
         
             case "bolt":
+
+            
             player.firepower *= 1.1
+            player.range *= 1.1
+            player.pierce *= 1.1
+            player.maxammo *= 1.1
+            player.loadAmount *= 1.1
+            player.volume *= 1.1
+
+            player.firerateMax *= 0.9
+            player.spread *= 0.9
             break;
     }
 }    
