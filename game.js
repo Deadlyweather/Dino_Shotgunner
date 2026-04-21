@@ -8,9 +8,8 @@ const world = new World()
 const wave = new Wave(ctx, player, world)
 const debug = new Debug(player, wave);
 
-
-
 let menuOpen = false;
+let MainMenu = true
 
 const deathaudio = new Audio("Audio/Player.death.wav")
 
@@ -53,7 +52,10 @@ function playTrack(index) {
     }
 }
 
-playTrack(0)
+if (!MainMenu) {
+    playTrack(0)
+}
+
 
 const upgradeMenu = new UpgradeMenu(player);
 
@@ -63,14 +65,22 @@ let lastFrameTime = 0;
 
 
 function gameLoop(){
+
     const now = performance.now();
     if (now - lastFrameTime < frameDuration) {
         requestAnimationFrame(gameLoop);
         return;
     }
+    if (MainMenu) {
+        drawMenu();
+        requestAnimationFrame(gameLoop);
+        console.log(menuOpen)
+        return;
+    }
     lastFrameTime = now;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     let cameraX = player.coordinates.x + player.size / 2 - canvas.width / 2;
 
     if (cameraX < 0) {
@@ -150,5 +160,101 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
+class Star {
+    constructor(canvas) {
+        this.canvas = canvas;
 
-gameLoop();
+        this.reset();
+    }
+
+    reset() {
+        this.x = Math.random() * this.canvas.width;
+        this.y = Math.random() * this.canvas.height;
+
+        this.size = Math.random() * 1 + 1;
+        this.speed = Math.random() * 0.1 + 0.1;
+        this.alpha = Math.random() * 0.9 + 0.1;
+    }
+
+    update() {
+        this.y += this.speed;
+
+        if (this.y > this.canvas.height) {
+            this.y = 0;
+            this.x = Math.random() * this.canvas.width;
+        }
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+        ctx.fillRect(this.x, this.y, this.size, this.size);
+    }
+}
+
+const stars = [];
+
+for (let i = 0; i < 10000; i++) {
+    stars.push(new Star(canvas));
+}
+
+const MenuImage = new Image();
+MenuImage.src = "Images/Menu.png";
+
+MenuImage.onload = () => {
+    gameLoop()
+};
+
+function drawMenu() {
+    ctx.save()
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let star of stars) {
+        star.update();
+        star.draw(ctx);
+    }
+
+    ctx.fillStyle = "white";
+    ctx.font = "50px Comic Sans MS";
+    ctx.fillText("Dino Shotgunner", canvas.width / 2.5, canvas.height / 2.5);
+
+    ctx.drawImage(MenuImage, canvas.width / 2.25, canvas.height / 8);
+
+    const button = {
+        x: canvas.width / 2.25, 
+        y: canvas.height / 2.25,
+        width: 200,
+        height: 100
+    }
+
+    ctx.fillStyle = "red";
+    ctx.fillRect(button.x, button.y, button.width, button.height);
+
+    ctx.fillStyle = "white";
+    ctx.font = "50px Comic Sans MS";
+    ctx.fillText(
+        "Play",
+        button.x + button.width / 2 - 50,
+        button.y + button.height / 2 + 15
+    );
+    ctx.restore()
+
+    canvas.addEventListener("click", (e) => {
+    if (!MainMenu) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    if (
+        mouseX >= button.x &&
+        mouseX <= button.x + button.width &&
+        mouseY >= button.y &&
+        mouseY <= button.y + button.height
+    ) {
+        MainMenu = false;
+    }
+    
+});
+}
