@@ -191,7 +191,7 @@ draw(ctx, cameraX) {
         death.play()
 
         if (!this.LootDropped) {
-            const amount = rollDrops(10, player.luck); // baseAmount = max yritykset
+            const amount = rollDrops(10, player.luck);
 
             for (let i = 0; i < amount; i++) {
                 drops.push(new Drops(this.x, this.y, this.loot));

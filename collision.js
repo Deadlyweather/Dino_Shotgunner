@@ -151,8 +151,16 @@ function checkProjectileCollisionWithEnemy(projectile, enemy) {
     
     // Muut projektiilit käyttävät pistetarkistusta
     // Chomp (AOE) käyttää ympyrä-tarkistusta
-    if (projectile.type === "chomp") {
-        return circleIntersectsRect(projectile.startX, projectile.startY, projectile.radius, enemyLeft, enemyTop, enemyRight, enemyBottom);
+    if (projectile.type === "chomp" || projectile.type === "Blast") {
+        return circleIntersectsRect(
+            projectile.startX,
+            projectile.startY,
+            projectile.radius,
+            enemyLeft,
+            enemyTop,
+            enemyRight,
+            enemyBottom
+        );
     }
     
     const projectileLeft = projectile.startX;

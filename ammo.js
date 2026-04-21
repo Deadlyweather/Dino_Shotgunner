@@ -1,7 +1,5 @@
 class Ammo {
     constructor(direction, owner, startX, startY, type = "bullet") {
-        
-        
         //id jokaiselle ammukselle debuggausta varten
         this.id = Math.random()
         this.direction = direction;
@@ -31,16 +29,23 @@ class Ammo {
             this.width = 10; // Oletus projectile koko
             this.height = 10;
         } else if (this.type === "Blast") {
-           
+            this.radius = 10;
+            this.maxRadius = 150;
+            this.growth = 8; // kuinka nopeasti kasvaa
+            this.width = this.radius * 2;
+            this.height = this.radius * 2;
+            
+            this.explosion = new Image()
+            this.explosion.src = "Images/Explosion.png"
         }
 
         if (this.type === "projectile") {
 
-       let speed = 20; 
+        let speed = 20; 
             this.vx = Math.cos(this.direction) * speed;
             this.vy = Math.sin(this.direction) * speed;
             // Projectile koko asetetaan myöhemmin ownerissa
-    }
+        }
     }
 
     update() {
@@ -63,8 +68,7 @@ class Ammo {
             
         }
         if (this.type === "Blast") {
-            this.life -= 0.01
-
+            this.life -= 0.1;
         }
     }
 
@@ -72,6 +76,10 @@ class Ammo {
         if (this.type === "chomp") {
             this.drawChomp(ctx, cameraX);
             return;
+        }
+        if (this.type === "Blast") {
+            this.drawBlast(ctx, cameraX, this.explosion)
+            return
         }
         if (!this.isActive) return;
 
@@ -114,11 +122,28 @@ class Ammo {
     }
     
     }
-    drawBlast(ctx, cameraX, image, width, height) {
-        if (!this.isActive) return
-        
+    drawBlast(ctx, cameraX, image) {
+        if (!this.isActive) return;
+
+        this.radius = this.owner.strenght * 15 * this.owner.size
+
+        const x = this.startX - cameraX;
+        const y = this.startY;
+
+        ctx.save();
+
+        ctx.globalAlpha = this.life;
+
         if (image) {
-            ctx.drawImage(image, this.startX - cameraX, this.startY, width, height)
+            ctx.drawImage(
+                image,
+                x - this.radius,
+                y - this.radius,
+                this.radius * 2,
+                this.radius * 2
+            );
         }
+
+        ctx.restore();
     }
 }

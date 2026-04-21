@@ -101,7 +101,7 @@ class Player {
         this.ammo = this.maxammo;
 
         // reload
-        this.loadMax = 50;
+        this.loadMax = 100;
         this.load = 0;
         this.autoload = 0
         // Ammunition reloaded per reload
@@ -110,7 +110,7 @@ class Player {
         this.ammoCost = 1;
         
         // Time between shots
-        this.firerateMax = 25;
+        this.firerateMax = 100;
         this.firerate = 0;
 
         // ammusta per shot
@@ -245,8 +245,10 @@ class Player {
 
         this.deathAudio = new Audio("Audio/Player.death.wav")
         
-         this.alive = true;
-         this.invincibletimer = 0;
+        this.alive = true;
+        this.invincibletimer = 0;
+
+        
     }
 
     update() {
@@ -498,7 +500,7 @@ class Player {
     }
 
     aim(camera) {
-        const x = this.coordinates.x + this.shotgun.offset.x * this.size + this.shotgun.point.x * this.size- camera;
+        const x = this.coordinates.x + this.shotgun.offset.x * this.size + this.shotgun.point.x * this.size - camera;
         const y = this.coordinates.y + this.shotgun.offset.y * this.size + this.shotgun.point.y * this.size ;
 
         const dx = mouse.x - x;
@@ -571,15 +573,28 @@ class Player {
     }
     slam() {
         if (keys.s && !player.onGround) {
-            this.velocity.y += this.jumpPower * (0 + this.slamPower);
+            this.velocity.y += this.jumpPower * this.size * (0 + this.slamPower) * 10;
             this.leg1.rotation = 0
             this.leg2.rotation = 0
             this.slamming = true
-            this.slamPower += this.size * 10
+            this.slamPower += this.size
         } else {
-            this.slamming = false
-            this.slamPower = 0
             
+            
+            if (this.slamPower >= 9 * this.size) {
+                const hitbox = this.hitbox.collision;
+
+                const blastX = this.coordinates.x + hitbox.x + hitbox.w / 2;
+                const blastY = this.coordinates.y + hitbox.y + hitbox.h / 2;
+
+                const blast = new Ammo(0, this, blastX, blastY, "Blast");
+                blast.damage = this.strenght / 10 * this.slamPower;
+                this.PlayerProjectiles.push(blast);
+            }
+            if (player.onGround) {
+                this.slamming = false
+                this.slamPower = 0
+            }
         }
     }
     glide() {

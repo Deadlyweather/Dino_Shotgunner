@@ -40,7 +40,7 @@ class Drops {
             const dist = Math.sqrt(dx * dx + dy * dy);
 
             if (dist > 1) {
-                const speed = 10 * player.agility / 5; // <- TÄSSÄ HALLITSET IMUNOPEUDEN
+                const speed = 25;
 
                 this.velocity.x = (dx / dist) * speed;
                 this.velocity.y = (dy / dist) * speed;
