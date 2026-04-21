@@ -280,7 +280,7 @@ class Player {
         if (this.saturation > 0) {
             this.saturation -= this.metabolism * 0.0001;
         } else {
-            this.takeDamage(this.maxhp * 0.1);
+            this.hp -= this.metabolism / 10
             this.saturation = 0
         }
         if (this.slamming) {
@@ -370,9 +370,16 @@ class Player {
             return;
         }
 
-    
+        let damageTaken = amount;
 
-        this.hp -= amount;
+        damageTaken *= 1 - (this.endurance / 100);
+
+        damageTaken -= this.defence;
+
+        damageTaken = Math.max(0, damageTaken);
+
+        this.hp -= damageTaken;
+
         this.invincibletimer = 30;
         // Suojataan pelaaja 30 frameksi, jotta hän ei instakuole kun vihollinen pääsee iholle
 
@@ -418,7 +425,7 @@ class Player {
         }
 
         if (this.bitePhase === "in") {
-            this.biteProgress += speed / 15;
+            this.biteProgress += speed / 15 * this.strenght / 10;
             this.blackhole = true
 
             if (this.biteProgress >= 1) {
