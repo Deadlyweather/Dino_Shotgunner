@@ -229,15 +229,39 @@ explode(startX, startY) {
     }
 }
     update(player, projectiletype){
+        let distanceX = Math.abs(player.coordinates.x - this.x)
 
         
         
 
         this.cooldown++
 
-        if(this.cooldown >= 180){
-            let newNeedle = new Ammo(Math.PI, this, this.x, this.y, "projectile");
-            let currentImg
+        if(this.cooldown >= 180 && distanceX <= 1500){
+
+       
+
+            let dx = player.coordinates.x - this.x
+            let dy = player.coordinates.y - this.y
+
+          
+            let time = Math.max(distanceX / 15)
+
+            let gravity = 0.5
+
+         
+            let velocityX = dx / time
+
+          
+            let velocityY = dy / time
+
+            // Lasketaan kuinka paljon painovoima tiputtaa ammusta lennon aikana ja kumotaan se
+            let reversegravity = 0.5 * gravity * time
+
+
+
+            let newNeedle = new Ammo(0, this, this.x, this.y, "projectile");
+            newNeedle.vx = velocityX
+            newNeedle.vy = velocityY - reversegravity
 
             if (projectiletype === "grenade"){
                 newNeedle.img = this.grenadeImg
@@ -278,27 +302,16 @@ explode(startX, startY) {
         }
         
         
-        this.explode(needle.startX, needle.startY);
+        this.explode(needle.startX, needle.startY - 5);
     }
      needle.isActive = false;
             }
-
-    
-
-
-       
             if (player && checkProjectileCollisionWithPlayer(player, hitbox)){
                 console.log("neula osui pelaajaan");
                 needle.isActive = false;
-           
-                
-
-                
-                
+  
             }
             });
             this.needles = this.needles.filter(needle => needle.isActive)
         }
     }
-
-    
