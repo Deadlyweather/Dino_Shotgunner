@@ -57,12 +57,12 @@ class Bird {
         this.LootDropped = false
     }
 
-        update(player) {
+          update(player) {
         if (!player || !player.coordinates) return;
 
         // Lasketaan koordinaatti erotukset
         let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
-            let targetY = player.coordinates.y + (player.hitbox.hurt.y + player.hitbox.hurt.h / 2 - 90) * player.size
+        let targetY = (player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2) - 90;
 
       
 
@@ -93,7 +93,6 @@ class Bird {
 
         this.x += this.vx;
         this.y += this.vy;
-      
         }
     }
 
