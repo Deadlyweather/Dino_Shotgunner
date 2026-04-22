@@ -144,6 +144,7 @@ class Player {
         // misc
         
         this.size = 1;
+        this.shroomTimer = 0
 
         this.hitbox = {
             collision: { x: -20, y: 10, w: 100, h: 150 },
@@ -260,6 +261,10 @@ class Player {
     update() {
 
         this.jumpcooldown--
+
+        if (this.shroomTimer > 0){
+            this.shroomTimer--
+        }
 
         if (this.invincibletimer > 0){
             this.invincibletimer --;
