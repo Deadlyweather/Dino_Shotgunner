@@ -101,7 +101,7 @@ class Player {
         this.ammo = this.maxammo;
 
         // reload
-        this.loadMax = 100;
+        this.loadMax = 60;
         this.load = 0;
         this.autoload = 0
         // Ammunition reloaded per reload
@@ -110,7 +110,7 @@ class Player {
         this.ammoCost = 1;
         
         // Time between shots
-        this.firerateMax = 100;
+        this.firerateMax = 40;
         this.firerate = 0;
 
         // ammusta per shot
@@ -288,6 +288,7 @@ class Player {
         } else {
             this.hp -= this.metabolism / 10
             this.saturation = 0
+            this.takeDamage(0)
         }
         if (this.slamming) {
             this.velocity.x *= 2
@@ -603,7 +604,7 @@ class Player {
                 const blastY = this.coordinates.y + hitbox.y + hitbox.h / 2;
 
                 const blast = new Ammo(0, this, blastX, blastY, "Blast");
-                blast.damage = this.strenght / 10 * this.slamPower;
+                blast.damage = this.strenght * this.slamPower / 15;
                 this.PlayerProjectiles.push(blast);
 
 
