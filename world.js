@@ -75,6 +75,13 @@ draw(ctx, cameraX) {
         bottomG = Math.min(255, Math.floor(bottomG));
         bottomB = Math.min(255, Math.floor(bottomB));
 
+       if (player.shroomTimer > 0) {
+        let colorchange = player.shroomTimer * 5; 
+        
+      
+        ctx.filter = `hue-rotate(${colorchange}deg) saturate(800%)`;
+    }
+
         const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
 
         gradient.addColorStop(0, `rgb(${topR},${topG},${topB})`);
