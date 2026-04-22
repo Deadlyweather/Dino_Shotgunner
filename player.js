@@ -372,6 +372,9 @@ class Player {
     }
    
     takeDamage(amount) {
+        if (this.hp <= 1) {
+            this.alive = false
+        }
         if (this.invincibletimer > 0 || !this.alive) {
             return false; // EI damagea
         }
