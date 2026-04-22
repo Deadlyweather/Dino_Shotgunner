@@ -219,6 +219,7 @@ explode(startX, startY) {
         let newNeedle = new Ammo(angle, this, startX, spawnY, "projectile");
 
         
+        newNeedle.damage = 5;
         
         newNeedle.img = this.needlesImg;
         newNeedle.width = this.needleWidth;
@@ -266,9 +267,12 @@ explode(startX, startY) {
             if (projectiletype === "grenade"){
                 newNeedle.img = this.grenadeImg
                 newNeedle.isGrenade = true
+                newNeedle.damage = 10
                 
             } else {
                 newNeedle.img = this.needlesImg;
+                newNeedle.isGrenade = false
+                newNeedle.damage = 5
             }
             
             newNeedle.width = this.needleWidth;
@@ -293,6 +297,11 @@ explode(startX, startY) {
             let playerBoom = player && checkProjectileCollisionWithPlayer(player, hitbox)
 
             if(groundBoom || playerBoom ){
+                if (playerBoom && needle.isActive){
+                    player.takeDamage(needle.damage)
+                }
+
+
             if (needle.isGrenade) {
         let distance = Math.abs(player.coordinates.x - needle.startX);
 
@@ -306,8 +315,10 @@ explode(startX, startY) {
     }
      needle.isActive = false;
             }
-            if (player && checkProjectileCollisionWithPlayer(player, hitbox)){
-                console.log("neula osui pelaajaan");
+            if (checkProjectileCollisionWithPlayer(player, hitbox)){
+
+                player.takeDamage(needle.damage)
+                console.log("neula/kranaatti osui pelaajaan");
                 needle.isActive = false;
   
             }

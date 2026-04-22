@@ -11,6 +11,10 @@ const debug = new Debug(player, wave);
 let menuOpen = false;
 let MainMenu = true
 
+
+const powerups = new Powerups(0, 0, null)
+let powerupList = []
+
 const deathaudio = new Audio("Audio/Player.death.wav")
 
 // music
@@ -95,6 +99,17 @@ function gameLoop(){
     hud.draw(ctx);
     player.draw(ctx, cameraX);
 
+    powerupList.forEach(powerup => {
+        powerup.draw(ctx, cameraX)
+        powerup.pickUp(player)
+    });
+
+    powerupList = powerupList.filter(powerup => !powerup.eaten);
+
+      if (player.distance >= powerups.nextPowerupAt){
+        powerups.spawnPowerup(player.coordinates.x, powerupList);
+    }
+
     drops.forEach(drop => {
         drop.update(player, world, canvas)
         drop.draw(ctx, cameraX);
@@ -108,8 +123,7 @@ function gameLoop(){
        
 
          world.obstacles.forEach(obstacle =>{
-        checkObjectCollision(player, obstacle, cameraX);
-    });
+        checkObjectCollision(player, obstacle, cameraX); });
 
     player.walk()
     player.jump()
