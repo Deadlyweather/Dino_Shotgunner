@@ -19,22 +19,21 @@ powerupimages.shotgunshell.src = "Images/Shotgun.Shell.png"
 
 class Powerups {
 
-    constructor(x, y, type){
-        this.x = x
-        this.y = y  
-        this.type = type 
-        this.nextPowerupAt = 500;
-        this.img = powerupimages[type]
+  constructor(x, y, type) {
+    this.x = x;
+    this.y = y;
+    this.type = type;
+    this.nextPowerupAt = 500;
+    this.scale = 0.5; 
+    this.img = powerupimages[type] || new Image();
 
-        this.scale = 0.5
 
+    this.width = (this.img.width || 100) * this.scale;
+    this.height = (this.img.height || 100) * this.scale;
 
-        this.eaten = false
-
-        
-
-        this.items = ["shroom", "creditcard", "bolt", "lemon", "food", "shotgunshell"]
-    }
+    this.eaten = false;
+    this.items = ["shroom", "creditcard", "bolt", "lemon", "food", "shotgunshell"];
+}
 
     pickUp(player){
        if (checkObjectCollision(player, this)) {
@@ -49,15 +48,19 @@ class Powerups {
 applyEffect(player){
     switch(this.type) {
         case "lemon":
+    
             player.invincibletimer = 180;
             break
         case "shotgunshell":
+          
             player.ammo = player.maxammo
             break
         case"food":
+      
             player.saturation = player.maxsaturation
             break;
         case "shroom":
+            player.shroomTimer = 300
           
             
             player.vampirism *= 1.1
@@ -70,11 +73,13 @@ applyEffect(player){
             player.luck *= 1.1
             break;
         case "creditcard":
+     
             player.meat *= 2
             player.needles *= 2
             break;
         
             case "bolt":
+            
 
             
             player.firepower *= 1.1
