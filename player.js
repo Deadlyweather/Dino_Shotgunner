@@ -121,9 +121,9 @@ class Player {
         // range
         this.range = 200;
         // projectile volume
-        this.volume = 4;
+        this.volume = 2
         // damage per shot
-        this.firepower = 1;
+        this.firepower = 2;
         // enemy piercing
         this.pierce = 1;
         // player projectiles
@@ -592,7 +592,6 @@ class Player {
             
             if (this.slamPower >= 9 * this.size) {
                 
-
                 const hitbox = this.hitbox.collision;
 
                 const blastX = this.coordinates.x + hitbox.x + hitbox.w / 2;

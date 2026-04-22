@@ -97,6 +97,7 @@ class Drops {
             if (player.saturation < player.maxsaturation) {
                 player.saturation += player.gluttony 
             }
+            player.meat += player.gluttony
         }
 
         if (this.item === "Cactusflesh") {
@@ -104,9 +105,9 @@ class Drops {
                 player.hp += player.vampirism
             }
             if (player.saturation < player.maxsaturation) {
-                player.needles += player.gluttony 
+                player.saturation += player.gluttony 
             }
-            
+            player.needles += player.gluttony 
         }
     }
 

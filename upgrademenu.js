@@ -14,39 +14,55 @@ class UpgradeMenu {
 
         this.hoveredItem = null;
 
+        this.statLimits = {
+            size: { min: 1, max: 4 },
+            endurance: { min: 0, max: 99 },
+            metabolism: { min: 10, max: Infinity },
+            spread: { min: 0, max: 360 },
+            range: { min: 100, max: Infinity },
+            volume: { min: 1, max: Infinity },
+            usage: { min: 1, max: Infinity },
+            ammoCost: { min: 1, max: Infinity },
+            firerateMax: { min: 0, max: Infinity },
+            loadMax: { min: 0, max: Infinity },
+            loadAmount: { min: 1, max: Infinity },
+            firepower: { min: 1, max: Infinity }
+        };
+
   this.upgrades = {
     liha: [
-        { id: "maxhp", name: "Max HP", cost: 10, amount: 0, currency: "meat", stats: { maxhp: 10, hp: 10, size: 0.1, agility: -1 } },
+        { id: "maxhp", name: "Max HP", cost: 100, amount: 0, currency: "meat", stats: { maxhp: 10, hp: 10, size: 0.1, agility: -1 } },
         { id: "vitality", name: "Vitality", cost: 100, amount: 0, currency: "meat", stats: { vitality: 1, metabolism: 10 } },
-        { id: "defence", name: "Defence", cost: 250, amount: 0, currency: "meat", stats: { defence: 1 } },
-        { id: "agility", name: "Agility", cost: 500, amount: 0, currency: "meat", stats: { agility: 1, metabolism: -10 } },
-        { id: "strength", name: "Strength", cost: 500, amount: 0, currency: "meat", stats: { strenght: 1, metabolism: 10 } },
-        { id: "maxsat", name: "Max Fud", cost: 1000, amount: 0, currency: "meat", stats: { maxsaturation: 10, saturation: 10, metabolism: -10 } },
-        { id: "luck", name: "Luck", cost: 1500, amount: 0, currency: "meat", stats: { luck: 1 } },
-        { id: "endurance", name: "Endurance", cost: 2500, amount: 0, currency: "meat", stats: { endurance: 1, defence: 1 } },
-        { id: "wings", name: "Wings", cost: 3500, amount: 0, currency: "meat", stats: { jumps: 1 } },
-        { id: "gluttony", name: "Gluttony", cost: 3500, amount: 0, currency: "meat", stats: { gluttony: 1 } },
-        { id: "vampirism", name: "Vampirism", cost: 6666, amount: 0, currency: "meat", stats: { vampirism: 1 } }
+        { id: "defence", name: "Defence", cost: 100, amount: 0, currency: "meat", stats: { defence: 1 } },
+        { id: "agility", name: "Agility", cost: 100, amount: 0, currency: "meat", stats: { agility: 1, metabolism: 10 } },
+        { id: "strength", name: "Strength", cost: 100, amount: 0, currency: "meat", stats: { strenght: 1, metabolism: 10 } },
+        { id: "maxsat", name: "Max Fud", cost: 100, amount: 0, currency: "meat", stats: { maxsaturation: 10, saturation: 10, metabolism: -10 } },
+        { id: "luck", name: "Luck", cost: 500, amount: 0, currency: "meat", stats: { luck: 1 } },
+        { id: "endurance", name: "Endurance", cost: 1000, amount: 0, currency: "meat", stats: { endurance: 1, defence: 50 } },
+        { id: "wings", name: "Wings", cost: 1500, amount: 0, currency: "meat", stats: { jumps: 1 } },
+        { id: "gluttony", name: "Gluttony", cost: 2000, amount: 0, currency: "meat", stats: { gluttony: 1, metabolism: 10 } },
+        { id: "vampirism", name: "Vampirism", cost: 5000, amount: 0, currency: "meat", stats: { vampirism: 1, metabolism: 10 } }
     ],
    neula: [
    
-    { id: "dmg", name: "Damage", cost: 20, amount: 0, currency: "needles", stats: { firepower: 1, firerateMax: 10, spread: 10, ammoCost: 1 } },
+    { id: "dmg", name: "Damage", cost: 20, amount: 0, currency: "needles", stats: { firepower: 1, firerateMax: 1, spread: 10, ammoCost: 1 } },
     { id: "firerate", name: "Fire Rate", cost: 50, amount: 0, currency: "needles", stats: { firerateMax: -10, loadMax: 10 } },
-    { id: "reload", name: "Quick Load", cost: 50, amount: 0, currency: "needles", stats: { loadMax: -10, loadAmount: 1, range: -25 } },
-    { id: "bullets", name: "Bullets", cost: 200, amount: 0, currency: "needles", stats: { volume: 1, spread: 10, usage: 1 } },
-    { id: "ammo", name: "Ammo Box", cost: 500, amount: 0, currency: "needles", stats: { ammoCost: -1, maxammo: 1, loadMax: 400 } },
-    { id: "range", name: "Range", cost: 750, amount: 0, currency: "needles", stats: { range: 50, loadMax: 10, ammoCost: 1 } },
-    { id: "pierce", name: "Pierce", cost: 1000, amount: 0, currency: "needles", stats: { pierce: 1, firepower: -1 } },    
-    { id: "automation", name: "Automation", cost: 2500, amount: 0, currency: "needles", stats: { autoload: 1, loadMax: 100, loadAmount: -1 } },
-    { id: "compression", name: "Compression", cost: 2500, amount: 0, currency: "needles", stats: { spread: -10, usage: -1, firepower: 1, loadMax: 10, volume: -3, range: -50 } },
-    { id: "smartammo", name: "Smart Ammo", cost: 2500, amount: 0, currency: "needles", stats: { usage: -1, ammoCost: -1 } },
-    { id: "heftyammo", name: "Hefty Ammo", cost: 2500, amount: 0, currency: "needles", stats: { pierce: 1, firepower: 1, loadMax: 10, firerateMax: 10 } },
-    { id: "inflatable", name: "Inflat. Mag", cost: 2500, amount: 0, currency: "needles", stats: { maxammo: 50, loadMax: 20 } },
-    { id: "acceleration", name: "Acceleration", cost: 4500, amount: 0, currency: "needles", stats: { loadMax: -1000, loadAmount: 10, autoload: -1 } },
-    { id: "sniper", name: "Sniper gun", cost: 7500, amount: 0, currency: "needles", stats: { range: 500, firepower: 5, loadMax: 1000, ammoCost: 10 } },
-    { id: "supershotgun", name: "Super gun", cost: 9999, amount: 0, currency: "needles", stats: { firepower: 25, volume: 10, loadMax: 400, autoload: -1, usage: 5 } }
+    { id: "reload", name: "Quick Load", cost: 50, amount: 0, currency: "needles", stats: { loadMax: -10, loadAmount: 1 } },
+    { id: "bullets", name: "Bullets", cost: 200, amount: 0, currency: "needles", stats: { volume: 2, spread: 30, usage: 1 } },
+    { id: "ammo", name: "Ammo Box", cost: 300, amount: 0, currency: "needles", stats: { ammoCost: -1, maxammo: 1, loadMax: 20 } },
+    { id: "range", name: "Range", cost: 300, amount: 0, currency: "needles", stats: { range: 50, firerateMax: 10 } },
+    { id: "pierce", name: "Pierce", cost: 500, amount: 0, currency: "needles", stats: { pierce: 1 } },    
+    { id: "automation", name: "Automation", cost: 750, amount: 0, currency: "needles", stats: { autoload: 1, loadMax: 100 } },
+    { id: "compression", name: "Compression", cost: 1000, amount: 0, currency: "needles", stats: { spread: -10, usage: -1, firepower: 1, range: -50 } },
+    { id: "smartammo", name: "Smart Ammo", cost: 1000, amount: 0, currency: "needles", stats: { usage: -1, ammoCost: -1, loadMax: -10, firerateMax: -10, range: 10 } },
+    { id: "heftyammo", name: "Hefty Ammo", cost: 1000, amount: 0, currency: "needles", stats: { pierce: 2, firepower: 2, loadMax: 10, firerateMax: 10 } },
+    { id: "inflatable", name: "Inflat. Mag", cost: 1000, amount: 0, currency: "needles", stats: { maxammo: 50 } },
+    { id: "acceleration", name: "Acceleration", cost: 1500, amount: 0, currency: "needles", stats: { loadMax: -100, firerateMax: -100, loadAmount: 10 } },
+    { id: "sniper", name: "Sniper gun", cost: 2500, amount: 0, currency: "needles", stats: { range: 500, firepower: 50, loadMax: 10000, ammoCost: 10 } },
+    { id: "supershotgun", name: "Super gun", cost: 9999, amount: 0, currency: "needles", stats: { firepower: 2500, volume: 20, loadMax: 25000, ammoCost: 1000 } }
 ]
-};
+    
+};  
 
 window.addEventListener("mousemove", (e) => {
         this.mouseX = e.clientX;
@@ -111,37 +127,39 @@ window.addEventListener("mousedown", (e) => {
 
     }
 
+    clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
     useUpgrade(item){
         const currency = item.currency
 
-        /*if (this.player[currency] < item.cost){
+        /*
+        
+        */ 
+        if (this.player[currency] < item.cost){
             return
-        }*/ 
+        }
+
         this.player[currency] -= item.cost
      
         item.amount++
         this.player.upgrades++
 
-        if (item.stats){
+        if (item.stats) {
+            for (let stat in item.stats) {
+                const change = item.stats[stat];
 
-            for (let stat in item.stats){
-                const changedValue = item.stats[stat];
-                
-                if (stat === "size" && this.player.size >= 4){
-                    continue
+                let current = this.player[stat] ?? 0;
+                let next = current + change;
+
+                if (this.statLimits[stat]) {
+                    const { min, max } = this.statLimits[stat];
+                    next = this.clamp(next, min, max);
                 }
 
-                if (stat === "defence"){
-                    if (this.player.defence >= 99){
-                        continue
-                    }
-                }
-
-            
-
-                this.player[stat] += changedValue
+                this.player[stat] = next;
             }
-    
         }
             
     }
