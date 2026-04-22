@@ -57,7 +57,7 @@ class Bird {
         this.LootDropped = false
     }
 
-          update(player) {
+        update(player) {
         if (!player || !player.coordinates) return;
 
         // Lasketaan koordinaatti erotukset
