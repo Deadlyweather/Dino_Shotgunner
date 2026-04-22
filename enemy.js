@@ -57,15 +57,23 @@ class Bird {
         this.LootDropped = false
     }
 
-      update(player) {
+          update(player) {
         if (!player || !player.coordinates) return;
 
         // Lasketaan koordinaatti erotukset
         let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
         let targetY = (player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2) - 90;
 
-        let dx = targetX - this.x
-        let dy = targetY - this.y
+      
+
+        let playerCenterX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2;
+        let playerCenterY = player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2;
+
+        let birdCenterX = this.x + (this.width / 2);
+        let birdCenterY = this.y + (this.height / 2);
+
+        let dx = playerCenterX - birdCenterX;
+        let dy = playerCenterY - birdCenterY;
 
         // Lasketaan kulma linnun ja pelaajan välillä
         let angle = Math.atan2(dy, dx);
@@ -86,7 +94,13 @@ class Bird {
         this.x += this.vx;
         this.y += this.vy;
 
-            
+        let damageRange = 120;
+
+        if (distance < damageRange){
+            player.takeDamage(this.damage)
+        }
+
+
       
         }
     }
