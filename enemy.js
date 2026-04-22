@@ -62,7 +62,7 @@ class Bird {
 
         // Lasketaan koordinaatti erotukset
         let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
-        let targetY = (player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2) - 90;
+        let targetY = player.coordinates.y + (player.hitbox.hurt.y + player.hitbox.hurt.h / 2 - 90) * player.size;
 
       
 
