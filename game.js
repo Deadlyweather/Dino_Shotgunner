@@ -57,9 +57,7 @@ function playTrack(index) {
     }
 }
 
-if (!MainMenu) {
-    playTrack(0)
-}
+playTrack(0)
 
 
 const upgradeMenu = new UpgradeMenu(player);
@@ -79,7 +77,6 @@ function gameLoop(){
     if (MainMenu) {
         drawMenu();
         requestAnimationFrame(gameLoop);
-        console.log(menuOpen)
         return;
     }
     lastFrameTime = now;

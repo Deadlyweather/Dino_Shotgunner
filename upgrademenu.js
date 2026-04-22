@@ -31,8 +31,8 @@ class UpgradeMenu {
 
   this.upgrades = {
     liha: [
-        { id: "maxhp", name: "Max HP", cost: 100, amount: 0, currency: "meat", stats: { maxhp: 10, hp: 10, size: 0.1, agility: -1 } },
-        { id: "vitality", name: "Vitality", cost: 100, amount: 0, currency: "meat", stats: { vitality: 1, metabolism: 10 } },
+        { id: "maxhp", name: "Max HP", cost: 50, amount: 0, currency: "meat", stats: { maxhp: 10, hp: 10, size: 0.1, agility: -1 } },
+        { id: "vitality", name: "Vitality", cost: 50, amount: 0, currency: "meat", stats: { vitality: 1, metabolism: 10 } },
         { id: "defence", name: "Defence", cost: 100, amount: 0, currency: "meat", stats: { defence: 1 } },
         { id: "agility", name: "Agility", cost: 100, amount: 0, currency: "meat", stats: { agility: 1, metabolism: 10 } },
         { id: "strength", name: "Strength", cost: 100, amount: 0, currency: "meat", stats: { strenght: 1, metabolism: 10 } },
@@ -45,9 +45,9 @@ class UpgradeMenu {
     ],
    neula: [
    
-    { id: "dmg", name: "Damage", cost: 20, amount: 0, currency: "needles", stats: { firepower: 1, firerateMax: 1, spread: 10, ammoCost: 1 } },
-    { id: "firerate", name: "Fire Rate", cost: 50, amount: 0, currency: "needles", stats: { firerateMax: -10, loadMax: 10 } },
-    { id: "reload", name: "Quick Load", cost: 50, amount: 0, currency: "needles", stats: { loadMax: -10, loadAmount: 1 } },
+    { id: "dmg", name: "Damage", cost: 100, amount: 0, currency: "needles", stats: { firepower: 1, firerateMax: 1, spread: 10, ammoCost: 1 } },
+    { id: "firerate", name: "Fire Rate", cost: 100, amount: 0, currency: "needles", stats: { firerateMax: -10, loadMax: 10 } },
+    { id: "reload", name: "Quick Load", cost: 100, amount: 0, currency: "needles", stats: { loadMax: -10, loadAmount: 1 } },
     { id: "bullets", name: "Bullets", cost: 200, amount: 0, currency: "needles", stats: { volume: 2, spread: 30, usage: 1 } },
     { id: "ammo", name: "Ammo Box", cost: 300, amount: 0, currency: "needles", stats: { ammoCost: -1, maxammo: 1, loadMax: 20 } },
     { id: "range", name: "Range", cost: 300, amount: 0, currency: "needles", stats: { range: 50, firerateMax: 10 } },

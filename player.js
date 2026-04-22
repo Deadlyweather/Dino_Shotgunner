@@ -157,6 +157,7 @@ class Player {
 
         this.slamming = false;
         this.slamPower = 0
+        this.slamTriggered = false;
 
         this.direction = "right";
 
@@ -242,7 +243,10 @@ class Player {
         this.shootAudio = new Audio("Audio/shotgun_shot.wav")
         this.reloadAudio = new Audio("Audio/shotgun_reload.wav")
         this.biteof87 = new Audio("Audio/Bite.wav")
-        this.slamboom = new Audio("Audio/Explosion.wav")
+
+        this.slamboom = new Audio("Audio/Explosion.wav");
+        this.slamboom.preload = "auto";
+        
 
         this.deathAudio = new Audio("Audio/Player.death.wav")
 
@@ -590,8 +594,9 @@ class Player {
         } else {
             
             
-            if (this.slamPower >= 9 * this.size) {
-                
+            if (this.slamPower >= 9 * this.size && !this.slamTriggered) {
+                this.slamTriggered = true;
+
                 const hitbox = this.hitbox.collision;
 
                 const blastX = this.coordinates.x + hitbox.x + hitbox.w / 2;
@@ -601,13 +606,15 @@ class Player {
                 blast.damage = this.strenght / 10 * this.slamPower;
                 this.PlayerProjectiles.push(blast);
 
-                this.slamboom.currentTime = 0
-                this.slamboom.play()
+
+                const sound = this.slamboom.cloneNode();
+                sound.currentTime = 0.375
+                sound.play();
             }
             if (player.onGround) {
-                this.slamming = false
-                this.slamPower = 0
-                
+                this.slamming = false;
+                this.slamPower = 0;
+                this.slamTriggered = false;
             }
         }
     }
