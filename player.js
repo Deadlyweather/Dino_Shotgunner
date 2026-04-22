@@ -455,7 +455,7 @@ class Player {
                 const centerX = this.coordinates.x + (this.head1.offset?.x || 0) * this.size + this.head1.point.x * this.size * this.head1.scale + this.head1.firepoint * this.size
                 const centerY = this.coordinates.y + (this.head1.offset?.y || 0) * this.size + this.head1.point.y * this.size * this.head1.scale
                 const ammo = new Ammo(0, this, centerX, centerY, "chomp");
-                ammo.damage = this.strenght; // 10 damage for bite
+                ammo.damage = this.strenght;
                 this.PlayerProjectiles.push(ammo);
                 this.biteProgress = -0.4;
                 this.biteof87.currentTime = 0

@@ -86,7 +86,7 @@ class Bird {
         this.x += this.vx;
         this.y += this.vy;
 
-
+            
       
         }
     }
@@ -320,6 +320,11 @@ explode(startX, startY) {
                 player.takeDamage(needle.damage)
                 console.log("neula/kranaatti osui pelaajaan");
                 needle.isActive = false;
+
+                const hitSound = new Audio()
+                hitSound.src = "Audio/Cactus.hit.wav"
+                hitSound.currentTime = 0
+                hitSound.play()
   
             }
             });
