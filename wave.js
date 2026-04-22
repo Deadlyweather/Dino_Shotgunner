@@ -45,8 +45,13 @@ class Wave {
                 checkGroundCollisionForEnemy(enemy, this.world, this.ctx.canvas);
 
                 // Tarkista vihollisten hyökkäys pelaajaan
-                if (checkEnemyAttackCollision(player, enemy)){
-                    player.takeDamage(enemy.damage)
+                if (checkEnemyAttackCollision(player, enemy)) {
+                    const didDamage = player.takeDamage(enemy.damage);
+
+                    if (didDamage && enemy.name === "Bird") {
+                        const sound = player.biteof87.cloneNode();
+                        sound.play();
+                    }
                 }
 
                 // Tarkista pelaajan hyökkäys vihollisiin

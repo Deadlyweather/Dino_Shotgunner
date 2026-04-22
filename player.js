@@ -372,30 +372,20 @@ class Player {
     }
    
     takeDamage(amount) {
-
-            if (this.hp <= 0 && this.alive){
-            this.alive = false;
-            console.log("rip")
-        }
-
-        if (this.invincibletimer > 0 ||!this.alive ){
-            return;
+        if (this.invincibletimer > 0 || !this.alive) {
+            return false; // EI damagea
         }
 
         let damageTaken = amount;
 
         damageTaken *= 1 - (this.endurance / 100);
-
         damageTaken -= this.defence;
-
         damageTaken = Math.max(0, damageTaken);
 
         this.hp -= damageTaken;
-
         this.invincibletimer = 30;
-        // Suojataan pelaaja 30 frameksi, jotta hän ei instakuole kun vihollinen pääsee iholle
 
-    
+        return true; // damage meni läpi
     }
 
     eat(drops) {

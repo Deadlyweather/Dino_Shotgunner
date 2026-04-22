@@ -93,14 +93,6 @@ class Bird {
 
         this.x += this.vx;
         this.y += this.vy;
-
-        let damageRange = 120;
-
-        if (distance < damageRange){
-            player.takeDamage(this.damage)
-        }
-
-
       
         }
     }
