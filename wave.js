@@ -19,6 +19,8 @@ class Wave {
         this.duration -= 1;
         this.spawnrate -= 1
 
+        console.log("Vaikeustaso:", this.difficulty)
+
         
            this.enemies = this.enemies.filter(enemy => enemy.alive)
 
@@ -34,8 +36,8 @@ class Wave {
         }
 
         if (this.duration <= 0) {
-            this.spawn(cameraX);
             this.scale();
+            this.spawn(cameraX);
             this.Accelerate()
             this.duration = this.maxduration
         }
@@ -46,13 +48,23 @@ class Wave {
 
                 // Tarkista vihollisten hyökkäys pelaajaan
                 if (checkEnemyAttackCollision(player, enemy)) {
-                    const didDamage = player.takeDamage(enemy.damage);
+
+                    let damage
+                    if (enemy.name === "Cactus"){
+                        damage = 2
+                    } else {
+                        damage = enemy.damage
+                    }
+
+                    const didDamage = player.takeDamage(damage);
+                          
 
                     if (didDamage && enemy.name === "Bird") {
                         const sound = player.biteof87.cloneNode();
                         sound.play();
                     }
-                }
+                    }
+                 
 
                 // Tarkista pelaajan hyökkäys vihollisiin
                  player.PlayerProjectiles.forEach(projectile => {
@@ -78,18 +90,56 @@ class Wave {
                 }
             });
 
-            if (enemy instanceof Cactus){
-                //ampuu neuloja
-                //enemy.update(player, "needle")
 
-                //ampuu naatteja
-                enemy.update(player, "grenade")
-             
-                
+
+if (enemy instanceof Cactus) {
+    let shootingcd = Math.max(60, 200 - this.difficulty * 15);
+    let grenadeChance = Math.min(0.7, 0.1 + this.difficulty * 0.1);
+
+    
+    let dx = Math.abs(player.coordinates.x - enemy.x);
+
+    
+    if (!enemy.currentWeapon || (enemy.needlecdtimer === 0 && enemy.grenadecdtimer === 0)) {
+        
+       
+        if (Math.random() < grenadeChance) {
+            enemy.currentWeapon = "grenade";
+        } else {
+            enemy.currentWeapon = "needle";
+        }
+
+      
+        if (!enemy.hasFiredOnce && dx <= 1500) {
+            let startcd;
+            
+            if (enemy.currentWeapon === "grenade") {
+                startcd = shootingcd * 1.5;
             } else {
-                enemy.update(player);
+                startcd = shootingcd;
             }
-          
+            
+            enemy.needlecdtimer = startcd;
+            enemy.grenadecdtimer = startcd;
+            enemy.hasFiredOnce = true;
+        }
+    }
+
+   
+    let finalcd
+    
+    if (enemy.currentWeapon === "grenade") {
+        finalcd = shootingcd * 1.5;
+    } else {
+        finalcd = shootingcd;
+    }
+
+   
+    enemy.update(player, enemy.currentWeapon, finalcd);
+} else {
+  
+    enemy.update(player);
+}
         }
     }
 
@@ -109,16 +159,23 @@ class Wave {
     }
 
     spawn(cameraX) {
-        this.duration = this.maxduration
+       
         // spawn enemies
             let x = cameraX + this.ctx.canvas.width + Math.random() * 10000
             let y = this.world.height
 
+            let hpBonus = Math.floor(this.difficulty * 0.5);
+            let damageBonus = Math.floor(this.difficulty * 0.5);
+
             if (Math.random() < 0.4) {
                 let bird = new Bird(x, y , this.ctx.canvas.height);
+                bird.hp += hpBonus
+                bird.damage += damageBonus
                 this.enemies.push(bird);
             } else {
                 let cactus = new Cactus(x, y, this.ctx.canvas.height)
+                cactus.hp += hpBonus
+                cactus.projectiledamage += damageBonus
                 this.enemies.push(cactus)
             }
            
