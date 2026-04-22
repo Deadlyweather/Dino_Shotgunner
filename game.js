@@ -91,7 +91,7 @@ function gameLoop(){
 
     
 
-    world.draw(ctx, cameraX);
+    world.draw(ctx, cameraX, player);
     wave.draw(ctx, cameraX);
     hud.draw(ctx);
     player.draw(ctx, cameraX);
