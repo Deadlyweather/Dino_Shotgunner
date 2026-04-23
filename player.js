@@ -101,7 +101,8 @@ class Player {
         this.ammo = this.maxammo;
 
         // reload
-        this.loadMax = 60;
+        this.reloading = false
+        this.loadMax = 40;
         this.load = 0;
         this.autoload = 0
         // Ammunition reloaded per reload
@@ -117,13 +118,13 @@ class Player {
         this.usage = 1
         
         // spread degrees
-        this.spread = 10;
+        this.spread = 100;
         // range
         this.range = 200;
         // projectile volume
-        this.volume = 2
+        this.volume = 8
         // damage per shot
-        this.firepower = 2;
+        this.firepower = 1;
         // enemy piercing
         this.pierce = 1;
         // player projectiles
@@ -133,8 +134,8 @@ class Player {
         
         // resources
 
-        this.needles = 5;
-        this.meat = 5;
+        this.needles = 100;
+        this.meat = 100;
 
         // points
 
@@ -275,12 +276,6 @@ class Player {
         }
         if (this.firerate > 0) {
             this.firerate -= 1;
-        }
-        if (this.load > 0) {
-            this.load -= 1;
-            if (this.load <= 0) {
-                this.ammo += this.loadAmount;
-            }
         }
 
         this.blackholeCenter = {
@@ -543,18 +538,42 @@ class Player {
     }
     
     reload() {
-        if (this.ammo < this.maxammo && this.autoload > 0 && this.needles >= this.ammoCost) {
-            this.ammo += this.autoload
-            this.needles -= this.ammoCost * this.autoload
-            this.reloadAudio.currentTime = 0
-            this.reloadAudio.play();
+        if (this.autoload > 0 && this.ammo < this.maxammo && this.needles >= this.ammoCost) {
+            const amount = Math.min(this.autoload, this.maxammo - this.ammo);
+
+            this.ammo += amount;
+            this.needles -= this.ammoCost * amount;
         }
-        if (keys.r && this.ammo < this.maxammo && this.load <= 0 && this.needles >= this.ammoCost) {
-            this.load = this.loadMax;
-            this.needles -= this.ammoCost;
-            this.reloadAudio.currentTime = 0;
-            this.reloadAudio.play();
+
+        if (keys.r) {
+            this.reloading = true;
         }
+
+        if (this.ammo >= this.maxammo || this.needles < this.ammoCost) {
+            this.reloading = false;
+        }
+
+        if (!this.reloading) return;
+
+        if (this.load > 0) {
+            this.load--;
+
+            if (this.load <= 0) {
+                const amount = Math.min(this.loadAmount, this.maxammo - this.ammo);
+
+                this.ammo += amount;
+                this.needles -= this.ammoCost * amount;
+            }
+
+            return;
+        }
+
+        // Käynnistä seuraava shell
+        this.load = this.loadMax;
+
+        const sound = this.reloadAudio.cloneNode();
+        sound.currentTime = 0;
+        sound.play();
     }
 
     jump() {

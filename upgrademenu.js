@@ -23,20 +23,20 @@ class UpgradeMenu {
             volume: { min: 1, max: Infinity },
             usage: { min: 1, max: Infinity },
             ammoCost: { min: 1, max: Infinity },
-            firerateMax: { min: 0, max: Infinity },
-            loadMax: { min: 0, max: Infinity },
+            firerateMax: { min: 1, max: Infinity },
+            loadMax: { min: 1, max: Infinity },
             loadAmount: { min: 1, max: Infinity },
             firepower: { min: 1, max: Infinity }
         };
 
   this.upgrades = {
     liha: [
-        { id: "maxhp", name: "Max HP", cost: 50, amount: 0, currency: "meat", stats: { maxhp: 10, hp: 10, size: 0.1, agility: -1 } },
+        { id: "maxhp", name: "Max HP", cost: 50, amount: 0, currency: "meat", stats: { maxhp: 1, hp: 1, size: 0.01 } },
         { id: "vitality", name: "Vitality", cost: 50, amount: 0, currency: "meat", stats: { vitality: 1, metabolism: 10 } },
         { id: "defence", name: "Defence", cost: 100, amount: 0, currency: "meat", stats: { defence: 1 } },
         { id: "agility", name: "Agility", cost: 100, amount: 0, currency: "meat", stats: { agility: 1, metabolism: 10 } },
         { id: "strength", name: "Strength", cost: 100, amount: 0, currency: "meat", stats: { strenght: 1, metabolism: 10 } },
-        { id: "maxsat", name: "Max Fud", cost: 100, amount: 0, currency: "meat", stats: { maxsaturation: 10, saturation: 10, metabolism: -10 } },
+        { id: "maxsat", name: "Max Fud", cost: 100, amount: 0, currency: "meat", stats: { maxsaturation: 1, saturation: 1, metabolism: -10 } },
         { id: "luck", name: "Luck", cost: 500, amount: 0, currency: "meat", stats: { luck: 1 } },
         { id: "endurance", name: "Endurance", cost: 1000, amount: 0, currency: "meat", stats: { endurance: 1, defence: 50 } },
         { id: "wings", name: "Wings", cost: 1500, amount: 0, currency: "meat", stats: { jumps: 1 } },
@@ -46,14 +46,14 @@ class UpgradeMenu {
    neula: [
    
     { id: "dmg", name: "Damage", cost: 100, amount: 0, currency: "needles", stats: { firepower: 1, firerateMax: 1, spread: 10, ammoCost: 1 } },
-    { id: "firerate", name: "Fire Rate", cost: 100, amount: 0, currency: "needles", stats: { firerateMax: -10, loadMax: 10 } },
-    { id: "reload", name: "Quick Load", cost: 100, amount: 0, currency: "needles", stats: { loadMax: -10, loadAmount: 1 } },
-    { id: "bullets", name: "Bullets", cost: 200, amount: 0, currency: "needles", stats: { volume: 2, spread: 30, usage: 1 } },
+    { id: "firerate", name: "Fire Rate", cost: 100, amount: 0, currency: "needles", stats: { firerateMax: -1, loadMax: 1 } },
+    { id: "reload", name: "Quick Load", cost: 100, amount: 0, currency: "needles", stats: { loadMax: -1, loadAmount: 1 } },
+    { id: "bullets", name: "Bullets", cost: 200, amount: 0, currency: "needles", stats: { volume: 4, spread: 30, usage: 1 } },
     { id: "ammo", name: "Ammo Box", cost: 300, amount: 0, currency: "needles", stats: { ammoCost: -1, maxammo: 1, loadMax: 20 } },
     { id: "range", name: "Range", cost: 300, amount: 0, currency: "needles", stats: { range: 50, firerateMax: 10 } },
-    { id: "pierce", name: "Pierce", cost: 500, amount: 0, currency: "needles", stats: { pierce: 1 } },    
-    { id: "automation", name: "Automation", cost: 750, amount: 0, currency: "needles", stats: { autoload: 1, loadMax: 100 } },
+    { id: "pierce", name: "Sharpness", cost: 300, amount: 0, currency: "needles", stats: { pierce: 1, firepower: 1 } },
     { id: "compression", name: "Compression", cost: 1000, amount: 0, currency: "needles", stats: { spread: -10, usage: -1, firepower: 1, range: -50 } },
+    { id: "automation", name: "Automation", cost: 1000, amount: 0, currency: "needles", stats: { autoload: 1, loadMax: 100 } },
     { id: "smartammo", name: "Smart Ammo", cost: 1000, amount: 0, currency: "needles", stats: { usage: -1, ammoCost: -1, loadMax: -10, firerateMax: -10, range: 10 } },
     { id: "heftyammo", name: "Hefty Ammo", cost: 1000, amount: 0, currency: "needles", stats: { pierce: 2, firepower: 2, loadMax: 10, firerateMax: 10 } },
     { id: "inflatable", name: "Inflat. Mag", cost: 1000, amount: 0, currency: "needles", stats: { maxammo: 50 } },

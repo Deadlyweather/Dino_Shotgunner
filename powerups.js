@@ -49,48 +49,51 @@ applyEffect(player){
     switch(this.type) {
         case "lemon":
     
-            player.invincibletimer = 180;
+            player.invincibletimer = 5000;
             break
         case "shotgunshell":
           
-            player.ammo = player.maxammo
+            player.ammo = player.maxammo * 4
             break
         case"food":
       
-            player.saturation = player.maxsaturation
+            player.saturation = player.maxsaturation * 2
+            player.hp = player.maxhp * 2
+
             break;
         case "shroom":
             player.shroomTimer = 300
           
             
-            player.vampirism *= 1.1
-            player.gluttony *= 1.1
-            player.hp *= 1.1
-            player.maxhp *= 1.1
-            player.defence *= 1.1
-            player.strenght *= 1.1
-            player.maxsaturation *= 1.1
-            player.luck *= 1.1
+            player.vampirism *= 1.5
+            player.gluttony *= 1.5
+            player.maxhp *= 1.5
+            player.hp *= 1.5
+            player.defence *= 1.5
+            player.strenght *= 1.5
+            player.maxsaturation *= 1.5
+            player.luck *= 1.5
             break;
         case "creditcard":
      
-            player.meat *= 2
-            player.needles *= 2
+            player.meat *= 1.5
+            player.needles *= 1.5
             break;
         
             case "bolt":
             
 
             
-            player.firepower *= 1.1
-            player.range *= 1.1
-            player.pierce *= 1.1
-            player.maxammo *= 1.1
-            player.loadAmount *= 1.1
-            player.volume *= 1.1
+            player.firepower *= 1.5
+            player.range *= 1.5
+            player.pierce *= 1.5
+            player.maxammo *= 1.5
+            player.loadAmount *= 1.5
+            player.volume *= 1.5
 
-            player.firerateMax *= 0.9
-            player.spread *= 0.9
+            player.firerateMax *= 0.5
+            player.loadMax *= 0.5
+            player.spread *= 0.5
             break;
     }
 }    
