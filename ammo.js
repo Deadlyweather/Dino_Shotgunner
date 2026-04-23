@@ -125,7 +125,7 @@ class Ammo {
     drawBlast(ctx, cameraX, image) {
         if (!this.isActive) return;
 
-        this.radius = (this.owner.slamPower + this.owner.strenght) * this.owner.size * 30
+        this.radius = (this.owner.slamPower + this.owner.strenght / 4) * this.owner.size * 90
 
         const x = this.startX - cameraX;
         const y = this.startY;
@@ -138,7 +138,7 @@ class Ammo {
             ctx.drawImage(
                 image,
                 x - this.radius,
-                y - this.radius * 1.5,
+                y - this.radius * this.owner.size * 1.25,
                 this.radius * 2,
                 this.radius * 2
             );

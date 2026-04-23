@@ -621,7 +621,7 @@ class Player {
                 const blastY = this.coordinates.y + hitbox.y + hitbox.h / 2;
 
                 const blast = new Ammo(0, this, blastX, blastY, "Blast");
-                blast.damage = this.strenght * this.slamPower / 15;
+                blast.damage = this.strenght * this.slamPower / 60;
                 this.PlayerProjectiles.push(blast);
 
 

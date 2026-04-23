@@ -4,7 +4,7 @@ class Wave {
         this.player = player
         this.ctx = ctx
         this.world = world
-        this.maxduration = 400
+        this.maxduration = 500
         this.maxspawnrate = 100
         this.spawnrate = 0
         this.duration = this.maxduration
@@ -150,7 +150,7 @@ if (enemy instanceof Cactus) {
     scale() {
         this.difficulty += this.scaling
         this.maxduration += this.difficulty
-        this.maxspawnrate -= this.difficulty
+        this.maxspawnrate = Math.max(10, this.maxspawnrate - this.difficulty / 10);
     }
     Accelerate() {
         if (World.time === 0.5) {
@@ -164,8 +164,8 @@ if (enemy instanceof Cactus) {
             let x = cameraX + this.ctx.canvas.width + Math.random() * 10000
             let y = this.world.height
 
-            let hpBonus = Math.floor(this.difficulty * 0.5);
-            let damageBonus = Math.floor(this.difficulty * 0.5);
+            let hpBonus = Math.floor(this.difficulty * 0.25);
+            let damageBonus = Math.floor(this.difficulty * 0.25);
 
             if (Math.random() < 0.4) {
                 let bird = new Bird(x, y , this.ctx.canvas.height);
