@@ -147,6 +147,8 @@ function gameLoop(){
             setTimeout(() => location.reload(), 3000);
 
         }
+    } else {
+        upgradeMenu.update();
     }
     
     upgradeMenu.draw(ctx);

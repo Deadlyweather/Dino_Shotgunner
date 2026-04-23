@@ -14,6 +14,13 @@ class UpgradeMenu {
 
         this.hoveredItem = null;
 
+        this.isHolding = false;
+        this.clickedThisFrame = false;
+        this.justClickedHold = false;
+        this.holdItem = null;
+        this.holdTime = 0;
+        this.holdInterval = 0;
+
         this.statLimits = {
             size: { min: 1, max: 4 },
             endurance: { min: 0, max: 99 },
@@ -83,48 +90,67 @@ window.addEventListener("wheel", (e) => {
 });
 
 window.addEventListener("mousedown", (e) => {
-    if (!this.isOpen) return; 
+    if (!this.isOpen) return;
+    if (this.clickedThisFrame) return;
 
-
-    const mouseX = e.clientX
-    const mouseY = e.clientY 
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
 
     const menuX = (canvas.width - this.width) / 2;
     const menuY = (canvas.height - this.height) / 2;
 
-    if (this.currentView === "hp_list") {
-    
-     
-        this.upgrades.liha.forEach((item, index) => {
-            let itemX = menuX + 50; 
-            let itemY = menuY + 150 + index * 60 + this.scrollY;
-            let itemWidth = 400; 
-            let itemHeight = 40; 
+    const lists = [
+        { arr: this.upgrades.liha, offsetX: 50 },
+        { arr: this.upgrades.neula, offsetX: 550 }
+    ];
 
-            if (this.isInside(mouseX, mouseY, itemX, itemY - 20, itemWidth, itemHeight)) {
-                this.useUpgrade(item);
+    for (let l of lists) {
+        for (let i = 0; i < l.arr.length; i++) {
 
-               
+            let itemX = menuX + l.offsetX;
+            let itemY = menuY + 150 + i * 60 + this.scrollY;
+
+            if (this.isInside(mouseX, mouseY, itemX, itemY - 20, 400, 40)) {
+
+                this.useUpgrade(l.arr[i]);
+
+                this.isHolding = true;
+                this.holdItem = l.arr[i];
+                this.holdTime = 0;
+                this.holdInterval = 20;
+
+                this.clickedThisFrame = true;
+                return;
             }
-        });
-
-       
-        this.upgrades.neula.forEach((item, index) => {
-            let itemX = menuX + 550; 
-            let itemY = menuY + 150 + index * 60 + this.scrollY;
-            let itemWidth = 400;
-            let itemHeight = 40;
-
-           
-               if (this.isInside(mouseX, mouseY, itemX, itemY - 20, itemWidth, itemHeight)) {
-                this.useUpgrade(item);
-
-               
-            }
-        });
+        }
     }
 });
 
+window.addEventListener("mouseup", () => {
+    this.isHolding = false;
+    this.holdItem = null;
+});
+    }
+
+    update() {
+        if (!this.isHolding || !this.holdItem) return;
+
+        this.holdTime++;
+        this.holdInterval--;
+
+        if (this.holdInterval <= 10) {
+            let multiplier = Math.floor(this.holdTime / 10);
+            if (multiplier < 1) multiplier = 1;
+
+            for (let i = 0; i < multiplier; i++) {
+                this.useUpgrade(this.holdItem);
+            }
+
+            let speed = Math.min(5, 1 + Math.floor(this.holdTime / 60));
+            this.holdInterval = Math.max(5, 20 - speed * 3);
+        }
+
+        this.clickedThisFrame = false;
     }
 
     clamp(value, min, max) {
