@@ -56,9 +56,20 @@ function playTrack(index) {
     }
 }
 
-startButton.addEventListener("click", () => {
-playTrack(0)
-})
+const startButton = document.getElementById("startButton"); 
+
+
+if (startButton) {
+    startButton.addEventListener("click", () => {
+        if (MainMenu) {
+            playTrack(0);
+            MainMenu = false;
+            startButton.style.display = "none";
+        }
+    });
+}
+
+
 
 const upgradeMenu = new UpgradeMenu(player);
 
@@ -257,7 +268,6 @@ function drawMenu() {
     if (!MainMenu) return;
 
     const rect = canvas.getBoundingClientRect();
-
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
@@ -267,8 +277,14 @@ function drawMenu() {
         mouseY >= button.y &&
         mouseY <= button.y + button.height
     ) {
+       
+        
+     
+        if (typeof playTrack === 'function') {
+            playTrack(0);
+        }
+
         MainMenu = false;
     }
-    
 });
 }
