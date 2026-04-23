@@ -4,25 +4,27 @@ class HUD {
 
       
         this.hpImage = new Image();
-        this.hpImage.src = 'Images/hp.png';
+        this.hpImage.src = './Images/Hp.png';
 
         this.hungerImage = new Image();
-        this.hungerImage.src = 'Images/hunger.png';
+        this.hungerImage.src = './Images/Hunger.png';
 
         this.ammoImage = new Image();
-        this.ammoImage.src = 'Images/ammo.png';
+        this.ammoImage.src = './Images/Ammo.png';
 
         this.needlesImage = new Image();
-        this.needlesImage.src = 'Images/needles.png';
+        this.needlesImage.src = './Images/Needles.png';
 
         this.saturationImage = new Image();
-        this.saturationImage.src = 'Images/saturation.png';
+        this.saturationImage.src = './Images/Saturation.png';
 
         this.upgradesImage = new Image();
-        this.upgradesImage.src = 'Images/upgrades.png';
+        this.upgradesImage.src = './Images/Upgrades.png';
     }
+    
 
     draw(ctx){
+        if (!this.hpImage.complete || this.hpImage.naturalWidth === 0) return;
 
         const width = ctx.canvas.width;
         const rightcorner = width - 70;

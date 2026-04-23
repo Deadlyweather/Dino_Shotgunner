@@ -15,23 +15,22 @@ let MainMenu = true
 const powerups = new Powerups(0, 0, null)
 let powerupList = []
 
-const deathaudio = new Audio("Audio/Player.death.wav")
+const deathaudio = new Audio("./Audio/Player.death.wav")
 
 // music
-
 const themes = [
-    new Audio("Audio/Banger.wav"),
-    new Audio("Audio/Pablo.wav"),
-    new Audio("Audio/Mii.wav"),
-    new Audio("Audio/Npc music.wav"),
-    new Audio("Audio/France.wav"),
-    new Audio("Audio/Arse.wav"),
-    new Audio("Audio/Feddy.wav"),
-    new Audio("Audio/Sunshine.wav"),
-    new Audio("Audio/Shrek.wav"),
-    new Audio("Audio/Moonshine.wav"),
-    new Audio("Audio/Piracy.wav"),
-    new Audio("Audio/Slander.wav"),
+    new Audio("./Audio/Banger.wav"),
+    new Audio("./Audio/Pablo.wav"),
+    new Audio("./Audio/Mii.wav"),
+    new Audio("./Audio/Npc%20music.wav"),
+    new Audio("./Audio/France.wav"),
+    new Audio("./Audio/Arse.wav"),
+    new Audio("./Audio/Feddy.wav"),
+    new Audio("./Audio/Sunshine.wav"),
+    new Audio("./Audio/Shrek.wav"),
+    new Audio("./Audio/Moonshine.wav"),
+    new Audio("./Audio/Piracy.wav"),
+    new Audio("./Audio/Slander.wav"),
 ]
 
 const audioCtx = new AudioContext()
@@ -57,9 +56,9 @@ function playTrack(index) {
     }
 }
 
-startButton.addEventListener("click", () => {
+/*startButton.addEventListener("click", () => {
 playTrack(0)
-})
+})*/
 
 const upgradeMenu = new UpgradeMenu(player);
 
@@ -213,7 +212,7 @@ for (let i = 0; i < 10000; i++) {
 }
 
 const MenuImage = new Image();
-MenuImage.src = "Images/Menu.png";
+MenuImage.src = "./Images/Menu.png";
 
 MenuImage.onload = () => {
     gameLoop()

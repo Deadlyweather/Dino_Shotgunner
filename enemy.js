@@ -45,7 +45,7 @@ class Bird {
         this.damage = 5;
 
         this.img = new Image();
-        this.img.src = "Images/Bird.png";
+        this.img.src = "./Images/Bird.png";
 
         this.img.onload = () => {
             this.width = this.img.width * this.scale;
@@ -106,7 +106,7 @@ class Bird {
         if (this.alive) {
             ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
         } else {
-            const death = new Audio("Audio/bird.death.wav")
+            const death = new Audio("./Audio/Bird.death.wav")
             death.play()
 
             if (!this.LootDropped) {
@@ -141,13 +141,13 @@ class Cactus {
         this.needleScale = 2;
         this.needles = []
         this.needlesImg = new Image();
-        this.needlesImg.src = "Images/Needle projectile.png"
+        this.needlesImg.src = "./Images/Needle.projectile.png"
 
         this.grenadeboom = new Audio();
-        this.grenadeboom.src = "Audio/Grenade.Boom.wav"
+        this.grenadeboom.src = "./Audio/Grenade.Boom.wav"
 
         this.grenadeImg = new Image()
-        this.grenadeImg.src = "Images/Cactus grenade.png"
+        this.grenadeImg.src = "./Images/Cactus.grenade.png"
 
        this.launchgrenade = false;
 
@@ -159,7 +159,7 @@ class Cactus {
         this.x = x; 
         this.scale = 0.50; 
         this.img = new Image();
-        this.img.src = "Images/Cactus.png";
+        this.img.src = "./Images/Cactus.png";
 
            this.img.onload = () => {
             this.width = this.img.width * this.scale;
@@ -191,7 +191,7 @@ draw(ctx, cameraX) {
         ctx.drawImage(this.img, this.x - cameraX, this.y, this.width, this.height);
     } else {
 
-        const death = new Audio("Audio/cactus.death.wav")
+        const death = new Audio("./Audio/cactus.death.wav")
         death.currentTime = 0.5
         death.play()
 
@@ -337,7 +337,7 @@ explode(startX, startY) {
                 needle.isActive = false;
 
                 const hitSound = new Audio()
-                hitSound.src = "Audio/Cactus.hit.wav"
+                hitSound.src = "./Audio/Cactus.hit.wav"
                 hitSound.currentTime = 0
                 hitSound.play()
   
