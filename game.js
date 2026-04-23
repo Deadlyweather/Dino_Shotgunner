@@ -57,8 +57,9 @@ function playTrack(index) {
     }
 }
 
+startButton.addEventListener("click", () => {
 playTrack(0)
-
+})
 
 const upgradeMenu = new UpgradeMenu(player);
 
