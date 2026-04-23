@@ -42,7 +42,7 @@ class Bird {
 
         this.hp = 3;
         this.alive = true;
-        this.damage = 20;
+        this.damage = 5;
 
         this.img = new Image();
         this.img.src = "Images/Bird.png";
@@ -57,23 +57,14 @@ class Bird {
         this.LootDropped = false
     }
 
-          update(player) {
+      update(player) {
         if (!player || !player.coordinates) return;
 
         // Lasketaan koordinaatti erotukset
-        let targetX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2
-        let targetY = player.coordinates.y + (player.hitbox.hurt.y + player.hitbox.hurt.h / 2 - 90) * player.size;
-
-      
-
-        let playerCenterX = player.coordinates.x + player.hitbox.hurt.x + player.hitbox.hurt.w / 2;
-        let playerCenterY = player.coordinates.y + player.hitbox.hurt.y + player.hitbox.hurt.h / 2;
-
-        let birdCenterX = this.x + (this.width / 2);
-        let birdCenterY = this.y + (this.height / 2);
-
-        let dx = playerCenterX - birdCenterX;
-        let dy = playerCenterY - birdCenterY;
+        let targetX = player.coordinates.x + (player.hitbox.hurt.x + player.hitbox.hurt.w / 2) * player.size;
+    let targetY = player.coordinates.y + (player.hitbox.hurt.y + player.hitbox.hurt.h / 2 - 90) * player.size
+        let dx = targetX - this.x
+        let dy = targetY - this.y
 
         // Lasketaan kulma linnun ja pelaajan välillä
         let angle = Math.atan2(dy, dx);
@@ -84,7 +75,7 @@ class Bird {
 
         let distance = Math.abs(dx);
 
-        if (distance <= 1000) {
+        if (distance <= 1200) {
             this.vx += Math.cos(angle) * 2
             this.vy += Math.sin(angle) * 2
         
@@ -93,6 +84,9 @@ class Bird {
 
         this.x += this.vx;
         this.y += this.vy;
+
+
+      
         }
     }
 
@@ -131,11 +125,15 @@ class Bird {
 
 class Cactus {
     constructor(x, groundHeight, canvasHeight) {
+        this.needlecdtimer = 0;
+        this.grenadecdtimer = 0;
+        this.currentWeapon = null
+
         this.id = Math.random() 
         this.name = "Cactus"
 
         this.cooldown = 0;
-        this.hp = 10;
+        this.hp = 6
 
         this.hitbox = { x: 30, y: 0, w: 80, h: 240 } // vahingoittaa pelaajaa
         this.hurtbox = { x: 30, y: 0, w: 80, h: 240 } // ottaa vahinkoa osumasta
@@ -153,7 +151,9 @@ class Cactus {
 
        this.launchgrenade = false;
 
-       this.damage = 1;
+       this.projectiledamage = 0
+
+       this.damage = 0;
        this.alive = true;
 
         this.x = x; 
@@ -224,7 +224,7 @@ explode(startX, startY) {
         let newNeedle = new Ammo(angle, this, startX, spawnY, "projectile");
 
         
-        newNeedle.damage = 5;
+        newNeedle.damage = 3 + this.projectiledamage;
         
         newNeedle.img = this.needlesImg;
         newNeedle.width = this.needleWidth;
@@ -234,15 +234,23 @@ explode(startX, startY) {
         this.needles.push(newNeedle);
     }
 }
-    update(player, projectiletype){
+    update(player, projectiletype, cooldown){
         let distanceX = Math.abs(player.coordinates.x - this.x)
 
+        this.needlecdtimer++
+        this.grenadecdtimer++
         
+        let currentTimer;
+        if (projectiletype === "grenade"){
+            currentTimer = this.grenadecdtimer
+
+        } else {
+            currentTimer = this.needlecdtimer
+        }
+
         
 
-        this.cooldown++
-
-        if(this.cooldown >= 180 && distanceX <= 1500){
+        if(currentTimer >=  cooldown && distanceX <= 1500){
 
        
 
@@ -250,7 +258,7 @@ explode(startX, startY) {
             let dy = player.coordinates.y - this.y
 
           
-            let time = Math.max(distanceX / 15)
+            let time = Math.max(40, distanceX / 15)
 
             let gravity = 0.5
 
@@ -272,12 +280,14 @@ explode(startX, startY) {
             if (projectiletype === "grenade"){
                 newNeedle.img = this.grenadeImg
                 newNeedle.isGrenade = true
-                newNeedle.damage = 10
+                newNeedle.damage = 6 + this.projectiledamage
+                this.grenadecdtimer = 0;
                 
             } else {
                 newNeedle.img = this.needlesImg;
                 newNeedle.isGrenade = false
-                newNeedle.damage = 5
+                newNeedle.damage = 3 + this.projectiledamage
+                this.needlecdtimer = 0
             }
             
             newNeedle.width = this.needleWidth;
