@@ -36,10 +36,27 @@ Maailma
 - Olen ollut osa maailman luonnissa. Kaikki sen grafiikat ovat minun luomia. Olen tehnyt päivän kierron, koska haluan että on aikoja jolloin pelaaja joutuu hidastumaan vaikeuden nousun takia ja aion tehdä muita tapahtumia, jotka vaikuttavat pelaajan edistymiseen.
 
 Debug
-- Olen lisännyt debugin asetteluja varten, mutta vain minä olen sitä tarvinnut. Uskon, että se voisi olla hyödyllinen toverillekkin
+- Olen lisännyt debugin asetteluja varten
 
 Viholliset
 
-- Itse en ole vielä koskenut vihollisten koodiin, mutta minä olin luonut niiden grafiikat. Ne näyttävät hieman hassuilta, koska ajattelin tehdä kaikista vihollisista hirveitä mutantteja, mutten ole vielä varma haluanko vielä mitään tarinaa sen takia
+- Lisäsin vihollisille dropit kuollessa ja muita pieniä lisäyksiä
+
+Drop
+
+- Tein koko droppi logiikan
+
+PowerUp
+
+- Muutin vain voimakkuutta
+
+Menu
+
+- Tein pelille menun
+
+
+
+
+
 
 
