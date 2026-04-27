@@ -54,9 +54,23 @@ Menu
 
 - Tein pelille menun
 
+Eeri Mäntysalo:
 
+HUD
+- Tein peliin hudin, josta pelaaja näkee pelin kannalta tärkeitä tietoja
+  
+Collision
+- Tein collisionista  funktiot checkgroundcollision ja checkobjectcollision. Checkground varmistaa, että pelaaja ei tipu maasta läpi. Checkobjectilla vertaillaan objekteja keskenään, ja sillä voi esimerkiksi tarkistaa osuuko pelaaja poweruppiin
 
+Enemy
+-Tein linnuille hyökkäämis logiikan, joka perustuu pelaajan seuraamiseen
+-Tein kaktuksille logiikan, joka arpoo mitä ammutaan ja millä nopeudella vaikeustason mukaan
+-Tein vihollisille skaalautuvuuden, eli joka vaikeustaso viholliset muuttuu vahvemmiksi
 
+Upgrademenu
+-Tein päivitysmenun pääosin itse, pelaaja pystyy sieltä resursseilla ostamaan erilaisia päivityksiä hahmoon ja haulikkoon
 
+Powerup
+-Tein powerup luokan, pelaajan lähelle syntyy 500m välein päivitys joka on randomilla valittu
 
 
